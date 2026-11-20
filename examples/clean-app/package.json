@@ -1,0 +1,18 @@
+// Clean corpus: a deliberately benign app. The offline acceptance test
+// requires a small, explainable, low-noise finding set (ideally zero) here.
+{
+  "name": "clean-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fixture with no planted issues — used to prove the auditor has low noise floor",
+  "main": "src/greet.js",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node src/greet.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "4.18.2"
+  },
+  "devDependencies": {}
+}

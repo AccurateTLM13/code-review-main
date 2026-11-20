@@ -1,0 +1,71 @@
+{
+  "_comment": "Copy to code-audit.config.json in a repository root (or ~/.code-audit/config.json globally). Profiles merge over built-in defaults, so you only need to override what differs.",
+
+  "defaultModels": ["local"],
+
+  "profiles": {
+    "local": {
+      "provider": "ollama",
+      "baseUrl": "http://localhost:11434/v1",
+      "model": "qwen2.5-coder",
+      "contextChars": 48000,
+      "maxTokens": 4096,
+      "temperature": 0.2,
+      "maxSteps": 24
+    },
+
+    "openrouter": {
+      "provider": "openrouter",
+      "model": "qwen/qwen3-coder:free",
+      "apiKeyEnv": "OPENROUTER_API_KEY",
+      "contextChars": 160000
+    },
+
+    "deep": {
+      "provider": "openrouter",
+      "model": "anthropic/claude-sonnet-4.5",
+      "apiKeyEnv": "OPENROUTER_API_KEY",
+      "contextChars": 240000,
+      "temperature": 0.2,
+      "maxSteps": 32
+    },
+
+    "lmstudio": {
+      "provider": "openai-compatible",
+      "baseUrl": "http://localhost:1234/v1",
+      "model": "qwen2.5-coder-7b-instruct"
+    },
+
+    "anthropic-direct": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5",
+      "apiKeyEnv": "ANTHROPIC_API_KEY"
+    },
+
+    "force-native-http": {
+      "provider": "openrouter",
+      "model": "openai/gpt-4o-mini",
+      "adapter": "native"
+    }
+  },
+
+  "_notes": [
+    "anthropic-direct needs: npm install @ai-sdk/anthropic (Google: @ai-sdk/google)",
+    "adapter 'native' skips the Vercel AI SDK and uses the built-in zero-dependency HTTP client",
+    "mock profile is built in: `code-audit scan . --models mock --depth deep` works fully offline"
+  ],
+
+  "failOn": null,
+  "ignore": [],
+  "checks": {
+    "minDuplicationLines": 6,
+    "maxFileLoc": 800,
+    "bigFileLoc": 400,
+    "giantFileLoc": 2000,
+    "maxFindingsPerCheck": 40,
+    "redactSecrets": true,
+    "allowSecretFileReads": false,
+    "allowSecretFileReadsRemote": false
+  },
+  "reports": { "dir": ".code-audit/reports" }
+}

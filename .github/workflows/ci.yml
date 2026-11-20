@@ -1,0 +1,35 @@
+# Release gate: the offline acceptance suite must stay fully green.
+# It runs with no API keys and no network model access (mock adapters only).
+name: acceptance-suite
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Acceptance suite (A1-A20, offline)
+        run: npm test
+      - name: Read-only guarantee (scan a fixture, expect a clean tree)
+        run: |
+          node bin/code-audit.mjs scan examples/vulnerable-app --depth quick --quiet
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "audit modified tracked or untracked files:"
+            git status --porcelain
+            exit 1
+          fi

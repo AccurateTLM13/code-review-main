@@ -1,0 +1,39 @@
+{
+  "name": "code-audit",
+  "version": "0.2.2",
+  "description": "Model-agnostic, read-only code audit agent. Scans any local repository with deterministic checks plus optional AI investigation, and produces prioritized Markdown + JSON reports.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "code-audit": "bin/code-audit.mjs"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "test": "node test/smoke.mjs",
+    "test:mock-server": "node test/mock-server.mjs"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "rules/",
+    "README.md",
+    "code-audit.config.example.json"
+  ],
+  "dependencies": {
+    "ai": "^7.0.0",
+    "@ai-sdk/openai-compatible": "^3.0.0"
+  },
+  "keywords": [
+    "audit",
+    "code-review",
+    "static-analysis",
+    "duplication",
+    "security",
+    "technical-debt",
+    "ollama",
+    "openrouter",
+    "cli"
+  ]
+}

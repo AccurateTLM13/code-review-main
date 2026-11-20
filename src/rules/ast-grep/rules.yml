@@ -1,0 +1,45 @@
+# Structural rules for ast-grep (optional higher-precision pass).
+# Used automatically when the `ast-grep` binary is on PATH or in node_modules.
+id: no-swallowed-catch
+language: JavaScript
+rule:
+  pattern: catch ($ERR) { $$$BODY }
+  has:
+    kind: comment
+  inside:
+    stopBy: end
+    pattern: catch ($ERR) { $$$$ }
+constraints:
+  BODY:
+    regex: ^\s*$
+# Simplified approximation: real empty-catch detection is handled in code.
+severity: hint
+note: empty catch block
+---
+id: no-eval
+language: JavaScript
+rule:
+  pattern: eval($INPUT)
+severity: warning
+note: dynamic code execution
+---
+id: no-debugger
+language: JavaScript
+rule:
+  pattern: debugger
+severity: warning
+note: leftover debugger statement
+---
+id: no-python-bare-except
+language: Python
+rule:
+  pattern: except:
+severity: warning
+note: bare except swallows all exceptions
+---
+id: no-python-eval
+language: Python
+rule:
+  pattern: eval($X)
+severity: warning
+note: dynamic code execution
