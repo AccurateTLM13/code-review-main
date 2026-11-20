@@ -1,4 +1,5 @@
 node_modules/
 .code-audit/
+.env
 *.log
 .DS_Store

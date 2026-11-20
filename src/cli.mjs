@@ -196,6 +196,13 @@ const SEV_MARK = { critical: colors.red, high: colors.red, medium: colors.yellow
 // ---------- main ----------
 
 async function main() {
+  // Load a local .env (never committed — see .env.example) so API keys such as
+  // OPENROUTER_API_KEY can be provided without shell configuration. Absent or
+  // pre-existing values are fine; nothing overrides the real environment.
+  try {
+    if (typeof process.loadEnvFile === 'function') process.loadEnvFile();
+  } catch { /* no .env in the working directory — proceed */ }
+
   const { positional, flags } = parseArgs(process.argv.slice(2));
   const command = positional[0] ?? 'help';
   const rest = { positional: positional.slice(1), flags: { ...flags, positional: positional.slice(1) } };

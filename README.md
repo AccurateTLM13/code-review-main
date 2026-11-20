@@ -92,6 +92,8 @@ Profiles are defined in `code-audit.config.json` (repo root) or `~/.code-audit/c
 
 Any OpenAI-compatible endpoint works. `anthropic`/`google` use their dedicated Vercel AI SDK adapters (`npm install @ai-sdk/anthropic` / `@ai-sdk/google`). Set `"adapter": "native"` on any profile to bypass the SDK and use the built-in HTTP client.
 
+**API keys:** put `OPENROUTER_API_KEY` (or `OLLAMA_HOST`, `CODE_AUDIT_CONFIG`) in a `.env` file in the repository root — the CLI loads it automatically on every run (see `.env.example`; `.env` is git-ignored). Keys loaded this way never appear in reports, prompts, or tool output.
+
 **Small local models:** keep prompts short (`contextChars`), prefer `--depth standard` with a narrow `--focus`, and expect the evidence validator to flag weak citations — that is by design.
 
 ## Commands
