@@ -1,5 +1,7 @@
 # code-audit
 
+> **Note on synthetic credentials in this repository:** every credential-like string in `examples/`, `test/`, and `src/` fixtures (AWS-style, GitHub PAT-style, Stripe-style tokens) is **synthetic and planted on purpose** — they are the labeled corpus for the secret-redaction acceptance suite (A4, A11, A12, A18, A19). GitHub's secret scanning flags them; all alerts are expected false positives. The tokens have never been valid.
+
 **A standalone, model-agnostic Code Audit Agent.** Point it at any local repository; it runs deterministic checks, optionally brings in an AI model to evaluate and investigate, and writes a prioritized, evidence-verified backlog as Markdown + JSON.
 
 ```
