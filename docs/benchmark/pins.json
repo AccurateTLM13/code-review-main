@@ -1,0 +1,23 @@
+{
+  "note": "Benchmark corpora cloned at pinned commits (M2.3). Repositories live under docs/benchmark/data/repos/ (git-ignored); the pins make every run reproducible.",
+  "repos": [
+    {
+      "role": "primary real repository",
+      "name": "expressjs/express",
+      "url": "https://github.com/expressjs/express",
+      "tag": "4.19.2",
+      "commit": "04bc62787be974874bc1467b23606c36bc9779ba",
+      "cloned": "2026-11-22",
+      "shallow": true
+    },
+    {
+      "role": "secondary real repository",
+      "name": "jprichardson/node-fs-extra",
+      "url": "https://github.com/jprichardson/node-fs-extra",
+      "tag": "11.2.0",
+      "commit": "5d4bf0b1b9886a2842949aded25c8a16b5d39452",
+      "cloned": "2026-11-22",
+      "shallow": true
+    }
+  ]
+}
