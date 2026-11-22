@@ -10,17 +10,38 @@
 //      separately acknowledged — before any model request is attempted.
 import { isSecretFileRel } from './redact.mjs';
 
-const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1', '[::1]', 'host.docker.internal', 'localhost.localdomain']);
-
+// A22: "device-local" means LOOPBACK — the only endpoints guaranteed to keep
+// traffic on this device. mDNS names (*.local), RFC 6761 aliases (*.localhost),
+// Docker host aliases (host.docker.internal), 0.0.0.0 (binds ALL interfaces),
+// LAN addresses and arbitrary hostnames can all resolve or route off-device,
+// so for the sensitive-file-access trust decision they are REMOTE (default
+// deny). Unparseable URLs are remote too: locality must be proven, not guessed.
 export function isLocalEndpoint(baseUrl) {
-  if (!baseUrl) return false;
-  try {
-    const url = new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(baseUrl) ? baseUrl : `http://${baseUrl}`);
-    const host = url.hostname.toLowerCase();
-    return LOCAL_HOSTS.has(host) || host.endsWith('.localhost') || host.endsWith('.local');
-  } catch {
-    return false;
+  const raw = String(baseUrl ?? '').trim();
+  if (!raw) return false;
+  let host = '';
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(raw)) {
+    try {
+      host = new URL(raw).hostname.toLowerCase();
+    } catch {
+      return false;
+    }
+  } else {
+    // No scheme — treat the input as host[:port]. A full URL parse of
+    // "host:port" can misread the port as a scheme, so split manually.
+    try {
+      host = new URL(`http://${raw}`).hostname.toLowerCase();
+    } catch {
+      // Still unparseable (e.g. a bare '::1' or malformed input). Accept only
+      // the exact IPv6 loopback literal; anything else cannot be proven local.
+      const bare = raw.replace(/[\[\]]/g, '').trim().toLowerCase();
+      return bare === '::1';
+    }
   }
+  if (host === 'localhost') return true;
+  if (/^127\./.test(host)) return true; // 127.0.0.0/8
+  if (host === '::1' || host === '[::1]') return true;
+  return false;
 }
 
 /** Does this profile send data to a remote third party? Unknown endpoints are
