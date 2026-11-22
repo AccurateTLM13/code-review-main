@@ -26,6 +26,7 @@ import { renderMarkdown } from '../report/markdown.mjs';
 import { buildJsonReport } from '../report/json.mjs';
 import { createRunDir, writeState, computeChangedSet } from '../report/state.mjs';
 import { isGitRepo, gitInfo } from '../util/git.mjs';
+import { BINARY_EXTS, MAX_TEXT_BYTES, EXT_LANG, SOURCE_EXTS } from '../util/files.mjs';
 
 const VERSION = '0.2.3';
 
@@ -251,6 +252,9 @@ export async function runScan(targetAbs, opts, logger) {
 
   // --- report ---
   const runDir = opts.output ? path.resolve(opts.output) : await createRunDir(targetAbs, config);
+  // M3.3 coverage honesty: computed at report time, after every pass has
+  // materialized what it read — states what was and was NOT inspected.
+  const coverage = computeCoverage(repo);
   const report = {
     meta: {
       version: VERSION,
@@ -268,6 +272,7 @@ export async function runScan(targetAbs, opts, logger) {
       exitCode: 0,
       configSources: sources,
       redaction: redactor.enabled ? 'on' : 'off',
+      coverage,
     },
     // serializable + sanitized repo view (paths can carry registered literals —
     // entry points, hotspots, docs and graph paths all pass through redaction)
@@ -352,8 +357,7 @@ export async function runScan(targetAbs, opts, logger) {
   return { exitCode, report, runDir, mdPath, jsonPath };
 }
 
-function printSummary(logger, report, extra) {
-  const c = logger.colors;
+function printSummary(logger, report, extra) {  const c = logger.colors;
   const s = report.stats.bySeverity;
   const parts = [
     s.critical ? `${c.red}${s.critical} critical${c.reset}` : null,
@@ -403,3 +407,42 @@ function printSummary(logger, report, extra) {
 const SEV_COLOR = { critical: c0('31;1'), high: c0('31'), medium: c0('33'), low: c0('36'), info: c0('2') };
 const SEV_LABEL = { critical: 'CRIT ', high: 'HIGH ', medium: 'MED  ', low: 'LOW  ', info: 'INFO ' };
 function c0(code) { return `\x1b[${code}m`; }
+
+/**
+ * M3.3: coverage honesty. Classifies every walked file by what the audit
+ * actually did with it (classification uses extension + size; "seen" means
+ * the content was materialized during the run). Never claims full coverage —
+ * the report carries these counts verbatim.
+ */
+function computeCoverage(repo) {
+  const files = repo.walk?.files ?? [];
+  let sourceFilesScanned = 0, textFilesSeen = 0, skippedBinary = 0, skippedLarge = 0;
+  const unsupported = new Map();
+  for (const e of files) {
+    if (BINARY_EXTS.has(e.ext)) { skippedBinary++; continue; }
+    if (e.size > MAX_TEXT_BYTES) { skippedLarge++; continue; }
+    if (e.ext && !EXT_LANG[e.ext]) {
+      // an extension we have no language/analyzer pack for
+      unsupported.set(e.ext, (unsupported.get(e.ext) ?? 0) + 1);
+      continue;
+    }
+    // source- and text-classified files (incl. extensionless configs like
+    // .env/.gitignore, which the deterministic checks do read)
+    const materialized = repo.fileStore.lines(e.rel) != null;
+    if (materialized) textFilesSeen++;
+    if (SOURCE_EXTS.has(e.ext) && materialized) sourceFilesScanned++;
+  }
+  return {
+    walkedFiles: files.length,
+    sourceFilesScanned,
+    textFilesSeen,
+    skippedBinary,
+    skippedLarge,
+    maxTextBytes: MAX_TEXT_BYTES,
+    walkTruncated: Boolean(repo.walk?.truncated),
+    unsupportedLanguages: [...unsupported.entries()]
+      .map(([ext, n]) => ({ ext, files: n }))
+      .sort((a, b) => b.files - a.files)
+      .slice(0, 12),
+  };
+}

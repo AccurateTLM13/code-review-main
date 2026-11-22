@@ -174,6 +174,22 @@ export function renderMarkdown(report, { emoji = true } = {}) {
     }
   }
 
+  // M3.3: coverage & limitations — what this audit did NOT inspect
+  if (meta.coverage) {
+    const c = meta.coverage;
+    L.push('');
+    L.push(`## Coverage & limitations`);
+    L.push('');
+    L.push(`- Walked **${c.walkedFiles}** file(s); deterministic analysis covered **${c.sourceFilesScanned}** source file(s), ${c.textFilesSeen} text file(s) in total.`);
+    if (c.skippedBinary) L.push(`- Skipped as binary: **${c.skippedBinary}** file(s) — never opened as text.`);
+    if (c.skippedLarge) L.push(`- Skipped as oversized (>${Math.round(c.maxTextBytes / 100_000) / 10} MB): **${c.skippedLarge}** file(s).`);
+    if (c.unsupportedLanguages?.length) {
+      L.push(`- No analyzer for these extensions — present but **not analyzed**: ${c.unsupportedLanguages.map((u) => `${u.ext} ×${u.files}`).join(', ')}.`);
+    }
+    if (c.walkTruncated) L.push(`- **The file walk was truncated at the file cap** — some files were never discovered; results may be incomplete.`);
+    L.push(`- Standing limitations: static pattern analysis only (no code execution); secret detection is heuristic; the audit does not claim full semantic coverage of the codebase.`);
+  }
+
   // Verification summary
   L.push(`## Verification & method`);
   L.push('');

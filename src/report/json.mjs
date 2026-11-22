@@ -18,6 +18,7 @@ export function buildJsonReport(report) {
       exitCode: report.meta.exitCode,
       redaction: report.meta.redaction ?? 'on',
       configSources: report.meta.configSources ?? [],
+      coverage: report.meta.coverage ?? null,
     },
     repo: {
       totalSourceFiles: report.repo.totalSourceFiles,
