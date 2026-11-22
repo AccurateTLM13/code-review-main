@@ -89,12 +89,13 @@ await fsp.writeFile(CONFIG_PATH, JSON.stringify({
   defaultModels: MODELS.map((_, i) => `bench-${String.fromCharCode(97 + i)}`),
 }, null, 2));
 const PROFILE_OF = Object.fromEntries(MODELS.map((id, i) => [`bench-${String.fromCharCode(97 + i)}`, id]));
+const PROFILE_FOR_ID = Object.fromEntries(Object.entries(PROFILE_OF).map(([name, id]) => [id, name]));
 
 // --- one scan invocation; failures are recorded, never swallowed ---
 function runScan({ model, corpus, depth, rep, outDir, extraArgs = [], useState = false }) {
   const args = [
     'scan', CORPORA[corpus],
-    '--models', model,
+    '--models', PROFILE_FOR_ID[model] ?? fail(`no profile generated for model ${model}`),
     '--depth', depth,
     '--timeout', '20',
     '--output', outDir,
