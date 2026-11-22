@@ -82,7 +82,7 @@ await fsp.writeFile(CONFIG_PATH, JSON.stringify({
     model: id,
     apiKeyEnv: 'OPENROUTER_API_KEY',
     temperature: 0.2,
-    maxTokens: 4096,
+    maxTokens: 16384,
     contextChars: 200000,
     maxSteps: 28,
   }])),
@@ -170,7 +170,7 @@ if (hasFlag('changed-express')) {
 } else {
   for (const model of MODELS) {
     for (const corpus of CORPORA_ARG) {
-      const runDir = path.join(DATA_DIR, model.replaceAll('/', '__'), corpus);
+      const runDir = path.join(DATA_DIR, model.replaceAll(/[/:]/g, '__'), corpus);
       await fsp.mkdir(runDir, { recursive: true });
       const plan = [['standard', 1], ['standard', 2], ['deep', 1]];
       for (const [depth, rep] of plan) {
@@ -179,6 +179,9 @@ if (hasFlag('changed-express')) {
         const saved = await archiveReport(entry, path.join(runDir, 'report.json'), runDir);
         index.entries.push(saved);
         console.log(`   exit ${entry.exitCode} in ${(entry.wallMs / 1000).toFixed(1)}s${entry.throttled ? ' (429 throttle observed)' : ''}${saved.summary ? ` — ${saved.summary.findings} finding(s)` : ' — no report written'}`);
+        // Free-tier politeness: brief spacing between runs (429s are data,
+        // but back-to-back bursts are pointless).
+        await new Promise((r) => setTimeout(r, 10_000));
       }
     }
   }
