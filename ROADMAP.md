@@ -14,7 +14,7 @@
 |---|---|---|---|
 | **M0** — Foundation & offline suite | working prototype + A1–A20 acceptance suite | **COMPLETE** | v0.2.2 @ `e2105baf`, 175/175 offline checks, Ubuntu CI green (Node 20/24) |
 | **M1** — A21–A23 security/reliability blockers | tool-result boundary + handles; loopback-only trust; bounded regex | **COMPLETE** | `v0.2.3` — 224/224 offline checks; failing-before proof on a pre-fix worktree (`e2105baf`); independent adversarial replay: 0 reproductions, 1 same-class adjacency finding fixed; [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) |
-| **M2** — First real-model benchmark | 2 distinct OpenRouter free-tier models × 3 corpora | **PLANNED** (plan §3; key arrives via `.env`) | — |
+| **M2** — First real-model benchmark | 2 distinct OpenRouter free-tier models × 3 corpora | **REPORTED — awaiting U2 sign-off** | [`docs/benchmark/REPORT.md`](docs/benchmark/REPORT.md): 18 runs @ $0 total; recall 89% (nemotron) / 74% (ernie, floor — structured pass failed on 4 runs); adjudicated P0/P1 precision 100% (mechanical 37/42%); citation 98–100%; 0 leakage; 0 source mods |
 | **M3** — Personal-ready | clean Windows install, fail-safe matrix, coverage honesty, pilots | **PLANNED** (plan §4; user validates at U3) | — |
 | **M4** — Public CLI beta | tarball-validated package, cross-platform CI, community docs | **PLANNED** (plan §5; user publishes at U4) | — |
 | **M5** — Stable v1.0 | compatibility/maintenance policy, final sweeps, external reproducer | **PLANNED** (plan §6; U5) | — |
@@ -27,7 +27,7 @@
 | A21 tool-result boundary (read_file/search_code path fields) | **PASS** (v0.2.3: one `emit()` gate + opaque handles; 15/15 pre-fix reproduction checks now pass; replay: not reproduced, hostile-adapter end-to-end clean) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [24] |
 | A22 endpoint trust (`.local`/docker/0.0.0.0 treated local) | **PASS** (v0.2.3: loopback-only trust; 7/7 pre-fix reproduction checks now pass; replay: not reproduced) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [25] |
 | A23 regex hard deadline (model-authored regex hangs process) | **PASS** (v0.2.3: worker + canary + hard terminate deadline; pre-fix hang confirmed via 5 s watchdog, post-fix budget error in ~0.1–0.2 s; replay: not reproduced) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [26] |
-| Live-model reliability | **NOT TESTED** | Yes — M2 | harness + pins + ground truth ready (`docs/benchmark/`); first live call awaits the `.env` key (U2-pre) |
+| Live-model reliability | **ASSESSED** (18-run benchmark @ v0.2.3, 2 free-tier models; failures triaged; U2 pending) | No — reported | [`docs/benchmark/REPORT.md`](docs/benchmark/REPORT.md) |
 | Windows personal installation | **PASS** (clean checkout + `npm ci` + 224/224 suite + scan + `npm link` on Windows 11, `e13fe53`) | No — verified early | [`docs/phase-reports/M3.md`](docs/phase-reports/M3.md) §M3.1 |
 | Cross-platform public package | **NOT VERIFIED** | Yes — M4 | — |
 | Native MCP integration | **NOT BUILT** | No — optional backlog (plan §7) | — |
