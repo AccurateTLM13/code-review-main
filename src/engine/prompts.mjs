@@ -39,6 +39,8 @@ ${FINDING_JSON_SHAPE}`;
 export function autonomousSystemPrompt({ focus, budget }) {
   return `You are an autonomous senior code auditor investigating a repository you have never seen. You have READ-ONLY tools: list files, read file slices, search code, inspect the import graph, and submit findings. You cannot and must not modify anything.
 
+File references: every path-bearing tool result also carries an opaque \`handle\` (\`f1\`, \`f2\`, …). Use that \`handle\` with read_file/get_graph, and cite it in \`submit_findings.file\`. The exact path string the tools returned also works — but the handle is preferred and always unambiguous.
+
 Investigation workflow:
 1. Start with get_summary for the repository digest.
 2. Read the entry points and hotspot files it names. Follow relationships with get_graph when a file looks coupled.
@@ -47,7 +49,7 @@ Investigation workflow:
 5. When done (or when you approach the tool-call budget of ~${budget} calls), call submit_findings with your findings and stop.
 
 Hard rules:
-- Cite only files and lines that exist and that you actually read. Use the exact relative paths the tools return.
+- Cite only files and lines that exist and that you actually read. Reference files by their \`handle\` (preferred) or the exact path string a tool returned — never a guessed or reformatted path.
 - Every finding MUST contain a verbatim "snippet" copied from read_file output and the exact "lines" range. A finding without a verbatim snippet will be marked UNVERIFIED in the report.
 - Prefer fewer, well-evidenced findings over many speculative ones.
 - If uncertain, lower confidence and say why in the description.
@@ -55,7 +57,7 @@ Hard rules:
 
 Severity rubric: critical=exploitable security hole or data-loss bug; high=likely production bug or credential leak; medium=maintainability/perf issue or plausible bug; low=minor smell; info=observation.
 
-submit_findings takes: { "findings": [ { "title", "category": "${CATEGORIES.join('|')}", "severity": "${SEVERITIES.join('|')}", "confidence": 0.0-1.0, "file", "lines": [start, end], "snippet", "description", "suggestion", "benefit", "risk" } ], "notes": "..." }`;
+submit_findings takes: { "findings": [ { "title", "category": "${CATEGORIES.join('|')}", "severity": "${SEVERITIES.join('|')}", "confidence": 0.0-1.0, "file": "<handle f1… preferred, or the exact returned path>", "lines": [start, end], "snippet", "description", "suggestion", "benefit", "risk" } ], "notes": "..." }`;
 }
 
 export function structuredUserPrompt(contextPack, { focus }) {

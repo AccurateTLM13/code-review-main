@@ -81,6 +81,31 @@ function hashLite(d) {
 }
 
 /**
+ * A21: a draft may cite a file by a form the model actually SAW rather than
+ * the raw relative path:
+ *   - `_resolvedRel` — the toolkit already resolved a handle/redacted path to
+ *     the real rel at submit time (trusted, still re-checked against the
+ *     store below);
+ *   - a redacted path — in the structured phase the context pack shows
+ *     redacted paths for files whose names contain registered secrets, and
+ *     the model quotes them verbatim. Resolve those back to the real rel so
+ *     evidence is checked against the actual file instead of being flagged
+ *     "possible model invention".
+ * `redact(candidate) === cited` runs only for placeholder-shaped citations,
+ * so ordinary (unredacted) citations never pay the scan.
+ */
+function resolveCitedRel(cited, store, redactor) {
+  const rel = String(cited ?? '');
+  if (!rel || store.has(rel)) return rel;
+  if (redactor?.size && rel.includes('[REDACTED')) {
+    for (const candidate of store.entries.keys()) {
+      if (redactor.redact(candidate) === rel) return candidate;
+    }
+  }
+  return rel;
+}
+
+/**
  * Validate drafts (model output) into findings.
  * @returns { findings, stats: {verified, adjusted, unverified, dropped} }
  */
@@ -93,13 +118,14 @@ export function validateDrafts(drafts, { repo, logger, redactor = null }) {
   const tx = redactor ? (l) => redactor.redact(l) : null;
 
   for (const d of drafts) {
-    const fileOk = d.file && store.has(d.file);
+    const rel = resolveCitedRel(d._resolvedRel ?? d.file, store, redactor);
+    const fileOk = Boolean(rel) && store.has(rel);
     let verified = false;
     let status = 'unverified';
     let note = null;
     let lines = d.lines;
 
-    if (!d.file) {
+    if (!rel) {
       // Repo-level claims (no file) survive only when meaningful
       if (d.severity === 'critical' || (d.severity === 'high' && d.confidence >= 0.7)) {
         note = 'no file referenced — kept for review, cannot be auto-verified';
@@ -119,7 +145,7 @@ export function validateDrafts(drafts, { repo, logger, redactor = null }) {
         continue;
       }
     } else {
-      const linesArr = store.lines(d.file);
+      const linesArr = store.lines(rel);
       if (!linesArr) { stats.dropped++; continue; }
       const maxLine = linesArr.length;
       if (lines && (lines[0] > maxLine || lines[1] > maxLine || lines[0] < 1 || lines[1] < lines[0])) {

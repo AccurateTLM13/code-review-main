@@ -8,18 +8,65 @@
 //   - submit_findings is exempt from the tool-call cap so the model can always
 //     finish gracefully when the budget is exhausted
 //   - every text surface passes through the secret redactor
+//
+// A21: ONE serialization boundary for every model-facing tool result. Every
+// return — payload AND error objects — passes through emit(), which
+// deep-redacts the payload and then fail-closed asserts that no registered
+// secret literal survives serialization; a surviving literal aborts the tool
+// call (the adapter surfaces the error to the model) and nothing reaches the
+// wire. The error names a blocked secret only by its safe placeholder hash.
+//
+// A21 (referenceability): files stay fully referenceable after path redaction.
+// Every path-bearing result carries an opaque `handle` (f1, f2, …), and
+// read_file / get_graph / submit_findings accept a handle, the raw relative
+// path, OR the exact redacted path a tool returned. A file whose name contains
+// a registered secret is therefore still findable, readable and citable — the
+// model just never sees the raw name.
+//
+// A23: regex searches compile and run inside a bounded worker with a host-side
+// hard deadline (util/regex-worker.mjs) — a catastrophic pattern returns a
+// budget error instead of hanging the process. Model-authored GLOB filters
+// compile to RegExp too, so they are canary-checked with the same mechanism
+// before use on the main thread.
 import path from 'node:path';
 import { repoDigest } from '../discovery/discover.mjs';
 import { normalizeSeverity, normalizeCategory } from './structured.mjs';
 import { createModelPolicy } from '../util/model-access.mjs';
+import { redactDeep, assertNoRegisteredSecret } from '../util/redact.mjs';
+import { runBoundedRegexSearch, MAX_REGEX_FILES } from '../util/regex-worker.mjs';
 
 const READ_LINE_CAP = 400;
 const READ_CHAR_CAP = 20_000;
 const GRAPH_LIST_CAP = 40;
+// Hard deadline for ONE regex search call. Worst case (canary + full scan
+// timeout) stays far under the 2 s acceptance bound for a single tool call.
+const REGEX_TOOL_DEADLINE_MS = 1200;
+const GLOB_BUDGET_MESSAGE = 'glob filter exceeded its time budget; simplify the pattern (or drop the glob)';
+const HANDLE_RE = /^f\d+$/;
+
+/**
+ * A21: the single serialization gate shared by every tool return.
+ * Deep-redacts the payload, then fail-closed: a registered literal that
+ * survived (e.g. hidden in an object KEY, which value-redaction cannot touch)
+ * throws BEFORE anything reaches the model adapter. Exported for the
+ * acceptance suite ([24]) so the boundary itself is testable.
+ */
+export function emitToolResult({ name, payload, redactor }) {
+  const safe = redactDeep(payload ?? {}, redactor);
+  assertNoRegisteredSecret(JSON.stringify(safe) ?? 'null', redactor, `tool result: ${name}`);
+  return safe;
+}
 
 export function createToolkit(repo, { budgets, redactor = null, logger, policy = null }) {
   const store = repo.fileStore;
-  const state = { submitted: null, toolCalls: 0, readBytes: 0 };
+  const state = {
+    submitted: null, toolCalls: 0, readBytes: 0,
+    // A21 opaque file handles: rel -> 'f1','f2',… (allocated lazily by any
+    // tool that returns paths) plus the reverse maps for resolution.
+    handles: new Map(),       // real rel -> handle
+    byHandle: new Map(),      // handle -> real rel
+    byRedacted: new Map(),    // redacted path -> real rel (built eagerly)
+  };
   const budget = {
     maxToolCalls: budgets.maxToolCalls ?? 80,
     maxReadBytes: budgets.maxReadBytes ?? 4_000_000,
@@ -30,6 +77,19 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
   // Default when none is supplied: credential-shaped files are denied.
   const access = policy ?? createModelPolicy({ allowSecretFiles: false });
   const redact = (text) => (redactor ? redactor.redact(text) : text);
+
+  // A21: ANY redacted path shown by any surface (list_files, get_summary
+  // digest, get_graph lists, search results) stays citable: build the
+  // redacted→real map up front. Registration (preflight) always runs before
+  // the toolkit is created, so this sees the full registry.
+  if (redactor?.size) {
+    for (const e of store.all) {
+      const shown = redactor.redact(e.rel);
+      if (shown !== e.rel) state.byRedacted.set(shown, e.rel);
+    }
+  }
+
+  const emit = (name, payload) => emitToolResult({ name, payload, redactor });
 
   const guard = (name, costBytes = 0) => {
     if (Date.now() > budget.deadline) return { error: 'Time budget exhausted. Call submit_findings with what you have.' };
@@ -48,19 +108,62 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
     return null;
   };
 
-  const jail = (p) => {
-    const rel = String(p ?? '').replace(/\\/g, '/').replace(/^\.\//, '');
-    if (rel.startsWith('/') || /^[a-zA-Z]:[\\/]/.test(rel)) return { error: 'Use a relative path (as returned by the tools), not an absolute one.' };
-    const norm = path.posix.normalize(rel);
-    if (norm.startsWith('..')) return { error: 'Path escapes the repository.' };
-    if (!store.has(norm)) {
-      return { error: `File not in the scanned set: "${norm}". Use list_files/search_code to find valid relative paths.` };
+  /** Allocate (or return) the opaque handle for a file. */
+  const handleFor = (rel) => {
+    let h = state.handles.get(rel);
+    if (!h) {
+      h = `f${state.handles.size + 1}`;
+      state.handles.set(rel, h);
+      state.byHandle.set(h, rel);
     }
-    // A18: default-deny known secret-shaped files on every content route.
-    // Redaction is defense in depth; the filename policy is the gate.
-    const exposure = access.canExposeFile(norm);
+    return h;
+  };
+
+  /**
+   * Resolve a model-supplied file reference to a real store rel.
+   * Accepts, in order: an opaque handle (preferred), the raw relative path,
+   * or the exact redacted path any tool returned. Applies the relative-path
+   * jail to path-shaped inputs. Policy checks stay with the CALLING route:
+   * content routes (read_file/get_graph) enforce the file-exposure policy;
+   * submit_findings resolves citations without a policy gate.
+   */
+  const resolveRef = (rawRef) => {
+    const ref = String(rawRef ?? '').replace(/\\/g, '/').replace(/^\.\//, '');
+    if (!ref) return { error: 'Provide the file handle (preferred) or a relative path as returned by the tools.' };
+    if (HANDLE_RE.test(ref)) {
+      const rel = state.byHandle.get(ref);
+      if (!rel) return { error: `Unknown file handle "${ref}". Use list_files/search_code to get current handles.` };
+      return { rel };
+    }
+    if (ref.startsWith('/') || /^[a-zA-Z]:[\\/]/.test(ref)) {
+      return { error: 'Use a relative path (as returned by the tools), not an absolute one.' };
+    }
+    const norm = path.posix.normalize(ref);
+    if (norm.startsWith('..')) return { error: 'Path escapes the repository.' };
+    if (store.has(norm)) return { rel: norm };
+    const viaRedacted = state.byRedacted.get(norm);
+    if (viaRedacted) return { rel: viaRedacted };
+    return { error: `File not in the scanned set: "${norm}". Use list_files/search_code to find valid relative paths or handles.` };
+  };
+
+  /** Content-route gate: resolve, then apply the A18 file-exposure policy. */
+  const resolveForContent = (rawRef) => {
+    const t = resolveRef(rawRef);
+    if (t.error) return t;
+    const exposure = access.canExposeFile(t.rel);
     if (!exposure.ok) return { error: exposure.reason };
-    return { rel: norm };
+    return t;
+  };
+
+  /** A23: canary-check a model-supplied glob (it compiles to a RegExp). */
+  const checkedGlob = async (glob) => {
+    let re;
+    try { re = globToRegexLoose(String(glob)); } catch { return { error: 'Invalid glob filter.' }; }
+    const probe = await runBoundedRegexSearch({ source: re.source, flags: re.flags, files: [], deadlineMs: 300 });
+    if (probe.error) {
+      return { error: probe.errorKind === 'budget' ? GLOB_BUDGET_MESSAGE : probe.error };
+    }
+    return { re };
   };
 
   const tools = [
@@ -70,14 +173,14 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
       parameters: { type: 'object', properties: {}, additionalProperties: false },
       execute: async () => {
         const g = guard('get_summary');
-        if (g) return g;
-        // A19: the digest lists file paths — sanitize the whole response
-        return { summary: redact(repoDigest(repo, { maxFiles: 60 })) };
+        if (g) return emit('get_summary', g);
+        // A19/A21: the digest lists file paths — emitted through the boundary
+        return emit('get_summary', { summary: repoDigest(repo, { maxFiles: 60 }) });
       },
     },
     {
       name: 'list_files',
-      description: 'List files (relative paths + sizes). Optional dir prefix, glob filter (e.g. "src/**/*.ts"), limit (default 120).',
+      description: 'List files (relative paths + opaque handles + sizes). Optional dir prefix, glob filter (e.g. "src/**/*.ts"), limit (default 120). Reference files by `handle`.',
       parameters: {
         type: 'object',
         properties: {
@@ -89,39 +192,42 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
       },
       execute: async (args = {}) => {
         const g = guard('list_files');
-        if (g) return g;
+        if (g) return emit('list_files', g);
+        let globRe = null;
+        if (args.glob) {
+          const cg = await checkedGlob(args.glob);
+          if (cg.error) return emit('list_files', cg);
+          globRe = cg.re;
+        }
         const limit = Math.min(Math.max(1, Math.floor(args.limit ?? 120)), 300);
         let entries = store.all;
         if (args.dir) {
           const dir = String(args.dir).replace(/\\/g, '/').replace(/\/+$/, '');
           entries = entries.filter((e) => e.rel === dir || e.rel.startsWith(dir + '/'));
         }
-        if (args.glob) {
-          const re = globToRegexLoose(String(args.glob));
-          entries = entries.filter((e) => re.test(e.rel));
-        }
-        const slice = entries.slice(0, limit).map((e) => ({ path: redact(e.rel), bytes: e.size }));
-        return { files: slice, total: entries.length, truncated: entries.length > limit };
+        if (globRe) entries = entries.filter((e) => globRe.test(e.rel));
+        const slice = entries.slice(0, limit).map((e) => ({ path: e.rel, handle: handleFor(e.rel), bytes: e.size }));
+        return emit('list_files', { files: slice, total: entries.length, truncated: entries.length > limit });
       },
     },
     {
       name: 'read_file',
-      description: `Read a bounded slice of one file with line numbers (max ${READ_LINE_CAP} lines / ${Math.round(READ_CHAR_CAP / 1000)}k chars per call). Paths must come from list_files/get_summary/search_code output.`,
+      description: `Read a bounded slice of one file with line numbers (max ${READ_LINE_CAP} lines / ${Math.round(READ_CHAR_CAP / 1000)}k chars per call). Pass the file's \`handle\` (preferred) or a relative path exactly as returned by list_files/get_summary/search_code.`,
       parameters: {
         type: 'object',
         properties: {
-          path: { type: 'string', description: 'Relative file path' },
+          handle: { type: 'string', description: 'Opaque file handle (f1, f2, …) from list_files/search_code output — preferred' },
+          path: { type: 'string', description: 'Relative file path (exactly as returned by the tools)' },
           start: { type: 'number', description: 'First line (default 1)' },
           end: { type: 'number', description: 'Last line (default start + 399; hard-capped)' },
         },
-        required: ['path'],
         additionalProperties: false,
       },
       execute: async (args = {}) => {
-        const j = jail(args.path);
-        if (j.error) return j;
-        const lines = store.lines(j.rel);
-        if (!lines) return { error: 'File is binary or unreadable.' };
+        const t = resolveForContent(args.handle ?? args.path);
+        if (t.error) return emit('read_file', t);
+        const lines = store.lines(t.rel);
+        if (!lines) return emit('read_file', { error: 'File is binary or unreadable.' });
         const start = Math.max(1, Math.floor(args.start ?? 1));
         // Hard cap: never more than READ_LINE_CAP lines from the requested start.
         const end = Math.min(
@@ -144,17 +250,19 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
           cost = used;
         }
         const g = guard('read_file', cost);
-        if (g) return g;
-        return {
-          path: j.rel, ofLines: lines.length,
+        if (g) return emit('read_file', g);
+        return emit('read_file', {
+          path: t.rel, // raw rel — emit() redacts it before it crosses
+          handle: handleFor(t.rel),
+          ofLines: lines.length,
           lines: rows.length ? rows : [{ line: start, text: '(empty range)' }],
           truncatedByChars: truncatedChars || undefined,
-        };
+        });
       },
     },
     {
       name: 'search_code',
-      description: 'Search all text files for a substring (default) or regex (isRegex=true). Returns path:line + the matching line. Optional glob filter, maxResults (default 40).',
+      description: 'Search all text files for a substring (default) or regex (isRegex=true). Returns path, handle, line + the matching line. Optional glob filter, maxResults (default 40).',
       parameters: {
         type: 'object',
         properties: {
@@ -168,70 +276,91 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
       },
       execute: async (args = {}) => {
         const query = String(args.query ?? '');
-        if (query.length < 2) return { error: 'Query too short.' };
-        if (query.length > 200) return { error: 'Query too long (max 200 chars).' };
-        let re;
-        if (args.isRegex) {
-          try { re = new RegExp(query, 'i'); } catch (e) { return { error: `Invalid regex: ${e.message}` }; }
-        } else {
-          re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-        }
+        if (query.length < 2) return emit('search_code', { error: 'Query too short.' });
+        if (query.length > 200) return emit('search_code', { error: 'Query too long (max 200 chars).' });
         const maxResults = Math.min(Math.max(1, Math.floor(args.maxResults ?? 40)), 100);
         // A18: search applies the same file-exposure policy as read_file —
         // secret-shaped files are excluded BEFORE any content matching, so
         // unrecognized credential formats cannot leak through search either.
-        const files = (args.glob
-          ? store.all.filter((e) => globToRegexLoose(String(args.glob)).test(e.rel))
-          : store.all
-        ).filter((e) => access.canExposeFile(e.rel).ok);
-        const matches = [];
+        let files = store.all;
+        if (args.glob) {
+          const cg = await checkedGlob(args.glob);
+          if (cg.error) return emit('search_code', cg);
+          files = files.filter((e) => cg.re.test(e.rel));
+        }
+        files = files.filter((e) => access.canExposeFile(e.rel).ok);
+
+        let matches;
+        let coverage;
         let cost = 0;
-        outer: for (const entry of files.slice(0, 8000)) {
-          const lines = store.lines(entry.rel);
-          if (!lines) continue;
-          for (let i = 0; i < lines.length; i++) {
-            if (re.test(lines[i])) {
-              const text = redact(lines[i]).trim().slice(0, 240);
-              matches.push({ path: entry.rel, line: i + 1, text });
-              cost += text.length + 20;
-              if (matches.length >= maxResults) break outer;
+        if (args.isRegex) {
+          // A23: model-authored regex runs in a bounded worker — a
+          // catastrophic pattern returns a budget error, never a hang.
+          const targets = files.slice(0, MAX_REGEX_FILES)
+            .map((e) => ({ rel: e.rel, lines: store.lines(e.rel) }))
+            .filter((f) => f.lines);
+          const res = await runBoundedRegexSearch({
+            source: query, flags: 'i', files: targets, deadlineMs: REGEX_TOOL_DEADLINE_MS, maxResults,
+          });
+          if (res.error) return emit('search_code', { error: res.error });
+          coverage = res.coverage;
+          matches = (res.matches ?? []).map((m) => ({ path: m.rel, line: m.line, text: redact(m.text).trim().slice(0, 240) }));
+        } else {
+          const re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+          matches = [];
+          outer: for (const entry of files.slice(0, 8000)) {
+            const lines = store.lines(entry.rel);
+            if (!lines) continue;
+            for (let i = 0; i < lines.length; i++) {
+              if (re.test(lines[i])) {
+                const text = redact(lines[i]).trim().slice(0, 240);
+                matches.push({ path: entry.rel, line: i + 1, text });
+                cost += text.length + 20;
+                if (matches.length >= maxResults) break outer;
+              }
             }
           }
         }
+        if (args.isRegex) cost = matches.reduce((n, m) => n + m.text.length + 20, 0);
         const g = guard('search_code', cost);
-        if (g) return g;
-        return { matches, truncated: matches.length >= maxResults };
+        if (g) return emit('search_code', g);
+        const payload = { matches: matches.map((m) => ({ ...m, handle: handleFor(m.path) })), truncated: matches.length >= maxResults };
+        if (coverage) payload.coverage = coverage;
+        return emit('search_code', payload);
       },
     },
     {
       name: 'get_graph',
-      description: 'Import relationships for one file: what it imports and which files import it (bounded to 40 entries per side).',
+      description: 'Import relationships for one file (pass its handle or path): what it imports and which files import it (bounded to 40 entries per side).',
       parameters: {
         type: 'object',
-        properties: { path: { type: 'string', description: 'Relative file path' } },
-        required: ['path'],
+        properties: {
+          handle: { type: 'string', description: 'Opaque file handle (f1, f2, …) — preferred' },
+          path: { type: 'string', description: 'Relative file path (exactly as returned by the tools)' },
+        },
         additionalProperties: false,
       },
       execute: async (args = {}) => {
         // A15: get_graph honors the same budget guard as every non-terminal tool
         const g = guard('get_graph');
-        if (g) return g;
-        const j = jail(args.path);
-        if (j.error) return j;
-        if (!repo.graph?.enabled) return { error: 'Import graph not available for this repository.' };
-        const allImports = repo.graph.imports?.[j.rel] ?? [];
-        const allDependents = repo.graph.dependents?.[j.rel] ?? [];
-        return {
-          path: redact(j.rel),
-          imports: allImports.slice(0, GRAPH_LIST_CAP).map(redact),
-          dependents: allDependents.slice(0, GRAPH_LIST_CAP).map(redact),
+        if (g) return emit('get_graph', g);
+        const t = resolveForContent(args.handle ?? args.path);
+        if (t.error) return emit('get_graph', t);
+        if (!repo.graph?.enabled) return emit('get_graph', { error: 'Import graph not available for this repository.' });
+        const allImports = repo.graph.imports?.[t.rel] ?? [];
+        const allDependents = repo.graph.dependents?.[t.rel] ?? [];
+        return emit('get_graph', {
+          path: t.rel, // raw — emit() redacts
+          handle: handleFor(t.rel),
+          imports: allImports.slice(0, GRAPH_LIST_CAP),
+          dependents: allDependents.slice(0, GRAPH_LIST_CAP),
           truncated: allImports.length > GRAPH_LIST_CAP || allDependents.length > GRAPH_LIST_CAP || undefined,
-        };
+        });
       },
     },
     {
       name: 'submit_findings',
-      description: 'Submit your final findings and end the investigation. Each finding must cite a real file you read, with exact lines and a verbatim snippet copied from read_file output. Findings without a snippet will be marked unverified.',
+      description: 'Submit your final findings and end the investigation. Each finding must cite a file you actually read — pass its `handle` (preferred) or the exact path as returned — with exact lines and a verbatim snippet copied from read_file output. Findings without a snippet will be marked unverified.',
       terminal: true,
       parameters: {
         type: 'object',
@@ -245,7 +374,7 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
                 category: { type: 'string', description: 'security|bug|duplication|performance|refactoring|debt' },
                 severity: { type: 'string', description: 'critical|high|medium|low|info' },
                 confidence: { type: 'number' },
-                file: { type: 'string' },
+                file: { type: 'string', description: 'The file handle (f1, …) you read, or the exact path as returned' },
                 lines: { type: 'array', items: { type: 'number' } },
                 snippet: { type: 'string' },
                 description: { type: 'string' },
@@ -263,10 +392,16 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
       },
       execute: async (args = {}) => {
         const g = guard('submit_findings');
-        if (g) return g;
+        if (g) return emit('submit_findings', g);
         const drafts = [];
         for (const f of Array.isArray(args.findings) ? args.findings : []) {
           if (!f || typeof f !== 'object' || !f.title || !f.file) continue;
+          // A21: `file` may be a handle, a raw rel, or the redacted path the
+          // model saw. Resolve to the real rel for evidence checking; the
+          // draft carries the redacted form for every output surface.
+          const rawFile = String(f.file).replace(/\\/g, '/').replace(/^\.\//, '');
+          const target = resolveRef(rawFile);
+          const resolvedRel = target.rel ?? null;
           drafts.push({
             checkId: 'agent',
             source: `agent:${budgets.profileName ?? 'model'}`,
@@ -274,7 +409,8 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
             category: normalizeCategory(f.category) ?? 'bug',
             severity: normalizeSeverity(f.severity) ?? 'medium',
             confidence: Number.isFinite(Number(f.confidence)) ? Math.max(0, Math.min(1, Number(f.confidence))) : 0.4,
-            file: String(f.file).replace(/\\/g, '/').replace(/^\.\//, ''),
+            file: resolvedRel ? redact(resolvedRel) : rawFile,
+            _resolvedRel: resolvedRel ?? undefined,
             lines: Array.isArray(f.lines) && f.lines.length >= 2
               ? [Math.round(Number(f.lines[0]) || 1), Math.round(Number(f.lines[1]) || Number(f.lines[0]) || 1)]
               : Array.isArray(f.lines) && f.lines.length ? [Math.round(Number(f.lines[0]) || 1), Math.round(Number(f.lines[0]) || 1)] : null,
@@ -286,7 +422,7 @@ export function createToolkit(repo, { budgets, redactor = null, logger, policy =
           });
         }
         state.submitted = { drafts, notes: String(args.notes ?? '').slice(0, 1500) };
-        return { received: true, accepted: drafts.length, hint: drafts.length ? undefined : 'No valid findings — each needs at least title and file.' };
+        return emit('submit_findings', { received: true, accepted: drafts.length, hint: drafts.length ? undefined : 'No valid findings — each needs at least title and file.' });
       },
     },
   ];
