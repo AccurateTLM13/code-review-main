@@ -39,13 +39,16 @@ const CORPORA = {
   express: path.join(ROOT, 'docs', 'benchmark', 'data', 'repos', 'express'),
 };
 
-// Every credential-like string planted in the labeled corpus (synthetic).
+// Credential-format tokens planted in the labeled corpus (synthetic). Note:
+// 'hunter2' (the planted 7-char weak password, truth row V-08) is deliberately
+// NOT swept — it is below the redactor's MIN_LITERAL and is quoted verbatim in
+// finding snippets by design; an audit naming the hardcoded password it cites
+// is correct behavior, not a leak.
 const PLANTED_TOKENS = [
   'AKIAJ4RFQKZCXMPL3WAQ',
   'ghp_16C7e42F292c6912E7710c838347Ae178B4a',
   'sk_live_51H8xQz2eZvKYlo2C9PqR7sT3wY5uJ9aKcD4fG6hB8nM0',
   'S3cretP4ss',
-  'hunter2',
 ];
 
 function arg(name) {

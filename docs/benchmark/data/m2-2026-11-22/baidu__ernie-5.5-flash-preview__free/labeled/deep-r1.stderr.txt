@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     9.0 [31;1mCRIT   eval() of caller-supplied input in run_user_script
+         server/auth.py:7-9
+     8.5 [31;1mCRIT   OS command injection via unsanitized query param in exec()
+         index.js:11-17
+     6.3 [31mHIGH   .env file present and tracked by git
+         .env
+  Report: E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\baidu__ernie-5.5-flash-preview__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\baidu__ernie-5.5-flash-preview__free\labeled\report.json

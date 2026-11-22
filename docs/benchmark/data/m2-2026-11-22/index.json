@@ -1,0 +1,1053 @@
+{
+  "run": "m2-2026-11-22",
+  "startedAt": "2026-11-22T22:19:47.221Z",
+  "gitSha": "6d0163018348170b106bb59dbbe6a803d06bf42b",
+  "cliVersion": "0.2.3",
+  "entries": [
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "clean",
+      "depth": "standard",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\clean-app",
+        "--models",
+        "bench-a",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 4610,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "  Findings: 0 (none)\n  Models:   bench-a — 1/1 pass(es) ok\n  Verified: 0 verified, 0 unverified (flagged in report)\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\standard-r1.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\standard-r1.report.json",
+      "summary": {
+        "findings": 0,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "verification": {
+          "verified": 0,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 4438,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 752,
+            "outputTokens": 205
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "clean",
+      "depth": "standard",
+      "rep": 2,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\clean-app",
+        "--models",
+        "bench-a",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 5677,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "  Findings: 0 (none)\n  Models:   bench-a — 1/1 pass(es) ok\n  Verified: 0 verified, 0 unverified (flagged in report)\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\standard-r2.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\standard-r2.report.json",
+      "summary": {
+        "findings": 0,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "verification": {
+          "verified": 0,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 5498,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 752,
+            "outputTokens": 203
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "clean",
+      "depth": "deep",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\clean-app",
+        "--models",
+        "bench-a",
+        "--depth",
+        "deep",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 35858,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "  Verified: 0 verified, 2 unverified (flagged in report)\n  Top priorities\n     0.7 \u001b[36mLOW    Unused production dependency: express\n         package.json:14-16\n     0.6 \u001b[36mLOW    Test script configured but no test files exist\n         package.json:10-13\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\deep-r1.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\clean\\deep-r1.report.json",
+      "summary": {
+        "findings": 2,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 2,
+          "info": 0
+        },
+        "verification": {
+          "verified": 0,
+          "adjusted": 0,
+          "unverified": 2,
+          "dropped": 0
+        },
+        "durationMs": 35686,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 752,
+            "outputTokens": 181
+          },
+          {
+            "phase": "autonomous",
+            "ok": true,
+            "inputTokens": 36265,
+            "outputTokens": 1921
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "labeled",
+      "depth": "standard",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\vulnerable-app",
+        "--models",
+        "bench-a",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 145239,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     6.3 \u001b[31mHIGH   child_process call with interpolated/concatenated command\n         index.js:13-13\n     6.3 \u001b[31mHIGH   SQL query built via string concatenation/interpolation\n         src/payment.ts:11-11\n     6.0 \u001b[31mHIGH   Implicit global variable assignment in admin handler\n         index.js:44-44\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\standard-r1.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\standard-r1.report.json",
+      "summary": {
+        "findings": 36,
+        "bySeverity": {
+          "critical": 2,
+          "high": 5,
+          "medium": 15,
+          "low": 12,
+          "info": 2
+        },
+        "verification": {
+          "verified": 31,
+          "adjusted": 5,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 145063,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 13946,
+            "outputTokens": 13773
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "labeled",
+      "depth": "standard",
+      "rep": 2,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\vulnerable-app",
+        "--models",
+        "bench-a",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 108206,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     6.3 \u001b[31mHIGH   Massive function duplication in legacy-monolith.js (60 near-identical handlers)\n         src/legacy-monolith.js:1-1330\n     6.3 \u001b[31mHIGH   child_process call with interpolated/concatenated command\n         index.js:13-13\n     6.3 \u001b[31mHIGH   SQL query built via string concatenation/interpolation\n         src/payment.ts:11-11\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\standard-r2.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\standard-r2.report.json",
+      "summary": {
+        "findings": 38,
+        "bySeverity": {
+          "critical": 4,
+          "high": 4,
+          "medium": 16,
+          "low": 12,
+          "info": 2
+        },
+        "verification": {
+          "verified": 33,
+          "adjusted": 5,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 105110,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 13946,
+            "outputTokens": 8175
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "labeled",
+      "depth": "deep",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\vulnerable-app",
+        "--models",
+        "bench-a",
+        "--depth",
+        "deep",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 232932,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     9.0 \u001b[31;1mCRIT   SQL Injection in findPayments (TypeScript)\n         src/payment.ts:8-13\n     7.3 \u001b[31;1mCRIT   AWS access key ID committed\n         index.js:8-8\n     7.3 \u001b[31;1mCRIT   GitHub personal access token committed\n         server/auth.py:5-5\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\deep-r1.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\labeled\\deep-r1.report.json",
+      "summary": {
+        "findings": 51,
+        "bySeverity": {
+          "critical": 6,
+          "high": 9,
+          "medium": 21,
+          "low": 13,
+          "info": 2
+        },
+        "verification": {
+          "verified": 40,
+          "adjusted": 9,
+          "unverified": 2,
+          "dropped": 0
+        },
+        "durationMs": 229790,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 13946,
+            "outputTokens": 9988
+          },
+          {
+            "phase": "autonomous",
+            "ok": true,
+            "inputTokens": 107120,
+            "outputTokens": 5662
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "express",
+      "depth": "standard",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+        "--models",
+        "bench-a",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 83656,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     3.6 \u001b[33mMED    Oversized file: express.static.js is 815 lines\n         test/express.static.js:1-60\n     3.6 \u001b[33mMED    Oversized file: express.urlencoded.js is 867 lines\n         test/express.urlencoded.js:1-60\n     3.6 \u001b[33mMED    Oversized file: res.sendFile.js is 1,413 lines\n         test/res.sendFile.js:1-60\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\express\\standard-r1.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\express\\standard-r1.report.json",
+      "summary": {
+        "findings": 28,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 12,
+          "low": 12,
+          "info": 4
+        },
+        "verification": {
+          "verified": 21,
+          "adjusted": 3,
+          "unverified": 4,
+          "dropped": 0
+        },
+        "durationMs": 80544,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 53479,
+            "outputTokens": 6587
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "express",
+      "depth": "standard",
+      "rep": 2,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+        "--models",
+        "bench-a",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 174273,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     3.6 \u001b[33mMED    Oversized file: app.router.js is 1,112 lines\n         test/app.router.js:1-60\n     3.6 \u001b[33mMED    Oversized file: express.static.js is 815 lines\n         test/express.static.js:1-60\n     3.6 \u001b[33mMED    Oversized file: express.urlencoded.js is 867 lines\n         test/express.urlencoded.js:1-60\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\express\\standard-r2.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\express\\standard-r2.report.json",
+      "summary": {
+        "findings": 24,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 8,
+          "low": 11,
+          "info": 5
+        },
+        "verification": {
+          "verified": 21,
+          "adjusted": 2,
+          "unverified": 1,
+          "dropped": 0
+        },
+        "durationMs": 171177,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 53479,
+            "outputTokens": 11032
+          }
+        ]
+      }
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "corpus": "express",
+      "depth": "deep",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+        "--models",
+        "bench-a",
+        "--depth",
+        "deep",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 166290,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     3.6 \u001b[33mMED    Oversized file: app.router.js is 1,112 lines\n         test/app.router.js:1-60\n     3.6 \u001b[33mMED    Oversized file: express.static.js is 815 lines\n         test/express.static.js:1-60\n     3.6 \u001b[33mMED    Oversized file: express.urlencoded.js is 867 lines\n         test/express.urlencoded.js:1-60\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\nvidia__nemotron-3-ultra-550b-a55b__free\\express\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\express\\deep-r1.stderr.txt",
+      "reportFile": "nvidia__nemotron-3-ultra-550b-a55b__free\\express\\deep-r1.report.json",
+      "summary": {
+        "findings": 27,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 11,
+          "low": 12,
+          "info": 4
+        },
+        "verification": {
+          "verified": 23,
+          "adjusted": 2,
+          "unverified": 2,
+          "dropped": 0
+        },
+        "durationMs": 163124,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 53479,
+            "outputTokens": 9252
+          },
+          {
+            "phase": "autonomous",
+            "ok": true,
+            "inputTokens": 1289145,
+            "outputTokens": 1702
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "clean",
+      "depth": "standard",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\clean-app",
+        "--models",
+        "bench-b",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 2751,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "  Findings: 0 (none)\n  Models:   bench-b — 1/1 pass(es) ok\n  Verified: 0 verified, 0 unverified (flagged in report)\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\clean\\standard-r1.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\clean\\standard-r1.report.json",
+      "summary": {
+        "findings": 0,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "verification": {
+          "verified": 0,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 2556,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 677,
+            "outputTokens": 111
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "clean",
+      "depth": "standard",
+      "rep": 2,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\clean-app",
+        "--models",
+        "bench-b",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 2491,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "  Findings: 0 (none)\n  Models:   bench-b — 1/1 pass(es) ok\n  Verified: 0 verified, 0 unverified (flagged in report)\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\clean\\standard-r2.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\clean\\standard-r2.report.json",
+      "summary": {
+        "findings": 0,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "info": 0
+        },
+        "verification": {
+          "verified": 0,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 2297,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 677,
+            "outputTokens": 176
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "clean",
+      "depth": "deep",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\clean-app",
+        "--models",
+        "bench-b",
+        "--depth",
+        "deep",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 17243,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     5.7 \u001b[31mHIGH   ESM source files but package.json has no \"type\": \"module\" — npm start/test crash\n         package.json:1-18\n     1.2 \u001b[36mLOW    Reported character count is off by one and ignores trimming\n         src/greet.js:8-9\n     0.9 \u001b[2mINFO   Unused express dependency in a 3-file library with no HTTP code\n         package.json:14-16\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\clean\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\clean\\deep-r1.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\clean\\deep-r1.report.json",
+      "summary": {
+        "findings": 3,
+        "bySeverity": {
+          "critical": 0,
+          "high": 1,
+          "medium": 0,
+          "low": 1,
+          "info": 1
+        },
+        "verification": {
+          "verified": 2,
+          "adjusted": 1,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 17072,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": true,
+            "inputTokens": 677,
+            "outputTokens": 141
+          },
+          {
+            "phase": "autonomous",
+            "ok": true,
+            "inputTokens": 12375,
+            "outputTokens": 2076
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "labeled",
+      "depth": "standard",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\vulnerable-app",
+        "--models",
+        "bench-b",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 71763,
+      "exitCode": 2,
+      "timedOut": false,
+      "stdoutTail": "     3.6 \u001b[33mMED    28-line block duplicated between helpers.js and utils.js\n         src/helpers.js:2-29\n     3.4 \u001b[33mMED    1 FIXME marker in index.js\n         index.js:10-10\n     3.4 \u001b[33mMED    1 FIXME marker in auth.py\n         server/auth.py:27-27\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled\\report.json",
+      "stderrTail": "✗ All requested model profiles failed — audit is incomplete.",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\labeled\\standard-r1.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\labeled\\standard-r1.report.json",
+      "summary": {
+        "findings": 29,
+        "bySeverity": {
+          "critical": 2,
+          "high": 3,
+          "medium": 13,
+          "low": 9,
+          "info": 2
+        },
+        "verification": {
+          "verified": 29,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 68638,
+        "exitCode": 2,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": false,
+            "inputTokens": 13174,
+            "outputTokens": 16384
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "labeled",
+      "depth": "standard",
+      "rep": 2,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\vulnerable-app",
+        "--models",
+        "bench-b",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 69760,
+      "exitCode": 2,
+      "timedOut": false,
+      "stdoutTail": "     3.6 \u001b[33mMED    28-line block duplicated between helpers.js and utils.js\n         src/helpers.js:2-29\n     3.4 \u001b[33mMED    1 FIXME marker in index.js\n         index.js:10-10\n     3.4 \u001b[33mMED    1 FIXME marker in auth.py\n         server/auth.py:27-27\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled\\report.json",
+      "stderrTail": "✗ All requested model profiles failed — audit is incomplete.",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\labeled\\standard-r2.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\labeled\\standard-r2.report.json",
+      "summary": {
+        "findings": 29,
+        "bySeverity": {
+          "critical": 2,
+          "high": 3,
+          "medium": 13,
+          "low": 9,
+          "info": 2
+        },
+        "verification": {
+          "verified": 29,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 66682,
+        "exitCode": 2,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": false,
+            "inputTokens": 13174,
+            "outputTokens": 16384
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "labeled",
+      "depth": "deep",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\examples\\vulnerable-app",
+        "--models",
+        "bench-b",
+        "--depth",
+        "deep",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 122562,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     9.0 \u001b[31;1mCRIT   eval() of caller-supplied input in run_user_script\n         server/auth.py:7-9\n     8.5 \u001b[31;1mCRIT   OS command injection via unsanitized query param in exec()\n         index.js:11-17\n     6.3 \u001b[31mHIGH   .env file present and tracked by git\n         .env\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\labeled\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\labeled\\deep-r1.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\labeled\\deep-r1.report.json",
+      "summary": {
+        "findings": 52,
+        "bySeverity": {
+          "critical": 5,
+          "high": 9,
+          "medium": 24,
+          "low": 12,
+          "info": 2
+        },
+        "verification": {
+          "verified": 51,
+          "adjusted": 0,
+          "unverified": 1,
+          "dropped": 0
+        },
+        "durationMs": 119456,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": false,
+            "inputTokens": 13174,
+            "outputTokens": 16384
+          },
+          {
+            "phase": "autonomous",
+            "ok": true,
+            "inputTokens": 108452,
+            "outputTokens": 10380
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "express",
+      "depth": "standard",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+        "--models",
+        "bench-b",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 68373,
+      "exitCode": 2,
+      "timedOut": false,
+      "stdoutTail": "     3.4 \u001b[33mMED    Oversized file: express.static.js is 815 lines\n         test/express.static.js:1-60\n     3.4 \u001b[33mMED    Oversized file: express.urlencoded.js is 867 lines\n         test/express.urlencoded.js:1-60\n     3.4 \u001b[33mMED    Oversized file: res.sendFile.js is 1,413 lines\n         test/res.sendFile.js:1-60\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express\\report.json",
+      "stderrTail": "✗ All requested model profiles failed — audit is incomplete.",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\express\\standard-r1.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\express\\standard-r1.report.json",
+      "summary": {
+        "findings": 20,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 7,
+          "low": 9,
+          "info": 4
+        },
+        "verification": {
+          "verified": 20,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 65245,
+        "exitCode": 2,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": false,
+            "inputTokens": 50390,
+            "outputTokens": 16384
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "express",
+      "depth": "standard",
+      "rep": 2,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+        "--models",
+        "bench-b",
+        "--depth",
+        "standard",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 57751,
+      "exitCode": 2,
+      "timedOut": false,
+      "stdoutTail": "     3.4 \u001b[33mMED    Oversized file: express.static.js is 815 lines\n         test/express.static.js:1-60\n     3.4 \u001b[33mMED    Oversized file: express.urlencoded.js is 867 lines\n         test/express.urlencoded.js:1-60\n     3.4 \u001b[33mMED    Oversized file: res.sendFile.js is 1,413 lines\n         test/res.sendFile.js:1-60\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express\\report.json",
+      "stderrTail": "✗ All requested model profiles failed — audit is incomplete.",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\express\\standard-r2.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\express\\standard-r2.report.json",
+      "summary": {
+        "findings": 20,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 7,
+          "low": 9,
+          "info": 4
+        },
+        "verification": {
+          "verified": 20,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 54662,
+        "exitCode": 2,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": false,
+            "inputTokens": 50390,
+            "outputTokens": 16384
+          }
+        ]
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "corpus": "express",
+      "depth": "deep",
+      "rep": 1,
+      "args": [
+        "scan",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+        "--models",
+        "bench-b",
+        "--depth",
+        "deep",
+        "--timeout",
+        "20",
+        "--output",
+        "E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express",
+        "--quiet",
+        "--config",
+        "C:\\Users\\johnp\\AppData\\Local\\Temp\\ca-bench-0I62n9\\bench.config.json",
+        "--no-state"
+      ],
+      "wallMs": 112556,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTail": "     3.4 \u001b[33mMED    Oversized file: express.static.js is 815 lines\n         test/express.static.js:1-60\n     3.4 \u001b[33mMED    Oversized file: express.urlencoded.js is 867 lines\n         test/express.urlencoded.js:1-60\n     3.4 \u001b[33mMED    Oversized file: res.sendFile.js is 1,413 lines\n         test/res.sendFile.js:1-60\n  Report: E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express\\report.md\n  JSON:  E:\\code\\code-review-main\\docs\\benchmark\\data\\m2-2026-11-22\\baidu__ernie-5.5-flash-preview__free\\express\\report.json",
+      "stderrTail": "",
+      "throttled": false,
+      "stderrFile": "baidu__ernie-5.5-flash-preview__free\\express\\deep-r1.stderr.txt",
+      "reportFile": "baidu__ernie-5.5-flash-preview__free\\express\\deep-r1.report.json",
+      "summary": {
+        "findings": 20,
+        "bySeverity": {
+          "critical": 0,
+          "high": 0,
+          "medium": 7,
+          "low": 9,
+          "info": 4
+        },
+        "verification": {
+          "verified": 20,
+          "adjusted": 0,
+          "unverified": 0,
+          "dropped": 0
+        },
+        "durationMs": 109363,
+        "exitCode": 0,
+        "usage": [
+          {
+            "phase": "structured",
+            "ok": false,
+            "inputTokens": 50390,
+            "outputTokens": 16384
+          },
+          {
+            "phase": "autonomous",
+            "ok": true,
+            "inputTokens": 1203225,
+            "outputTokens": 1236
+          }
+        ]
+      }
+    }
+  ],
+  "finishedAt": "2026-11-22T22:47:31.796Z"
+}

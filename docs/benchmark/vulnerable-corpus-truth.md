@@ -44,6 +44,7 @@ Notes for adjudication:
 - V-13's counterpart rows live in `src/helpers.js` 2–32; a TP citing **either** file with the duplication category satisfies the row (the pair counts once for recall).
 - V-20 likewise: citing either cycle half satisfies the row.
 - Findings that flag the synthetic secrets as secrets (V-01/V-12/V-26) remain TPs even though the report shows them redacted — the tool is *expected* to detect-then-redact.
+- V-08 (`hunter2`) is quoted verbatim in finding snippets by design: the 7-char low-entropy password is below the redaction registry (MIN_LITERAL 8, credential-shaped formats only), and an audit citing the hardcoded-password line is correct behavior, not leakage. The benchmark leak sweep therefore does not include it (only credential-format tokens + the DB-URL password are swept).
 - Anything on `.gitignore` content, `logs/`, or fixture commentary lines is expected noise (FP) unless it maps to a row.
 
 ---

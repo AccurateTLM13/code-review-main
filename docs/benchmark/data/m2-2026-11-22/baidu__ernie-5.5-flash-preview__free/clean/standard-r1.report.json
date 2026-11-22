@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "name": "code-audit",
+    "version": "0.2.3"
+  },
+  "meta": {
+    "timestamp": "2026-11-22T22:37:18.151Z",
+    "target": "E:\\code\\code-review-main\\examples\\clean-app",
+    "git": {
+      "branch": "main",
+      "commit": "6d01630"
+    },
+    "depth": "standard",
+    "focus": "all",
+    "changed": false,
+    "changedBasis": null,
+    "changedFiles": null,
+    "deletedFiles": [],
+    "failOn": null,
+    "durationMs": 2556,
+    "exitCode": 0,
+    "redaction": "on",
+    "configSources": [
+      "explicit: C:/Users/johnp/AppData/Local/Temp/ca-bench-0I62n9/bench.config.json"
+    ],
+    "coverage": {
+      "walkedFiles": 4,
+      "sourceFilesScanned": 3,
+      "textFilesSeen": 4,
+      "skippedBinary": 0,
+      "skippedLarge": 0,
+      "maxTextBytes": 1500000,
+      "walkTruncated": false,
+      "unsupportedLanguages": []
+    }
+  },
+  "repo": {
+    "totalSourceFiles": 3,
+    "totalLoc": 35,
+    "languages": [
+      {
+        "language": "javascript",
+        "files": 2,
+        "loc": 25
+      },
+      {
+        "language": "python",
+        "files": 1,
+        "loc": 10
+      }
+    ],
+    "stacks": [],
+    "entryPoints": [],
+    "docs": [],
+    "hotspots": [],
+    "graph": {
+      "hubs": [],
+      "cycles": [],
+      "orphanCount": 2
+    }
+  },
+  "stats": {
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "byCategory": {},
+    "verification": {
+      "verified": 0,
+      "adjusted": 0,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "verdicts": {
+      "applied": 0,
+      "dismissed": 0,
+      "contested": 0,
+      "adjusted": 0
+    },
+    "consensusCount": 0,
+    "deterministic": 0,
+    "modelSourced": 0,
+    "crossFile": 0
+  },
+  "models": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "provider": "openrouter",
+      "adapter": "native",
+      "egress": "remote"
+    }
+  ],
+  "runs": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "structured",
+      "ms": 2084,
+      "usage": {
+        "inputTokens": 677,
+        "outputTokens": 111
+      },
+      "adapter": "native",
+      "ok": true
+    }
+  ],
+  "checksExecuted": [
+    {
+      "id": "secrets",
+      "label": "Hardcoded secrets & credentials",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "debt-markers",
+      "label": "TODO/FIXME/HACK debt markers",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "duplication",
+      "label": "Copy-paste duplication",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "size",
+      "label": "Oversized files & hotspots",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "quality",
+      "label": "Risky code patterns",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "deps",
+      "label": "Dependency hygiene",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "graph",
+      "label": "Import graph signals",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "ast-grep",
+      "label": "ast-grep structural rules",
+      "count": 0,
+      "ms": 249
+    }
+  ],
+  "notes": [
+    {
+      "profile": "bench-b",
+      "text": "No static analysis findings were provided and no source excerpts were available for review. Based on the supplied material, no code-level issues can be confirmed or reported."
+    }
+  ],
+  "findings": [],
+  "backlog": {
+    "quickWins": [],
+    "planned": [],
+    "investigate": [],
+    "dismissed": []
+  }
+}

@@ -1,0 +1,7 @@
+
+--- stdout tail ---
+  Findings: 0 (none)
+  Models:   bench-b — 1/1 pass(es) ok
+  Verified: 0 verified, 0 unverified (flagged in report)
+  Report: E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\baidu__ernie-5.5-flash-preview__free\clean\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\baidu__ernie-5.5-flash-preview__free\clean\report.json

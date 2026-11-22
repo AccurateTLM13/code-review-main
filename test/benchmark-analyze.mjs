@@ -38,12 +38,15 @@ const RUN_DIR = path.join(DATA_ROOT, RUN);
 if (!fs.existsSync(RUN_DIR)) { console.error(`benchmark-analyze: run dir not found: ${RUN_DIR}`); process.exit(2); }
 
 // --- leak sweep FIRST: nothing is committed unless this is clean ---
+// Credential-format tokens planted in the labeled corpus (synthetic). 'hunter2'
+// (planted 7-char weak password, truth row V-08) is deliberately NOT swept: it
+// is below the redactor's MIN_LITERAL and quoting its source line in finding
+// snippets is correct audit behavior, not a leak.
 const PLANTED_TOKENS = [
   'AKIAJ4RFQKZCXMPL3WAQ',
   'ghp_16C7e42F292c6912E7710c838347Ae178B4a',
   'sk_live_51H8xQz2eZvKYlo2C9PqR7sT3wY5uJ9aKcD4fG6hB8nM0',
   'S3cretP4ss',
-  'hunter2',
 ];
 let leaks = 0;
 async function sweep(dir) {
@@ -135,7 +138,7 @@ for (const r of results) {
   const tokens = okReps.flatMap((x) => (x.json.runs ?? []).map((run) => (run.usage?.inputTokens ?? 0) + (run.usage?.outputTokens ?? 0))).reduce((a, b) => a + b, 0);
 
   let matchedRows = new Set();
-  let tp = 0, fp = 0;
+  let tp = 0, fp = 0, p01Tp = 0, p01Fp = 0, p01Denominator = 0;
   if (r.corpus === 'labeled') {
     const active = allFindings.filter((f) => !f.dismissed);
     const claims = [];
@@ -153,6 +156,12 @@ for (const r of results) {
       tp++;
     }
     fp = active.length - usedFindings.size;
+    // The master gate is precision ON P0/P1 findings (denominator = P0/P1 count).
+    const p01 = active.filter((f) => isP01(f.severity));
+    p01Denominator = p01.length;
+    for (const f of p01) {
+      if (usedFindings.has(f)) p01Tp++; else p01Fp++;
+    }
     missedByModel[model] = TRUTH.filter((row) => !matchedRows.has(row.id)).map((row) => row.id);
   } else if (r.corpus === 'clean') {
     tp = 0; fp = allFindings.filter((f) => !f.dismissed).length; // every finding on the zero-defect corpus is an FP
@@ -187,7 +196,10 @@ for (const r of results) {
     citationCorrectPct: allFindings.length ? Math.round(((verified + adjusted) / allFindings.length) * 100) : null,
     p01Count: p01.length,
     tp, fp,
-    precisionP01: (r.corpus === 'real-repo' ? 'pending-adjudication' : (tp + fp ? Math.round((tp / (tp + fp)) * 100) + '%' : 'n/a (no P0/P1 findings)')),
+    p01Tp, p01Fp, p01Denominator,
+    precisionP01: r.corpus === 'express'
+      ? 'pending-adjudication'
+      : (p01Denominator ? `${Math.round((p01Tp / p01Denominator) * 100)}% (${p01Tp}/${p01Denominator})` : 'n/a (no P0/P1 findings)'),
     recallRows: r.corpus === 'labeled' ? matchedRows.size : null,
     runtimeMsMin: runtimeMs.length ? Math.round(Math.min(...runtimeMs.filter(Number.isFinite))) : null,
     runtimeMsMax: runtimeMs.length ? Math.round(Math.max(...runtimeMs.filter(Number.isFinite))) : null,
@@ -207,11 +219,13 @@ md.push(`- Models: ${env.models?.join(', ') ?? '?'}`);
 md.push(`- CLI: v${env.cliVersion ?? '?'} · Node ${env.node ?? '?'} · git ${env.gitSha ?? '?'}`);
 md.push(`- Runs recorded: ${idx.entries?.length ?? '?'} · leak sweep: ${leaks ? `**${leaks} LEAK(S) — DO NOT COMMIT**` : 'clean'}`);
 md.push('');
-md.push(`| model | corpus | reps | failed | findings | verified | adjusted | unverified | citation % | P0/P1 | TP | FP | precision (P0/P1) | recall rows | runtime ms (min–max) | tokens | instability |`);
+md.push(`| model | corpus | reps | failed | findings | verified | adjusted | unverified | citation % | P0/P1 | TP(all) | FP(all) | precision (P0/P1) | recall rows | runtime ms (min–max) | tokens | instability |`);
 md.push(`|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|`);
 for (const t of table) {
   md.push(`| ${t.model} | ${t.corpus} | ${t.reps} | ${t.failedReps} | ${t.findings} | ${t.verified} | ${t.adjusted} | ${t.unverified} | ${t.citationCorrectPct ?? '—'} | ${t.p01Count} | ${t.tp} | ${t.fp} | ${t.precisionP01} | ${t.recallRows ?? '—'} | ${t.runtimeMsMin ?? '—'}–${t.runtimeMsMax ?? '—'} | ${t.tokens} | ${t.instability ? `${t.instability.identical}/${t.instability.rep1}` : '—'} |`);
 }
+md.push('');
+md.push('TP(all)/FP(all) are mechanical over every non-dismissed finding vs the planted truth table; **precision (P0/P1)** is the master-gate metric: mechanical TP share over the P0/P1 denominator (human adjudication may reclassify — see REPORT.md).');
 md.push('');
 md.push('**Mechanical TP rule (labeled corpus):** same file, line range overlapping ±5, same category — per `docs/benchmark/vulnerable-corpus-truth.md`. Human adjudication may reclassify; deviations are recorded in REPORT.md.');
 md.push('');

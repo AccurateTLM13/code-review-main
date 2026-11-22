@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "name": "code-audit",
+    "version": "0.2.3"
+  },
+  "meta": {
+    "timestamp": "2026-11-22T22:37:57.937Z",
+    "target": "E:\\code\\code-review-main\\examples\\clean-app",
+    "git": {
+      "branch": "main",
+      "commit": "6d01630"
+    },
+    "depth": "deep",
+    "focus": "all",
+    "changed": false,
+    "changedBasis": null,
+    "changedFiles": null,
+    "deletedFiles": [],
+    "failOn": null,
+    "durationMs": 17072,
+    "exitCode": 0,
+    "redaction": "on",
+    "configSources": [
+      "explicit: C:/Users/johnp/AppData/Local/Temp/ca-bench-0I62n9/bench.config.json"
+    ],
+    "coverage": {
+      "walkedFiles": 4,
+      "sourceFilesScanned": 3,
+      "textFilesSeen": 4,
+      "skippedBinary": 0,
+      "skippedLarge": 0,
+      "maxTextBytes": 1500000,
+      "walkTruncated": false,
+      "unsupportedLanguages": []
+    }
+  },
+  "repo": {
+    "totalSourceFiles": 3,
+    "totalLoc": 35,
+    "languages": [
+      {
+        "language": "javascript",
+        "files": 2,
+        "loc": 25
+      },
+      {
+        "language": "python",
+        "files": 1,
+        "loc": 10
+      }
+    ],
+    "stacks": [],
+    "entryPoints": [],
+    "docs": [],
+    "hotspots": [],
+    "graph": {
+      "hubs": [],
+      "cycles": [],
+      "orphanCount": 2
+    }
+  },
+  "stats": {
+    "bySeverity": {
+      "critical": 0,
+      "high": 1,
+      "medium": 0,
+      "low": 1,
+      "info": 1
+    },
+    "byCategory": {
+      "bug": 2,
+      "debt": 1
+    },
+    "verification": {
+      "verified": 2,
+      "adjusted": 1,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "verdicts": {
+      "applied": 0,
+      "dismissed": 0,
+      "contested": 0,
+      "adjusted": 0
+    },
+    "consensusCount": 0,
+    "deterministic": 0,
+    "modelSourced": 3,
+    "crossFile": 0
+  },
+  "models": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "provider": "openrouter",
+      "adapter": "native",
+      "egress": "remote"
+    }
+  ],
+  "runs": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "structured",
+      "ms": 1879,
+      "usage": {
+        "inputTokens": 677,
+        "outputTokens": 141
+      },
+      "adapter": "native",
+      "ok": true
+    },
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "autonomous",
+      "adapter": "native",
+      "ms": 14724,
+      "steps": 4,
+      "finishReason": "submitted",
+      "usage": {
+        "inputTokens": 12375,
+        "outputTokens": 2076
+      },
+      "ok": true
+    }
+  ],
+  "checksExecuted": [
+    {
+      "id": "secrets",
+      "label": "Hardcoded secrets & credentials",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "debt-markers",
+      "label": "TODO/FIXME/HACK debt markers",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "duplication",
+      "label": "Copy-paste duplication",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "size",
+      "label": "Oversized files & hotspots",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "quality",
+      "label": "Risky code patterns",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "deps",
+      "label": "Dependency hygiene",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "graph",
+      "label": "Import graph signals",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "ast-grep",
+      "label": "ast-grep structural rules",
+      "count": 0,
+      "ms": 240
+    }
+  ],
+  "notes": [
+    {
+      "profile": "bench-b",
+      "text": "No static analysis findings were provided, and no source excerpts were available for review. Based solely on the repository summary, the codebase is very small (3 files, 35 LOC) with JavaScript and Python components, but no concrete code-level issues can be confirmed without source content."
+    },
+    {
+      "profile": "bench-b (autonomous)",
+      "text": "Repository is a 3-file, 35-LOC fixture that self-describes as having no planted issues, and the code is indeed clean: lib/util.py validates types and range before computing, src/calc.js guards with Number.isFinite, src/greet.js guards falsy/non-string input. No secrets, injection sinks, swallowed errors, or duplicated logic found. The only substantive finding is the missing \\\"type\\\": \\\"module\\\" in package.json, which makes the declared start/test scripts fail under Node's module resolution; the other two are low/info hygiene items. I did not report the pinned express version as a vulnerability since I could not verify specific advisories against the code."
+    }
+  ],
+  "findings": [
+    {
+      "id": "agent:13tpycm",
+      "checkId": "agent:13tpycm",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "high",
+      "confidence": 0.85,
+      "priority": 5.65,
+      "effort": "moderate",
+      "title": "ESM source files but package.json has no \"type\": \"module\" — npm start/test crash",
+      "description": "Both source files use ESM syntax (`import`/`export`), but package.json declares no `\"type\": \"module\"` and the files use the `.js` extension. Under Node >=18 (engines field), `.js` without `\"type\": \"module\"` is parsed as CommonJS, so `npm start` (`node src/greet.js`) fails at load time with `SyntaxError: Cannot use import statement outside a module`, and `npm test` (`node --test`) fails the same way for any test importing these modules. The package is therefore not runnable as configured. Confidence is high but not absolute because I could not execute the app in this read-only audit; the conclusion follows from the documented Node module-resolution rules plus the absence of any `type` field in the manifest I read (lines 3-18).\n\n> Validation: cited 3-18 does not contain the snippet — actual lines are 1-18; citation corrected",
+      "file": "package.json",
+      "lines": [
+        1,
+        18
+      ],
+      "snippet": "// Clean corpus: a deliberately benign app. The offline acceptance test\n// requires a small, explainable, low-noise finding set (ideally zero) here.\n{\n  \"name\": \"clean-app\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"description\": \"Fixture with no planted issues — used to prove the auditor has low noise floor\",\n  \"main\": \"src/greet.js\",\n  \"engines\": { \"node\": \">=18\" },\n  \"scripts\": {\n    \"start\": \"node src/greet.js\",\n    \"test\": \"node --test\"\n  },\n  \"dependencies\": {\n    \"express\": \"4.18.2\"\n  },\n  \"devDependencies\": {}\n}",
+      "suggestion": null,
+      "benefit": "npm start / npm test work as declared; removes a hard startup failure.",
+      "risk": "Low: adding a `type` field would break any CommonJS consumer, but there are none in this repo (only 2 source files, no dependents of src/greet.js per the import graph).",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 3-18 does not contain the snippet — actual lines are 1-18; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1u49f6w",
+      "checkId": "agent:1u49f6w",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "moderate",
+      "title": "Reported character count is off by one and ignores trimming",
+      "description": "The reported character count is `name.length + 1` (via `add(name.length, 1)`), while the name actually rendered is `name.trim()`. For any input with surrounding whitespace the number is wrong twice over: e.g. `\"  Bob  \"` renders `Hello, Bob (8 chars)` although `Bob` is 3 characters. Even for clean input the count is always one greater than the visible name's length. This looks like an intentional-looking but incorrect `+1`; I flag it at lower confidence because it may be deliberate fixture behavior rather than an oversight.",
+      "file": "src/greet.js",
+      "lines": [
+        8,
+        9
+      ],
+      "snippet": "  const total = add(name.length, 1);\n  return `Hello, ${name.trim()} (${total} chars)`;",
+      "suggestion": null,
+      "benefit": "Reported character counts match the name actually shown to users.",
+      "risk": "Low: a one-line change to count the trimmed value; no callers depend on the numeric value (it is only interpolated into a string).",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1jq9n3w",
+      "checkId": "agent:1jq9n3w",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "debt",
+      "severity": "info",
+      "confidence": 0.9,
+      "priority": 0.9,
+      "effort": "moderate",
+      "title": "Unused express dependency in a 3-file library with no HTTP code",
+      "description": "`express` 4.18.2 is declared as the sole runtime dependency, but a repository-wide search for \"express\" matches only this manifest line — no source file imports it, and the import graph for src/greet.js shows only src/calc.js. The dependency is dead weight: it inflates install time and the dependency tree (and pins an older 4.x patch line that would otherwise need security updates) for no functional benefit. Reported as info-level since an unused dependency is a hygiene issue, not a defect.",
+      "file": "package.json",
+      "lines": [
+        14,
+        16
+      ],
+      "snippet": "  \"dependencies\": {\n    \"express\": \"4.18.2\"\n  },",
+      "suggestion": null,
+      "benefit": "Smaller, faster installs and a smaller supply-chain surface.",
+      "risk": "Low: removal is safe only if no out-of-repo script relies on the transitive availability of express; nothing in this repo does.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    }
+  ],
+  "backlog": {
+    "quickWins": [
+      "agent:13tpycm"
+    ],
+    "planned": [
+      "agent:1u49f6w",
+      "agent:1jq9n3w"
+    ],
+    "investigate": [],
+    "dismissed": []
+  }
+}

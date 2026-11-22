@@ -1,0 +1,2098 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "name": "code-audit",
+    "version": "0.2.3"
+  },
+  "meta": {
+    "timestamp": "2026-11-22T22:42:49.724Z",
+    "target": "E:\\code\\code-review-main\\examples\\vulnerable-app",
+    "git": {
+      "branch": "main",
+      "commit": "6d01630"
+    },
+    "depth": "deep",
+    "focus": "all",
+    "changed": false,
+    "changedBasis": null,
+    "changedFiles": null,
+    "deletedFiles": [],
+    "failOn": null,
+    "durationMs": 119456,
+    "exitCode": 0,
+    "redaction": "on",
+    "configSources": [
+      "explicit: C:/Users/johnp/AppData/Local/Temp/ca-bench-0I62n9/bench.config.json"
+    ],
+    "coverage": {
+      "walkedFiles": 12,
+      "sourceFilesScanned": 9,
+      "textFilesSeen": 12,
+      "skippedBinary": 0,
+      "skippedLarge": 0,
+      "maxTextBytes": 1500000,
+      "walkTruncated": false,
+      "unsupportedLanguages": []
+    }
+  },
+  "repo": {
+    "totalSourceFiles": 9,
+    "totalLoc": 1552,
+    "languages": [
+      {
+        "language": "javascript",
+        "files": 7,
+        "loc": 1501
+      },
+      {
+        "language": "python",
+        "files": 1,
+        "loc": 30
+      },
+      {
+        "language": "typescript",
+        "files": 1,
+        "loc": 21
+      }
+    ],
+    "stacks": [
+      {
+        "name": "Express",
+        "evidence": "package.json dependency \"express\"",
+        "kind": "framework"
+      }
+    ],
+    "entryPoints": [
+      {
+        "file": "index.js",
+        "evidence": "package.json \"main\""
+      }
+    ],
+    "docs": [],
+    "hotspots": [
+      {
+        "rel": "src/legacy-monolith.js",
+        "loc": 1330,
+        "importers": 0,
+        "changed": 0,
+        "score": 20
+      },
+      {
+        "rel": "index.js",
+        "loc": 58,
+        "importers": 0,
+        "changed": 0,
+        "score": 7.16
+      },
+      {
+        "rel": "src/utils.js",
+        "loc": 40,
+        "importers": 1,
+        "changed": 0,
+        "score": 3.8
+      },
+      {
+        "rel": "src/helpers.js",
+        "loc": 39,
+        "importers": 0,
+        "changed": 0,
+        "score": 0.78
+      },
+      {
+        "rel": "server/auth.py",
+        "loc": 30,
+        "importers": 0,
+        "changed": 0,
+        "score": 0.6
+      }
+    ],
+    "graph": {
+      "hubs": [],
+      "cycles": [
+        [
+          "src/lib/a.js",
+          "src/lib/b.js"
+        ]
+      ],
+      "orphanCount": 4
+    }
+  },
+  "stats": {
+    "bySeverity": {
+      "critical": 5,
+      "high": 9,
+      "medium": 24,
+      "low": 12,
+      "info": 2
+    },
+    "byCategory": {
+      "security": 20,
+      "bug": 11,
+      "duplication": 1,
+      "debt": 11,
+      "refactoring": 4,
+      "performance": 5
+    },
+    "verification": {
+      "verified": 51,
+      "adjusted": 0,
+      "unverified": 1,
+      "dropped": 0
+    },
+    "verdicts": {
+      "applied": 0,
+      "dismissed": 0,
+      "contested": 0,
+      "adjusted": 0
+    },
+    "consensusCount": 0,
+    "deterministic": 29,
+    "modelSourced": 23,
+    "crossFile": 0
+  },
+  "models": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "provider": "openrouter",
+      "adapter": "native",
+      "egress": "remote"
+    }
+  ],
+  "runs": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "structured",
+      "ms": 66695,
+      "usage": {
+        "inputTokens": 13174,
+        "outputTokens": 16384
+      },
+      "adapter": "native",
+      "ok": false,
+      "error": "Model returned unparseable JSON: {\n  \"verdicts\": [\n    {\n      \"id\": \"secrets@index.js:8-8:ZiMBNMUUgL\",\n      \"action\": \"adjust\",\n      \"severity\": \"high\",\n      \"confidence\": 0.95,\n      \"reason\": \"AWS key literal is present at inde"
+    },
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "autonomous",
+      "adapter": "native",
+      "ms": 52208,
+      "steps": 9,
+      "finishReason": "submitted",
+      "usage": {
+        "inputTokens": 108452,
+        "outputTokens": 10380
+      },
+      "ok": true
+    }
+  ],
+  "checksExecuted": [
+    {
+      "id": "secrets",
+      "label": "Hardcoded secrets & credentials",
+      "count": 3,
+      "ms": 62
+    },
+    {
+      "id": "debt-markers",
+      "label": "TODO/FIXME/HACK debt markers",
+      "count": 6,
+      "ms": 2
+    },
+    {
+      "id": "duplication",
+      "label": "Copy-paste duplication",
+      "count": 1,
+      "ms": 4
+    },
+    {
+      "id": "size",
+      "label": "Oversized files & hotspots",
+      "count": 2,
+      "ms": 1
+    },
+    {
+      "id": "quality",
+      "label": "Risky code patterns",
+      "count": 13,
+      "ms": 2
+    },
+    {
+      "id": "deps",
+      "label": "Dependency hygiene",
+      "count": 2,
+      "ms": 1
+    },
+    {
+      "id": "graph",
+      "label": "Import graph signals",
+      "count": 2,
+      "ms": 0
+    },
+    {
+      "id": "ast-grep",
+      "label": "ast-grep structural rules",
+      "count": 0,
+      "ms": 244
+    }
+  ],
+  "notes": [
+    {
+      "profile": "bench-b (autonomous)",
+      "text": "Scope: all 9 source files read in full (index.js, src/utils.js, src/helpers.js, src/lib/a.js, src/lib/b.js, src/orphan.js, src/payment.ts, server/auth.py, package.json) plus .gitignore; src/legacy-monolith.js sampled at lines 1-142 and 1240-1330 with a repo-wide search confirming the handler pattern repeats uniformly through handler59 and that the file contains no eval/exec/secret/innerHTML occurrences.\n\nHighest-priority remediation order: (1) the three injection sinks — exec() in index.js:13, eval() in server/auth.py:9, and SQL concatenation in src/payment.ts:11; (2) the three committed credentials — index.js:8, index.js:42, server/auth.py:5 — all of which require rotation, not just deletion, since they are already in the source; (3) the /admin route, which is simultaneously unreachable-by-crash (no body parser) and unsafe-by-design (script-context string building).\n\nCaveats on confidence: previewFile (index.js:11-17) is defined but never mounted on a route, so the command injection is latent rather than currently reachable — I scored it critical on the sink but noted the caveat. The .env finding cites .gitignore only; tool policy blocked reading .env, so I cannot confirm its contents. src/legacy-monolith.js has zero importers, so its unbounded ROUTES cache and dead branches are latent; I still reported them because the file is 86% of the repo's LOC and will be treated as live by reviewers and tooling. src/payment.ts is TypeScript with no tsconfig or build step in package.js"
+    }
+  ],
+  "findings": [
+    {
+      "id": "secrets@index.js:8-8:ZiMBNMUUgL",
+      "checkId": "secrets",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "critical",
+      "confidence": 0.95,
+      "priority": 9.5,
+      "effort": "trivial",
+      "title": "AWS access key ID committed",
+      "description": "Matched pattern `aws-key` in index.js:8. This looks like a real credential (value redacted in this report). Rotate the secret and move it to an environment variable or secret manager.",
+      "file": "index.js",
+      "lines": [
+        8,
+        8
+      ],
+      "snippet": "const AWS_KEY = '[REDACTED aws-key #54c83e8f]';",
+      "suggestion": "Remove the literal, rotate the credential, load from process env / secret store, and scrub git history if committed.",
+      "benefit": "Eliminates a directly exploitable credential leak.",
+      "risk": "Low — mechanical replacement plus key rotation; verify dependent services after rotation.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "aws-key"
+      ]
+    },
+    {
+      "id": "secrets@server/auth.py:5-5:FH7AZdRqec",
+      "checkId": "secrets",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "critical",
+      "confidence": 0.95,
+      "priority": 9.5,
+      "effort": "trivial",
+      "title": "GitHub personal access token committed",
+      "description": "Matched pattern `github-pat` in server/auth.py:5. This looks like a real credential (value redacted in this report). Rotate the secret and move it to an environment variable or secret manager.",
+      "file": "server/auth.py",
+      "lines": [
+        5,
+        5
+      ],
+      "snippet": "API_TOKEN = \"[REDACTED github-token #3543c50b]\"",
+      "suggestion": "Remove the literal, rotate the credential, load from process env / secret store, and scrub git history if committed.",
+      "benefit": "Eliminates a directly exploitable credential leak.",
+      "risk": "Low — mechanical replacement plus key rotation; verify dependent services after rotation.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "github-pat"
+      ]
+    },
+    {
+      "id": "agent:uw129r",
+      "checkId": "agent:uw129r",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "critical",
+      "confidence": 0.9,
+      "priority": 9,
+      "effort": "moderate",
+      "title": "SQL injection through string concatenation in findPayments",
+      "description": "`customerId` is concatenated directly into a SQL statement with no quoting or escaping. A value such as `0 OR 1=1` dumps the whole payments table, and `0; DROP TABLE payments--` or a UNION-based payload allows data destruction and exfiltration of arbitrary tables. The TypeScript type `string` gives no protection because the value is untrusted at runtime. The code's own TODO acknowledges the defect.",
+      "file": "src/payment.ts",
+      "lines": [
+        9,
+        13
+      ],
+      "snippet": "function findPayments(customerId: string, db: { query: (sql: string) => PaymentRow[] }): PaymentRow[] {\n  // TODO: parameterize — customerId flows straight into the SQL string\n  const sql = 'SELECT * FROM payments WHERE customer_id = ' + customerId;\n  return db.query(sql);\n}",
+      "suggestion": "Use a parameterized/prepared statement and pass the value separately: db.query('SELECT * FROM payments WHERE customer_id = ?', [customerId]). If the db interface cannot bind parameters, change the interface so it can, and validate customerId against an expected identifier format as defense in depth.",
+      "benefit": "Closes a full read/write SQL injection path into the payments database.",
+      "risk": "Low: requires the db adapter to expose a parameterized query method; the declared `db` type in the signature must be widened accordingly.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:bp0su7",
+      "checkId": "agent:bp0su7",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "critical",
+      "confidence": 0.9,
+      "priority": 9,
+      "effort": "moderate",
+      "title": "eval() of caller-supplied input in run_user_script",
+      "description": "eval() executes arbitrary Python in the process context. Any caller that can influence `user_input` gains the ability to import os/subprocess, read files, and exfiltrate the API_TOKEN defined at line 5 of this same module. Even with no caller in this repository, the function is an exported, ready-made RCE gadget whose parameter is literally named `user_input`.",
+      "file": "server/auth.py",
+      "lines": [
+        7,
+        9
+      ],
+      "snippet": "def run_user_script(user_input):\n    # executes whatever the caller passes — classic eval sink\n    return eval(user_input)",
+      "suggestion": "Remove the function. If dynamic evaluation of a narrow expression language is genuinely required, parse with ast.literal_eval for data-only input, or use a sandboxed evaluator with an explicit node allowlist — never builtin eval.",
+      "benefit": "Removes an arbitrary-code-execution sink from the codebase.",
+      "risk": "Low if the function has no callers (none found in this repo); any external caller passing live Python will break, which is the intended outcome.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1o1b95d",
+      "checkId": "agent:1o1b95d",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "critical",
+      "confidence": 0.85,
+      "priority": 8.5,
+      "effort": "moderate",
+      "title": "OS command injection via unsanitized query param in exec()",
+      "description": "previewFile interpolates the raw `req.query.name` value into a string passed to child_process.exec, which runs through /bin/sh. Any shell metacharacters (; | && $() ` ) in the `name` query parameter execute as arbitrary commands with the privileges of the Node process. The exec error is also discarded (empty `if (err) { }`), so exploitation is silent. Confidence is 0.85 rather than higher only because `previewFile` is defined but never mounted on an `app.get`/`app.post` route in this file — the moment it is wired up (which the FIXME on line 10 implies is intended) the hole is remotely exploitable.",
+      "file": "index.js",
+      "lines": [
+        11,
+        17
+      ],
+      "snippet": "function previewFile(req, res) {\n  const name = req.query.name;\n  exec('convert ' + name + ' preview.png', (err) => {\n    if (err) { }\n    res.send('done');\n  });\n}",
+      "suggestion": "Use execFile/spawn with an argument array so no shell is involved: execFile('convert', [name, 'preview.png'], cb). Additionally validate `name` against a strict allowlist pattern (e.g. /^[A-Za-z0-9._-]+$/), reject path separators, and surface the exec error to the caller instead of swallowing it.",
+      "benefit": "Eliminates a remote code execution primitive and makes conversion failures observable.",
+      "risk": "Low: execFile has the same callback signature; callers that relied on shell features (globs, pipes) in `name` would need rework.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "secrets@.env:x:e_SIu9KQnm",
+      "checkId": "secrets",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.9,
+      "priority": 6.3,
+      "effort": "trivial",
+      "title": ".env file present and tracked by git",
+      "description": ".env exists and is committed. Environment files frequently contain secrets and are easy to leak via zip archives, Docker contexts, or accidental commits. Contents are redacted from all reports and prompts.",
+      "file": ".env",
+      "lines": null,
+      "snippet": null,
+      "suggestion": "Keep only .env.example in the repository; load real values from the environment. If tracked, remove it from the index and add .env to .gitignore.",
+      "benefit": "Removes a common accidental leak vector.",
+      "risk": "Low — ensure local deployments still find their configuration.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "env-file"
+      ]
+    },
+    {
+      "id": "agent:1jo0kew",
+      "checkId": "agent:1jo0kew",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.9,
+      "priority": 6.3,
+      "effort": "moderate",
+      "title": "eval()-based JSON parsing in unsafeJsonParse",
+      "description": "Using eval to parse JSON means any JavaScript expression in `text` is executed rather than parsed — `{\"a\":1}` is the benign case, but a payload using property accessors, constructor chains, or a plain IIFE runs attacker code. The `as PaymentRow[]` cast then silences the compiler even though nothing about the runtime shape has been validated, so downstream code consuming `.amountCents` etc. can receive arbitrary objects.",
+      "file": "src/payment.ts",
+      "lines": [
+        15,
+        18
+      ],
+      "snippet": "function unsafeJsonParse(text: string): PaymentRow[] {\n  // trusts any input shape at runtime\n  return eval('(' + text + ')') as PaymentRow[];\n}",
+      "suggestion": "Replace with JSON.parse and validate the result at runtime (zod/joi/io-ts or a hand-written type guard) before returning it as PaymentRow[]. Reserve type assertions for cases where a guard has actually run.",
+      "benefit": "Turns a code-execution sink into a data parse, and restores meaningful type safety at the boundary.",
+      "risk": "Low: JSON.parse rejects some inputs eval accepted (trailing commas, single quotes, undefined), so any caller relying on non-standard JSON will now get a parse error — which is correct behavior.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:11wy87x",
+      "checkId": "agent:11wy87x",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.9,
+      "priority": 6.3,
+      "effort": "moderate",
+      "title": "Hardcoded AWS access key in source",
+      "description": "A long-lived AWS credential is committed as a module-level literal. Anyone with repository read access (including forks, CI logs, or a leaked clone) obtains the key, and it is trivially recoverable from git history even after removal. The constant is also unused in this file, so it provides zero functionality while carrying full credential-leak risk.",
+      "file": "index.js",
+      "lines": [
+        8,
+        8
+      ],
+      "snippet": "const AWS_KEY = '[REDACTED aws-key #54c83e8f]';",
+      "suggestion": "Delete the literal, load the credential from the environment or an instance/IRSA role at runtime, and rotate the exposed key immediately — deletion alone does not remediate a key that has been committed. Add a secret-scanning pre-commit/CI check.",
+      "benefit": "Prevents cloud-account compromise via a leaked long-lived credential.",
+      "risk": "Low: the variable has no readers in the codebase, so removal is behavior-neutral. Rotation must be coordinated with whoever owns the AWS account.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:eky7hx",
+      "checkId": "agent:eky7hx",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.9,
+      "priority": 6.3,
+      "effort": "moderate",
+      "title": "Hardcoded API token in server/auth.py",
+      "description": "A credential is embedded as a module-level string literal in an authentication module. It is readable by anyone with repo access and persists in git history after removal. The adjacent TODO shows the author already knew it belonged in the environment loader.",
+      "file": "server/auth.py",
+      "lines": [
+        4,
+        5
+      ],
+      "snippet": "# TODO: move config to the environment loader\nAPI_TOKEN = \"[REDACTED github-token #3543c50b]\"",
+      "suggestion": "Read the value via os.environ (e.g. API_TOKEN = os.environ[\"API_TOKEN\"]) and fail fast at startup if it is missing; the `os` module is already imported on line 2. Rotate the exposed token and purge it from history.",
+      "benefit": "Keeps credentials out of the repository and lets different environments use different tokens.",
+      "risk": "Low: requires the deployment environment to define API_TOKEN before start; a missing variable will now raise instead of silently using a default.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:uwy1gx",
+      "checkId": "agent:uwy1gx",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.9,
+      "priority": 6.3,
+      "effort": "moderate",
+      "title": "Hardcoded admin password compared with === in /admin handler",
+      "description": "The administrative authorization secret is a plaintext literal in the request handler. It cannot be rotated without a code change and deploy, it is visible to anyone who can read the source, and it is shared across all environments and all operators. There is no rate limiting, no audit logging, and no per-user identity — a single leaked string grants full admin access.",
+      "file": "index.js",
+      "lines": [
+        40,
+        43
+      ],
+      "snippet": "app.post('/admin', (req, res) => {\n  const key = req.body.admin_key;\n  if (key === 'hunter2') {\n    debugger;",
+      "suggestion": "Move the credential to a per-environment secret store, compare it in constant time (crypto.timingSafeEqual over buffers of equal length), and prefer a real authentication mechanism (signed session, SSO/OIDC) with rate limiting and audit logging on the admin route.",
+      "benefit": "Makes admin access rotatable, attributable, and resistant to timing and brute-force attacks.",
+      "risk": "Medium: replacing the shared-secret check with real auth changes the client contract for existing admin callers and needs coordination.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:15qgu9i",
+      "checkId": "agent:15qgu9i",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.8,
+      "priority": 5.6,
+      "effort": "moderate",
+      "title": "Reflected XSS / script-context injection in /admin response",
+      "description": "The handler builds an HTML document by string concatenation and injects a value into an inline <script> block. JSON.stringify does not make a value safe for HTML script context: a payload containing `</script>` (or `<!--`/`<script` sequences) terminates the script element and lets the injected markup execute, and the same string is then assigned to innerHTML, which is an XSS sink by construction. Line 44 additionally assigns to the bare, undeclared identifier `document`, which in non-strict CommonJS creates/overwrites a global — it does not template anything, so the comment's intent is unmet and any server-side code reading `document` is corrupted.",
+      "file": "index.js",
+      "lines": [
+        44,
+        46
+      ],
+      "snippet": "    document = req.body.html;  // placeholder for the real template below\n    res.writeHead(200, { 'content-type': 'text/html' });\n    res.end('<div id=\"out\"></div><script>document.getElementById(\"out\").innerHTML = ' + JSON.stringify(key) + ';</script>');",
+      "suggestion": "Render with a real template engine that applies context-aware auto-escaping, set an explicit Content-Type and a restrictive Content-Security-Policy, and send untrusted values as JSON via res.json rather than splicing them into markup. Remove the `document = req.body.html` line or declare it locally if a value is genuinely needed.",
+      "benefit": "Removes the script-context injection path and the accidental global assignment.",
+      "risk": "Low: the response body format changes, so any client parsing the inline script would need updating.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1pv9r64",
+      "checkId": "agent:1pv9r64",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "high",
+      "confidence": 0.8,
+      "priority": 5.6,
+      "effort": "moderate",
+      "title": "/admin reads req.body without any body-parsing middleware registered",
+      "description": "The app never calls app.use(express.json()) or any other body parser — a search for `express.json` across the repository returns no matches, and index.js only constructs `express()` on line 7 before defining routes. In Express 4/5 `req.body` is therefore undefined on a POST, so `req.body.admin_key` throws `TypeError: Cannot read properties of undefined`. Every request to /admin crashes the handler rather than evaluating the credential check, and with no error-handling middleware the request hangs or surfaces an unrecoverable rejection.",
+      "file": "index.js",
+      "lines": [
+        40,
+        41
+      ],
+      "snippet": "app.post('/admin', (req, res) => {\n  const key = req.body.admin_key;",
+      "suggestion": "Register `app.use(express.json({ limit: '100kb' }))` before the route definitions, and guard the access defensively (`const key = req.body?.admin_key`) plus add a centralized error-handling middleware so malformed payloads return 400 instead of crashing.",
+      "benefit": "Makes the admin route actually functional and prevents unhandled exceptions from malformed requests.",
+      "risk": "Low: adding a body parser changes req.body from undefined to an object for all POST routes; a size limit should be set to avoid unbounded JSON parsing.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "duplication@src/helpers.js:2-29:ZRdDj-57o0",
+      "checkId": "duplication",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "medium",
+      "confidence": 0.95,
+      "priority": 3.8,
+      "effort": "moderate",
+      "title": "28-line block duplicated between helpers.js and utils.js",
+      "description": "Copy-paste: lines 2–29 of src/helpers.js repeat at lines 2–29 of src/utils.js. Duplicated logic drifts apart silently and doubles every future fix.\n\n---\n(agent:bench-b) src/helpers.js lines 2-32 are a byte-for-byte copy of src/utils.js lines 2-32 (the only difference is line 30, where utils.js uses a template literal and helpers.js uses string concatenation — the copy has already drifted). Two independent implementations of invoice total/tax computation mean a fix to the tax or rounding logic lands in one file only, producing invoices that disagree depending on which module a caller imported. helpers.js currently has zero importers, so it is a trap for the next developer rather than an active defect.",
+      "file": "src/helpers.js",
+      "lines": [
+        2,
+        29
+      ],
+      "snippet": "function renderInvoice(invoice) {\n  const header = 'INVOICE ' + invoice.id;\n  const lines = [];\n  lines.push('Customer: ' + invoice.customer.name);",
+      "occurrences": [
+        {
+          "file": "src/helpers.js",
+          "lines": [
+            2,
+            29
+          ]
+        },
+        {
+          "file": "src/utils.js",
+          "lines": [
+            2,
+            29
+          ]
+        }
+      ],
+      "suggestion": "Extract the shared block into one named function/module and call it from both locations. Keep behavior identical; rely on existing tests.",
+      "benefit": "Single point of change; halves maintenance surface for this logic.",
+      "risk": "Low-moderate — check both call sites for context-dependent differences.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "copy-paste"
+      ]
+    },
+    {
+      "id": "agent:7qd4w0",
+      "checkId": "agent:7qd4w0",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.95,
+      "priority": 3.8,
+      "effort": "moderate",
+      "title": "Unreachable branch in all 60 legacy handlers (`if (!data)` after data is always assigned)",
+      "description": "`data` is assigned on line 8 from `ROUTES[cacheKey] || {...}` — the fallback guarantees a truthy object, and line 9 then stores it. The `if (!data)` guard on line 10 can therefore never be true, making the entire nested/else-if response block (lines 10-21, repeated identically in all 60 handlers) dead code. Roughly 12 of every 22 lines in this 1330-line file are unreachable, which is why the file is hard to reason about: the real behavior is just `res.json(data)` on line 22.",
+      "file": "src/legacy-monolith.js",
+      "lines": [
+        8,
+        23
+      ],
+      "snippet": "  const data = ROUTES[cacheKey] || { id, mode, stamped: Date.now() };\n  ROUTES[cacheKey] = data;\n  if (!data) {\n      const nested = { ...data, id, mode };",
+      "suggestion": "Delete the dead branch and collapse each handler to its effective three lines. Better, replace all 60 near-identical handlers with one factory: `const makeHandler = (ns) => (req, res) => { ... }` and register them in a loop.",
+      "benefit": "Removes ~700 lines of unreachable code and reduces 60 copies of the same logic to one, making the actual response contract obvious.",
+      "risk": "Low: the removed branch is provably unreachable, so behavior is unchanged; any external caller relying on the `{}` responses would already not be receiving them.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:8igjx8",
+      "checkId": "agent:8igjx8",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.9,
+      "priority": 3.6,
+      "effort": "moderate",
+      "title": "Empty catch silently swallows store failures in loadRows",
+      "description": "The catch block is empty, so any failure — a missing ./store module, a connection error, a malformed record — is indistinguishable from \"this customer has no rows\". The /render route then responds 200 'ok' having rendered nothing. This converts hard failures into silent data-loss-shaped successes and makes production incidents undiagnosable. The `require('./store')` inside the try also means a typo in the module path is permanently masked.",
+      "file": "index.js",
+      "lines": [
+        31,
+        38
+      ],
+      "snippet": "function loadRows(customer) {\n  const data = JSON.parse(JSON.stringify({ customer }));\n  try {\n    return require('./store').query(data);\n  } catch (e) {\n  }\n  return [];\n}",
+      "suggestion": "Log or rethrow: catch (e) { logger.error({ err: e, customer }, 'loadRows failed'); throw e; } and let the route return a 5xx. Move the require to the top of the file so module-resolution errors surface at boot rather than per-request.",
+      "benefit": "Failures become visible and alertable instead of looking like empty result sets.",
+      "risk": "Low: callers that relied on the empty-array fallback will now receive errors; that is the desired behavior but may change client-visible status codes.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:17git5b",
+      "checkId": "agent:17git5b",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.9,
+      "priority": 3.6,
+      "effort": "moderate",
+      "title": "Bare except swallows all errors and returns None in load_config",
+      "description": "A bare `except:` catches everything including KeyboardInterrupt, SystemExit, and MemoryError, then `pass` discards the exception object entirely. On any failure the function falls off the end and implicitly returns None, so callers cannot distinguish \"file was empty\" from \"file missing\", \"permission denied\", or \"path is a directory\" — and a Ctrl-C during the read is silently absorbed. This is the classic shape of a config loader that appears to work while returning nothing.",
+      "file": "server/auth.py",
+      "lines": [
+        12,
+        17
+      ],
+      "snippet": "def load_config(path):\n    try:\n        with open(path) as fh:\n            return fh.read()\n    except:\n        pass",
+      "suggestion": "Catch only the expected exceptions and handle them explicitly: `except FileNotFoundError: raise` / `except OSError as exc: logger.error(...); raise`, or return an Optional with a logged reason. Never use a bare except.",
+      "benefit": "Configuration failures surface immediately with a diagnosable cause instead of propagating None into unrelated code.",
+      "risk": "Low: callers that relied on the None fallback must handle the raised exception; that is the point of the change.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:17gvg5j",
+      "checkId": "agent:17gvg5j",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.9,
+      "priority": 3.6,
+      "effort": "moderate",
+      "title": "save_config leaks the file handle if write() raises",
+      "description": "The file is opened, written, and closed manually with no try/finally or context manager. If fh.write raises (disk full, quota exceeded, encoding error), fh.close() is never reached and the descriptor leaks until the GC finalizes it — under repeated failures this exhausts the process file-descriptor limit. Because the open with mode \"w\" truncates immediately, a failure mid-write also leaves the config file partially written and unrecoverable.",
+      "file": "server/auth.py",
+      "lines": [
+        20,
+        23
+      ],
+      "snippet": "def save_config(path, data):\n    fh = open(path, \"w\")\n    fh.write(data)\n    fh.close()",
+      "suggestion": "Use a context manager, and write atomically: `with open(path, 'w') as fh: fh.write(data)` — better, write to a temporary file in the same directory and os.replace() it over the target so readers never observe a truncated config.",
+      "benefit": "Guarantees descriptor release on all paths and prevents a failed save from corrupting the existing configuration.",
+      "risk": "Low: os.replace changes inode semantics slightly (watchers keyed on the old inode see a swap), which is generally desirable for config files.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1uidc9s",
+      "checkId": "agent:1uidc9s",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.9,
+      "priority": 3.6,
+      "effort": "moderate",
+      "title": "Unpinned and duplicated dependencies in package.json",
+      "description": "`express: \"latest\"` and `lodash: \"*\"` are floating ranges: a fresh npm install can pull an arbitrarily newer major version, so builds are not reproducible and a breaking or compromised upstream release lands with no code change. lodash is declared twice — as `\"*\"` in dependencies and pinned to 4.17.21 in devDependencies — which is contradictory metadata; npm resolves lodash once for the tree, so the pin is misleading and the effective version is whatever satisfies `*`. left-pad at 1.0.0 is an unused micro-package that only adds supply-chain surface.",
+      "file": "package.json",
+      "lines": [
+        10,
+        17
+      ],
+      "snippet": "  \"dependencies\": {\n    \"express\": \"latest\",\n    \"lodash\": \"*\",\n    \"left-pad\": \"1.0.0\"\n  },\n  \"devDependencies\": {\n    \"lodash\": \"4.17.21\"\n  }",
+      "suggestion": "Pin exact versions for every dependency (express, lodash), keep a committed lockfile, remove the duplicate lodash devDependency entry, and drop left-pad if it is unused. Add npm audit / Dependabot to catch upstream advisories deliberately rather than by accident.",
+      "benefit": "Reproducible builds and a smaller, intentional dependency surface.",
+      "risk": "Low: pinning may surface previously unseen breaking changes on the next deliberate upgrade, which is the intended tradeoff.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "debt-markers@index.js:10-10:pMQUVT3yJP",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "moderate",
+      "title": "1 FIXME marker in index.js",
+      "description": "Signals known broken/unfinished behavior — high-value to resolve.\nOccurrences: L10: // FIXME: user-supplied filename is passed straight into a shell",
+      "file": "index.js",
+      "lines": [
+        10,
+        10
+      ],
+      "snippet": "// FIXME: user-supplied filename is passed straight into a shell",
+      "occurrences": [
+        {
+          "file": "index.js",
+          "lines": [
+            10,
+            10
+          ]
+        }
+      ],
+      "suggestion": "Treat as a defect backlog: reproduce, fix, and add a regression test before closing the marker.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "fixme"
+      ]
+    },
+    {
+      "id": "debt-markers@server/auth.py:27-27:qFaMunoLO1",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "moderate",
+      "title": "1 FIXME marker in auth.py",
+      "description": "Signals known broken/unfinished behavior — high-value to resolve.\nOccurrences: L27: # FIXME: no idempotency key — double charges on retry",
+      "file": "server/auth.py",
+      "lines": [
+        27,
+        27
+      ],
+      "snippet": "    # FIXME: no idempotency key — double charges on retry",
+      "occurrences": [
+        {
+          "file": "server/auth.py",
+          "lines": [
+            27,
+            27
+          ]
+        }
+      ],
+      "suggestion": "Treat as a defect backlog: reproduce, fix, and add a regression test before closing the marker.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "fixme"
+      ]
+    },
+    {
+      "id": "size@src/legacy-monolith.js:1-60:LRkM5lIa_t",
+      "checkId": "size",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "large",
+      "title": "Oversized file: legacy-monolith.js is 1,330 lines",
+      "description": "src/legacy-monolith.js has 1,330 lines — beyond the 800-line guideline. Candidates: mixed responsibilities, dead code, or several features in one module.",
+      "file": "src/legacy-monolith.js",
+      "lines": [
+        1,
+        60
+      ],
+      "snippet": "// Fixture: deliberately oversized legacy module (400+ lines).\nconst ROUTES = {};\n\nfunction handler0(req, res) {\n  const id = req.params.id;\n  const mode = req.query.mode || 'standard0';\n  const cacheKey = 'k0:' + id + ':' + mode;\n  const data = ROUTES[cacheKey] || { id, mode, stamped: Date.now() };\n  ROUTES[cacheKey] = data;\n  if (!data) {\n      const nested = { ...data, id, mode };\n      if (nested && nested.id) {",
+      "suggestion": "Identify distinct responsibilities via section comments/imports, extract the most self-contained part first.",
+      "benefit": "Faster reviews and safer edits.",
+      "risk": "Low if extracted pieces keep their tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ]
+    },
+    {
+      "id": "agent:cmw0e2",
+      "checkId": "agent:cmw0e2",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "performance",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "moderate",
+      "title": "Sequential awaits in a loop plus unguarded async route handler",
+      "description": "Two problems in one handler. First, each invoice is awaited one at a time, so total latency grows linearly with row count even though renderInvoice calls are independent — an N-row customer takes N times the per-item cost. Second, the async callback has no try/catch and Express does not handle rejected promises from async handlers, so any throw from loadRows or renderInvoice becomes an unhandled promise rejection: the client never receives a response and, depending on Node version and process settings, can terminate the worker. The three 'debug marker' console.log calls per row are leftover instrumentation that also floods stdout on every request.",
+      "file": "index.js",
+      "lines": [
+        19,
+        29
+      ],
+      "snippet": "app.get('/render', async (req, res) => {\n  const rows = await loadRows(req.query.customer);\n  for (const row of rows) {\n    await renderInvoice(row);   // sequential awaits in a loop\n    console.log('rendered', row.id);\n    console.log('debug marker 1');\n    console.log('debug marker 2');\n    console.log('debug marker 3');\n  }\n  res.send('ok');\n});",
+      "suggestion": "Batch the independent work: `await Promise.all(rows.map(renderInvoice))` (or a concurrency-limited map if renderInvoice is heavy), wrap the body in try/catch that logs and returns a 5xx, and delete the debug marker logs.",
+      "benefit": "Cuts response time from O(N) to roughly O(1) in the number of rows and guarantees failed requests terminate with a proper error response.",
+      "risk": "Low: Promise.all rejects on the first failure, so if partial rendering must be preserved use Promise.allSettled instead.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1ohhusa",
+      "checkId": "agent:1ohhusa",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "performance",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "moderate",
+      "title": "Unbounded ROUTES cache keyed by user input in legacy-monolith",
+      "description": "Every one of the 60 handlers in this file writes a new entry into the module-level `ROUTES` object on every request, keyed by the concatenation of user-controlled `req.params.id` and `req.query.mode`. There is no eviction, TTL, or size cap, so an attacker iterating `id`/`mode` grows the process heap without bound until the Node worker OOMs — a memory-exhaustion DoS reachable by any client that can hit these routes. The cache also never expires, so `stamped` entries are stale forever.",
+      "file": "src/legacy-monolith.js",
+      "lines": [
+        4,
+        10
+      ],
+      "snippet": "function handler0(req, res) {\n  const id = req.params.id;\n  const mode = req.query.mode || 'standard0';\n  const cacheKey = 'k0:' + id + ':' + mode;\n  const data = ROUTES[cacheKey] || { id, mode, stamped: Date.now() };\n  ROUTES[cacheKey] = data;\n  if (!data) {",
+      "suggestion": "Replace the plain object with a bounded LRU cache (e.g. lru-cache with max/TTL), or drop the cache entirely if these handlers are stateless. At minimum validate `id`/`mode` against an allowlist before using them as cache keys.",
+      "benefit": "Bounds memory usage and removes a trivial remote DoS vector.",
+      "risk": "Low: an LRU is a drop-in for the get/set usage here; eviction may cause recomputation, which is the intended tradeoff.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:q2nq0w",
+      "checkId": "agent:q2nq0w",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "moderate",
+      "title": "Payment charge over plaintext HTTP with no idempotency key",
+      "description": "Two issues on the same call. The endpoint is plain http://, so the amount and any response metadata travel unencrypted and are trivially modifiable by anyone on the network path — for a payments call this means an attacker can alter the charged amount. And with no idempotency key, any client retry after an ambiguous timeout (a very common occurrence with POST) creates a second charge, which is precisely the double-billing failure the FIXME describes. The response status is also returned unchecked, so a 4xx/5xx body is indistinguishable from success to the caller.",
+      "file": "server/auth.py",
+      "lines": [
+        26,
+        29
+      ],
+      "snippet": "def charge(amount):\n    # FIXME: no idempotency key — double charges on retry\n    import requests\n    return requests.post(\"http://payments-legacy.internal/charge\", json={\"amount\": amount})",
+      "suggestion": "Switch to https:// with certificate verification enabled, generate a unique idempotency key per logical charge (e.g. uuid4 stored alongside the order) and send it in the request, and call raise_for_status() or check status_code before treating the call as successful.",
+      "benefit": "Protects charge amounts in transit and makes retries safe, eliminating double billing.",
+      "risk": "Medium: the legacy endpoint must actually support TLS and accept an idempotency key header; both require server-side coordination.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "deps@package.json:x:LTXpf6Knqs",
+      "checkId": "deps",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.8,
+      "priority": 3.2,
+      "effort": "trivial",
+      "title": "Dependency hygiene issues in package.json (3)",
+      "description": "- **express** `latest`: production dependency pinned to \"*\" / \"latest\" — builds are non-reproducible\n- **lodash** `*`: production dependency pinned to \"*\" / \"latest\" — builds are non-reproducible\n- **lodash** `* / 4.17.21`: same package in dependencies and devDependencies",
+      "file": "package.json",
+      "lines": null,
+      "snippet": null,
+      "suggestion": "Pin exact versions (lockfiles for npm/cargo; `==` pins or constraints.txt for pip) and audit ranges deliberately when upgrading.",
+      "benefit": "Reproducible builds and no surprise breaking upgrades.",
+      "risk": "Low — pinning alone changes no runtime behavior.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "deps"
+      ]
+    },
+    {
+      "id": "agent:15azqlo",
+      "checkId": "agent:15azqlo",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.8,
+      "priority": 3.2,
+      "effort": "moderate",
+      "title": "Circular require between src/lib/a.js and src/lib/b.js",
+      "description": "a.js destructures `shared` from b.js at module load, while b.js (line 2) destructures `validate` from a.js. Whichever module is required first, the second one receives a partially-populated exports object: if a.js loads first, b.js's `validate` binding is captured before a.js reaches its module.exports on line 11, so `checkOnce()` in b.js throws \"validate is not a function\". The destructuring pattern makes this load-order-dependent and fragile — it happens to work today only because index.js requires a.js first and never calls checkOnce.",
+      "file": "src/lib/a.js",
+      "lines": [
+        1,
+        2
+      ],
+      "snippet": "// Fixture: half of an import cycle (a.js ↔ b.js).\nconst { shared } = require('./b.js');",
+      "suggestion": "Break the cycle: move `shared()` into a third module (e.g. src/lib/shared.js) that both a.js and b.js require, or have b.js require a.js lazily inside checkOnce(). Prefer passing validate in as an argument over a back-require.",
+      "benefit": "Removes load-order-dependent runtime failures and makes the dependency graph acyclic.",
+      "risk": "Low: extracting shared() adds one small module; call sites for shared/checkOnce keep the same signatures.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:be1ngc",
+      "checkId": "agent:be1ngc",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "security",
+      "severity": "medium",
+      "confidence": 0.8,
+      "priority": 3.2,
+      "effort": "moderate",
+      "title": ".gitignore does not exclude .env despite the repo containing one",
+      "description": "The .gitignore contains only `logs/`. A .env file exists at the repository root (listed by list_files, 132 bytes; its contents are blocked from read by tool policy, so I cannot confirm which secrets it holds). Because .env is not ignored, any `git add .` stages it and its secrets are published to the remote and preserved in history. This compounds the hardcoded credentials already found in index.js:8 and server/auth.py:5, which suggests .env is the intended destination for those values.",
+      "file": ".gitignore",
+      "lines": [
+        1,
+        3
+      ],
+      "snippet": "# Fixture app for testing code-audit — deliberately ignores best practice\nlogs/",
+      "suggestion": "Add `.env`, `.env.*`, and `!.env.example` to .gitignore, commit a sanitized .env.example documenting required keys, and if .env has already been committed, rotate every value in it and purge it from history (git filter-repo / BFG).",
+      "benefit": "Prevents local environment secrets from being committed in the first place.",
+      "risk": "Low: developers who relied on .env being tracked will need to adopt .env.example; rotation is required if the file was already committed.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "quality@index.js:13-13:C6ExcyHGD7",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.45,
+      "priority": 3.15,
+      "effort": "moderate",
+      "title": "child_process call with interpolated/concatenated command",
+      "description": "Building shell commands from variables allows command injection when any part of the string is user-influenced.\n\n1 occurrence in index.js:13",
+      "file": "index.js",
+      "lines": [
+        13,
+        13
+      ],
+      "snippet": "  exec('convert ' + name + ' preview.png', (err) => {",
+      "suggestion": "Use execFile/spawn with an argument array so values are never interpreted by a shell; validate or allow-list any dynamic parts.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "shell-injection"
+      ]
+    },
+    {
+      "id": "deps@package.json:x:l05gkrY4p9",
+      "checkId": "deps",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.75,
+      "priority": 3,
+      "effort": "trivial",
+      "title": "No lockfile committed next to package.json",
+      "description": "Without a lockfile, every `npm install` resolves fresh versions — CI, teammates, and production can drift apart silently.",
+      "file": "package.json",
+      "lines": null,
+      "snippet": null,
+      "suggestion": "Commit the lockfile matching your package manager (npm/yarn/pnpm) and install with `npm ci` in CI.",
+      "benefit": "Identical dependency trees everywhere; fewer \"works on my machine\" failures.",
+      "risk": "None — adding a lockfile is additive.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "lockfile"
+      ]
+    },
+    {
+      "id": "quality@src/payment.ts:11-11:SQgxzPTyPl",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "high",
+      "confidence": 0.405,
+      "priority": 2.84,
+      "effort": "moderate",
+      "title": "SQL query built via string concatenation/interpolation",
+      "description": "Concatenated SQL is the classic injection vector — query structure is data-dependent.\n\n1 occurrence in src/payment.ts:11",
+      "file": "src/payment.ts",
+      "lines": [
+        11,
+        11
+      ],
+      "snippet": "  const sql = 'SELECT * FROM payments WHERE customer_id = ' + customerId;",
+      "suggestion": "Use parameterized queries / prepared statements with bound parameters.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "sql-concat"
+      ]
+    },
+    {
+      "id": "graph@src/lib/a.js:x:WmZ6wdCtdu",
+      "checkId": "graph",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.7,
+      "priority": 2.8,
+      "effort": "large",
+      "title": "Import cycle (2 modules): a.js → b.js → a.js",
+      "description": "Circular import chain: src/lib/a.js → src/lib/b.js → src/lib/a.js. Cycles cause initialization-order bugs (undefined imports at runtime), prevent clean layering, and make the modules impossible to test in isolation.",
+      "file": "src/lib/a.js",
+      "lines": null,
+      "snippet": null,
+      "occurrences": [
+        {
+          "file": "src/lib/a.js",
+          "lines": null
+        },
+        {
+          "file": "src/lib/b.js",
+          "lines": null
+        }
+      ],
+      "suggestion": "Break the cycle by extracting the shared piece into a third module, or invert one dependency via dependency injection / event callbacks.",
+      "benefit": "Deterministic module initialization and clean layering.",
+      "risk": "Moderate — moving code between modules can shift initialization order; run the full test suite after.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "cycle"
+      ]
+    },
+    {
+      "id": "quality@index.js:35-35:baRx7058mU",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.63,
+      "priority": 2.52,
+      "effort": "trivial",
+      "title": "Empty or comment-only catch block swallows errors",
+      "description": "An error is caught and discarded. Failures become silent data corruption or missing side effects that surface far from the cause.\n\n1 occurrence in index.js:35",
+      "file": "index.js",
+      "lines": [
+        35,
+        35
+      ],
+      "snippet": "  } catch (e) {",
+      "suggestion": "Handle the error, rethrow with context, or at minimum log it with enough detail to debug. If the exception truly cannot occur, assert that explicitly.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "swallowed-catch"
+      ]
+    },
+    {
+      "id": "quality@server/auth.py:16-16:2ujmaKOEoh",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "bug",
+      "severity": "medium",
+      "confidence": 0.5850000000000001,
+      "priority": 2.34,
+      "effort": "trivial",
+      "title": "except block that passes silently",
+      "description": "An exception is caught and ignored. This hides real failures and makes debugging painful.\n\n1 occurrence in server/auth.py:16",
+      "file": "server/auth.py",
+      "lines": [
+        16,
+        16
+      ],
+      "snippet": "    except:",
+      "suggestion": "Narrow the exception type, log or re-raise, and handle what can actually be handled.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "swallowed-except"
+      ]
+    },
+    {
+      "id": "quality@server/auth.py:9-9:Woy-3HwbRo",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "medium",
+      "confidence": 0.54,
+      "priority": 2.16,
+      "effort": "moderate",
+      "title": "eval()/exec() executes dynamic code",
+      "description": "Python eval/exec turn strings into running code — a direct injection sink when any part of the input is user-influenced.\n\n1 occurrence in server/auth.py:9",
+      "file": "server/auth.py",
+      "lines": [
+        9,
+        9
+      ],
+      "snippet": "    return eval(user_input)",
+      "suggestion": "Replace with explicit parsing (ast.literal_eval for data), or validate input strictly and document why dynamic execution is required.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "py-eval-exec"
+      ]
+    },
+    {
+      "id": "quality@src/payment.ts:17-17:842R1laXZS",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "medium",
+      "confidence": 0.49500000000000005,
+      "priority": 1.98,
+      "effort": "moderate",
+      "title": "eval() executes dynamic code",
+      "description": "Dynamic code execution is an injection sink: any attacker-controlled string that reaches here becomes arbitrary code execution.\n\n1 occurrence in src/payment.ts:17",
+      "file": "src/payment.ts",
+      "lines": [
+        17,
+        17
+      ],
+      "snippet": "  return eval('(' + text + ')') as PaymentRow[];",
+      "suggestion": "Replace with explicit parsing/logic. If input must be trusted, validate strictly and document why eval is required.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "eval-usage"
+      ]
+    },
+    {
+      "id": "quality@index.js:46-46:-aAgSaSySR",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "medium",
+      "confidence": 0.45,
+      "priority": 1.8,
+      "effort": "moderate",
+      "title": "Raw HTML injection sink (innerHTML / dangerouslySetInnerHTML)",
+      "description": "Assigning HTML strings can inject scripts when the content includes any user-derived data.\n\n1 occurrence in index.js:46",
+      "file": "index.js",
+      "lines": [
+        46,
+        46
+      ],
+      "snippet": "    res.end('<div id=\"out\"></div><script>document.getElementById(\"out\").innerHTML = ' + JSON.stringify(key) + ';</script>');",
+      "suggestion": "Prefer textContent or framework escaping. If HTML must be trusted, sanitize it explicitly and document the trust boundary.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "xss-innerhtml"
+      ]
+    },
+    {
+      "id": "quality@index.js:21-21:Y_KSNFalAc",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "performance",
+      "severity": "medium",
+      "confidence": 0.45,
+      "priority": 1.8,
+      "effort": "moderate",
+      "title": "Sequential await inside a loop",
+      "description": "Round-trips executed one at a time — latency adds up linearly with loop size.\n\n1 occurrence in index.js:21",
+      "file": "index.js",
+      "lines": [
+        21,
+        21
+      ],
+      "snippet": "  for (const row of rows) {",
+      "suggestion": "Batch independent work with Promise.all / a bounded concurrency pool. Only keep sequential awaits when iteration N depends on N-1.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "await-in-loop"
+      ]
+    },
+    {
+      "id": "agent:gdfna",
+      "checkId": "agent:gdfna",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.9,
+      "priority": 1.8,
+      "effort": "moderate",
+      "title": "Leftover debugger statement in the /admin request path",
+      "description": "A `debugger;` statement sits inside the production /admin handler, immediately after the credential check succeeds. Node honors this via V8 inspector semantics: when the process is started with --inspect (common in containerized debugging or an APM that enables the inspector) and a debugger attaches, execution pauses here on every successful admin login, holding the event loop and the request open indefinitely. Even without an inspector attached it is dead weight left in shipped code.",
+      "file": "index.js",
+      "lines": [
+        43,
+        43
+      ],
+      "snippet": "    debugger;",
+      "suggestion": "Remove the statement, and add a lint rule (eslint no-debugger: error) plus a build step that fails on `debugger`/console.log leftovers so they cannot reappear.",
+      "benefit": "Eliminates a potential request-hang vector and prevents recurrence via CI.",
+      "risk": "None.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:dz0l16",
+      "checkId": "agent:dz0l16",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "performance",
+      "severity": "low",
+      "confidence": 0.9,
+      "priority": 1.8,
+      "effort": "moderate",
+      "title": "Pointless JSON.parse(JSON.stringify(...)) deep-clone of a single field",
+      "description": "This round-trips a one-property object through JSON serialization on every /render request purely to clone it. It allocates a string and a new object for no benefit, silently drops any non-JSON-serializable value (undefined, functions, BigInt throws outright, Date becomes a string), and obscures the fact that `data` is just `{ customer }`.",
+      "file": "index.js",
+      "lines": [
+        32,
+        32
+      ],
+      "snippet": "  const data = JSON.parse(JSON.stringify({ customer }));",
+      "suggestion": "Write `const data = { customer };` — or use structuredClone if a genuine deep copy of a rich object is ever needed.",
+      "benefit": "Removes per-request serialization cost and the surprising type coercions.",
+      "risk": "None; behavior is identical for JSON-safe inputs.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:nqj16r",
+      "checkId": "agent:nqj16r",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "debt",
+      "severity": "low",
+      "confidence": 0.85,
+      "priority": 1.7,
+      "effort": "moderate",
+      "title": "Orphan module src/orphan.js with an outdated hardcoded tax rate",
+      "description": "Nothing in the repository imports this module, and its own comment marks the 1.22 multiplier as a pre-2019 tax table retained \"just in case\". A stale, unused tax calculation is a correctness hazard: if anyone does wire it up, invoices will be computed with a superseded rate, and its rounding (Math.round on a value already scaled by 100) also differs from the toFixed-based rounding used in src/utils.js, so the two would disagree by cents.",
+      "file": "src/orphan.js",
+      "lines": [
+        1,
+        6
+      ],
+      "snippet": "// Fixture: orphan module — nothing imports it.\nfunction legacyTax(amount) {\n  // XXX: pre-2019 tax table, kept \"just in case\"\n  if (amount < 0) throw new Error('negative amount');\n  return Math.round(amount * 1.22 * 100) / 100;\n}",
+      "suggestion": "Delete the file; recover it from git history if the historical rate is ever needed for audits. If it must stay, move it to a clearly named test/fixture directory so it is not mistaken for production tax logic.",
+      "benefit": "Removes a misleading source of tax calculations that could produce incorrect invoices if reused.",
+      "risk": "Low: no importers in this repository.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "quality@index.js:43-43:bHS6ahGKyu",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.81,
+      "priority": 1.62,
+      "effort": "trivial",
+      "title": "`debugger` statement left in code",
+      "description": "Halts execution in any browser that has DevTools open; also signals leftover debugging.\n\n1 occurrence in index.js:43",
+      "file": "index.js",
+      "lines": [
+        43,
+        43
+      ],
+      "snippet": "    debugger;",
+      "suggestion": "Remove the statement; use breakpoints in the devtools instead.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "debugger-stmt"
+      ]
+    },
+    {
+      "id": "debt-markers@src/legacy-monolith.js:25-1130:8GVxirzrUI",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "low",
+      "confidence": 0.8,
+      "priority": 1.6,
+      "effort": "moderate",
+      "title": "6 TODO markers in legacy-monolith.js",
+      "description": "Deferred work; batch these into planned refactors.\nOccurrences: L25: // TODO: handler0 still needs rate limiting | L246: // TODO: handler10 still needs rate limiting | L467: // TODO: handler20 still needs rate limiting | L688: // TODO: handler30 still needs rate limiting | L909: // TODO: handler40 still needs rate limiting | L1130: // TODO: handler50 still needs rate limiting",
+      "file": "src/legacy-monolith.js",
+      "lines": [
+        25,
+        1130
+      ],
+      "snippet": "// TODO: handler0 still needs rate limiting",
+      "occurrences": [
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": [
+            25,
+            25
+          ]
+        },
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": [
+            246,
+            246
+          ]
+        },
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": [
+            467,
+            467
+          ]
+        },
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": [
+            688,
+            688
+          ]
+        },
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": [
+            909,
+            909
+          ]
+        },
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": [
+            1130,
+            1130
+          ]
+        }
+      ],
+      "suggestion": "Schedule cleanup; convert vague notes into tracked issues with owners.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "todo"
+      ]
+    },
+    {
+      "id": "debt-markers@server/auth.py:4-4:TTDTDRIlwn",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "low",
+      "confidence": 0.8,
+      "priority": 1.6,
+      "effort": "moderate",
+      "title": "1 TODO marker in auth.py",
+      "description": "Deferred work; batch these into planned refactors.\nOccurrences: L4: # TODO: move config to the environment loader",
+      "file": "server/auth.py",
+      "lines": [
+        4,
+        4
+      ],
+      "snippet": "# TODO: move config to the environment loader",
+      "occurrences": [
+        {
+          "file": "server/auth.py",
+          "lines": [
+            4,
+            4
+          ]
+        }
+      ],
+      "suggestion": "Schedule cleanup; convert vague notes into tracked issues with owners.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "todo"
+      ]
+    },
+    {
+      "id": "debt-markers@src/payment.ts:10-10:Mk4zcqrS8W",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "low",
+      "confidence": 0.8,
+      "priority": 1.6,
+      "effort": "moderate",
+      "title": "1 TODO marker in payment.ts",
+      "description": "Deferred work; batch these into planned refactors.\nOccurrences: L10: // TODO: parameterize — customerId flows straight into the SQL string",
+      "file": "src/payment.ts",
+      "lines": [
+        10,
+        10
+      ],
+      "snippet": "  // TODO: parameterize — customerId flows straight into the SQL string",
+      "occurrences": [
+        {
+          "file": "src/payment.ts",
+          "lines": [
+            10,
+            10
+          ]
+        }
+      ],
+      "suggestion": "Schedule cleanup; convert vague notes into tracked issues with owners.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "todo"
+      ]
+    },
+    {
+      "id": "agent:2qp16r",
+      "checkId": "agent:2qp16r",
+      "source": "agent:bench-b",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.315,
+      "priority": 1.26,
+      "effort": "moderate",
+      "title": "legacy-monolith.js is dead code: 1330 lines, zero importers",
+      "description": "This 1330-line module (86% of the repository's 1552 LOC) exports 60 handlers and is imported by nothing — the import graph reports 0 importers, and index.js requires only ./src/utils and ./src/lib/a. It is never loaded at runtime, so its unbounded ROUTES cache and dead branches are latent rather than active, but it dominates every search, review, and static-analysis run and will be treated as live code by the next reader.\n\n> Validation: snippet not present at the cited location (or anywhere in the file) — cited range kept, confidence heavily reduced",
+      "file": "src/legacy-monolith.js",
+      "lines": [
+        1330,
+        1330
+      ],
+      "snippet": "module.exports = { handler0, handler1, handler2, handler3, handler4, handler5, handler6, handler7, handler8, handler9, handler10, handler11, handler12, handler13, handler14, handler15, handler16, handler17, handler18, handler19, handler20, handler21, handler22, handler23, handler24, handler25, handler26, handler27, handler28, handler29, handler30, handler31, handler32, handler33, handle",
+      "suggestion": "Delete the file if it is genuinely retired (git history preserves it), or move it under a clearly-marked attic/ directory excluded from lint and coverage. If any handler is still needed, extract just that one into a properly named module and wire it into the router.",
+      "benefit": "Removes 1330 lines of misleading, unmaintained code from the review surface and shrinks the apparent codebase by 86%.",
+      "risk": "Low: nothing in the repository imports it; verify no out-of-repo or dynamic require references the path before deleting.",
+      "verified": false,
+      "verification": {
+        "status": "unverified",
+        "note": "snippet not present at the cited location (or anywhere in the file) — cited range kept, confidence heavily reduced"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "size@src/legacy-monolith.js:1-80:W5VtyYiFCb",
+      "checkId": "size",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "large",
+      "title": "Deep nesting (≈7 levels) in legacy-monolith.js",
+      "description": "This file reaches roughly 7 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "src/legacy-monolith.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "// Fixture: deliberately oversized legacy module (400+ lines).\nconst ROUTES = {};\n\nfunction handler0(req, res) {\n  const id = req.params.id;\n  const mode = req.query.mode || 'standard0';\n  const cacheKey = 'k0:' + id + ':' + mode;\n  const data = ROUTES[cacheKey] || { id, mode, stamped: Date.now() };\n  ROUTES[cacheKey] = data;\n  if (!data) {",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "complexity"
+      ]
+    },
+    {
+      "id": "quality@index.js:32-32:ESea_CfJt4",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "performance",
+      "severity": "low",
+      "confidence": 0.54,
+      "priority": 1.08,
+      "effort": "trivial",
+      "title": "JSON.parse(JSON.stringify(...)) used as deep clone",
+      "description": "Slow, throws on Dates/Maps/Sets/undefined, loses prototypes. Fine for tiny JSON-safe objects, costly in hot paths.\n\n1 occurrence in index.js:32",
+      "file": "index.js",
+      "lines": [
+        32,
+        32
+      ],
+      "snippet": "  const data = JSON.parse(JSON.stringify({ customer }));",
+      "suggestion": "Use structuredClone() (Node ≥17, browsers ≥2022) or a purpose-built clone for the shape involved.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "json-clone"
+      ]
+    },
+    {
+      "id": "quality@server/auth.py:16-16:IlwPczxvGS",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.54,
+      "priority": 1.08,
+      "effort": "trivial",
+      "title": "Bare `except:` catches everything (including KeyboardInterrupt/SystemExit)",
+      "description": "Bare excepts make programs unkillable and mask unrelated bugs.\n\n1 occurrence in server/auth.py:16",
+      "file": "server/auth.py",
+      "lines": [
+        16,
+        16
+      ],
+      "snippet": "    except:",
+      "suggestion": "Catch the narrowest exception you can actually handle.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "bare-except"
+      ]
+    },
+    {
+      "id": "quality@index.js:48-48:yV-3VXd4uU",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "low",
+      "confidence": 0.45,
+      "priority": 0.9,
+      "effort": "trivial",
+      "title": "Insecure http:// endpoint in source",
+      "description": "Plain HTTP endpoints leak data in transit and enable MITM; also commonly a leftover dev URL.\n\n1 occurrence in index.js:48",
+      "file": "index.js",
+      "lines": [
+        48,
+        48
+      ],
+      "snippet": "    res.status(403).send('http://status.internal-site.example/403');",
+      "suggestion": "Switch to https://, or to a localhost/dev URL, and load production endpoints from configuration.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "insecure-http"
+      ]
+    },
+    {
+      "id": "quality@server/auth.py:29-29:aiShq-wNZY",
+      "checkId": "quality",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "security",
+      "severity": "low",
+      "confidence": 0.45,
+      "priority": 0.9,
+      "effort": "trivial",
+      "title": "Insecure http:// endpoint in source",
+      "description": "Plain HTTP endpoints leak data in transit and enable MITM; also commonly a leftover dev URL.\n\n1 occurrence in server/auth.py:29",
+      "file": "server/auth.py",
+      "lines": [
+        29,
+        29
+      ],
+      "snippet": "    return requests.post(\"http://payments-legacy.internal/charge\", json={\"amount\": amount})",
+      "suggestion": "Switch to https://, or to a localhost/dev URL, and load production endpoints from configuration.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "insecure-http"
+      ]
+    },
+    {
+      "id": "debt-markers@src/orphan.js:3-3:XzR37nPDDE",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "debt",
+      "severity": "info",
+      "confidence": 0.7,
+      "priority": 0.7,
+      "effort": "moderate",
+      "title": "1 XXX marker in orphan.js",
+      "description": "Attention marker.\nOccurrences: L3: // XXX: pre-2019 tax table, kept \"just in case\"",
+      "file": "src/orphan.js",
+      "lines": [
+        3,
+        3
+      ],
+      "snippet": "  // XXX: pre-2019 tax table, kept \"just in case\"",
+      "occurrences": [
+        {
+          "file": "src/orphan.js",
+          "lines": [
+            3,
+            3
+          ]
+        }
+      ],
+      "suggestion": "Schedule cleanup; convert vague notes into tracked issues with owners.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "xxx"
+      ]
+    },
+    {
+      "id": "graph@src/helpers.js:x:vlMtYk24Se",
+      "checkId": "graph",
+      "source": "deterministic",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.5,
+      "priority": 0.5,
+      "effort": "large",
+      "title": "4 source files have no incoming imports",
+      "description": "Possibly dead code (heuristic — scripts, dynamically-loaded files, and plugin modules are false positives):\n- src/helpers.js\n- src/legacy-monolith.js\n- src/orphan.js\n- src/payment.ts",
+      "file": "src/helpers.js",
+      "lines": null,
+      "snippet": null,
+      "occurrences": [
+        {
+          "file": "src/helpers.js",
+          "lines": null
+        },
+        {
+          "file": "src/legacy-monolith.js",
+          "lines": null
+        },
+        {
+          "file": "src/orphan.js",
+          "lines": null
+        },
+        {
+          "file": "src/payment.ts",
+          "lines": null
+        }
+      ],
+      "suggestion": "Verify usage (dynamic imports, string-based loaders, external callers) before deleting; then remove or archive.",
+      "benefit": "Less code to maintain and review.",
+      "risk": "Low if deletion is verified; keep an eye on string-based dynamic requires.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "orphan"
+      ]
+    }
+  ],
+  "backlog": {
+    "quickWins": [
+      "secrets@index.js:8-8:ZiMBNMUUgL",
+      "secrets@server/auth.py:5-5:FH7AZdRqec",
+      "agent:uw129r",
+      "agent:bp0su7",
+      "agent:1o1b95d",
+      "secrets@.env:x:e_SIu9KQnm",
+      "agent:1jo0kew",
+      "agent:11wy87x",
+      "agent:eky7hx",
+      "agent:uwy1gx",
+      "agent:15qgu9i",
+      "agent:1pv9r64",
+      "duplication@src/helpers.js:2-29:ZRdDj-57o0",
+      "agent:7qd4w0",
+      "agent:8igjx8",
+      "agent:17git5b",
+      "agent:17gvg5j",
+      "agent:1uidc9s",
+      "debt-markers@index.js:10-10:pMQUVT3yJP",
+      "debt-markers@server/auth.py:27-27:qFaMunoLO1",
+      "agent:cmw0e2",
+      "agent:1ohhusa",
+      "agent:q2nq0w",
+      "deps@package.json:x:LTXpf6Knqs",
+      "agent:15azqlo",
+      "agent:be1ngc",
+      "quality@index.js:13-13:C6ExcyHGD7",
+      "deps@package.json:x:l05gkrY4p9",
+      "quality@src/payment.ts:11-11:SQgxzPTyPl",
+      "quality@index.js:35-35:baRx7058mU",
+      "quality@server/auth.py:16-16:2ujmaKOEoh",
+      "quality@server/auth.py:9-9:Woy-3HwbRo"
+    ],
+    "planned": [
+      "size@src/legacy-monolith.js:1-60:LRkM5lIa_t",
+      "graph@src/lib/a.js:x:WmZ6wdCtdu",
+      "quality@src/payment.ts:17-17:842R1laXZS",
+      "quality@index.js:46-46:-aAgSaSySR",
+      "quality@index.js:21-21:Y_KSNFalAc",
+      "agent:gdfna",
+      "agent:dz0l16",
+      "agent:nqj16r",
+      "quality@index.js:43-43:bHS6ahGKyu",
+      "debt-markers@src/legacy-monolith.js:25-1130:8GVxirzrUI",
+      "debt-markers@server/auth.py:4-4:TTDTDRIlwn",
+      "debt-markers@src/payment.ts:10-10:Mk4zcqrS8W",
+      "size@src/legacy-monolith.js:1-80:W5VtyYiFCb",
+      "quality@index.js:32-32:ESea_CfJt4",
+      "quality@server/auth.py:16-16:IlwPczxvGS",
+      "quality@index.js:48-48:yV-3VXd4uU",
+      "quality@server/auth.py:29-29:aiShq-wNZY",
+      "debt-markers@src/orphan.js:3-3:XzR37nPDDE",
+      "graph@src/helpers.js:x:vlMtYk24Se"
+    ],
+    "investigate": [
+      "agent:2qp16r"
+    ],
+    "dismissed": []
+  }
+}

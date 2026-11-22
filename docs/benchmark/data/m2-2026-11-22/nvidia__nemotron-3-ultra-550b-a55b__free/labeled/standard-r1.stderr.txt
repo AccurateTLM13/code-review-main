@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     6.3 [31mHIGH   child_process call with interpolated/concatenated command
+         index.js:13-13
+     6.3 [31mHIGH   SQL query built via string concatenation/interpolation
+         src/payment.ts:11-11
+     6.0 [31mHIGH   Implicit global variable assignment in admin handler
+         index.js:44-44
+  Report: E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.json

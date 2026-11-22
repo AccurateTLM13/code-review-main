@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     9.0 [31;1mCRIT   SQL Injection in findPayments (TypeScript)
+         src/payment.ts:8-13
+     7.3 [31;1mCRIT   AWS access key ID committed
+         index.js:8-8
+     7.3 [31;1mCRIT   GitHub personal access token committed
+         server/auth.py:5-5
+  Report: E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.json

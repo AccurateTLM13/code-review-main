@@ -1,0 +1,10 @@
+✗ All requested model profiles failed — audit is incomplete.
+--- stdout tail ---
+     3.6 [33mMED    28-line block duplicated between helpers.js and utils.js
+         src/helpers.js:2-29
+     3.4 [33mMED    1 FIXME marker in index.js
+         index.js:10-10
+     3.4 [33mMED    1 FIXME marker in auth.py
+         server/auth.py:27-27
+  Report: E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\baidu__ernie-5.5-flash-preview__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\baidu__ernie-5.5-flash-preview__free\labeled\report.json

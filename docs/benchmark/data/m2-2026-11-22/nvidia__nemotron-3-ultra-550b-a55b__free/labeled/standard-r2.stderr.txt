@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     6.3 [31mHIGH   Massive function duplication in legacy-monolith.js (60 near-identical handlers)
+         src/legacy-monolith.js:1-1330
+     6.3 [31mHIGH   child_process call with interpolated/concatenated command
+         index.js:13-13
+     6.3 [31mHIGH   SQL query built via string concatenation/interpolation
+         src/payment.ts:11-11
+  Report: E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m2-2026-11-22\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.json
