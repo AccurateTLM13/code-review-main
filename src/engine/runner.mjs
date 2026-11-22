@@ -96,9 +96,8 @@ export async function runScan(targetAbs, opts, logger) {
       changedSet = res.changed;
       deletedFiles = res.deleted ?? [];
       changedBasis = res.basis;
-      if (deletedFiles.length) {
-        logger.info(`Deleted since last audit: ${deletedFiles.slice(0, 10).join(', ')}${deletedFiles.length > 10 ? ` … (+${deletedFiles.length - 10})` : ''}`);
-      }
+      // Deleted-file NAMES are logged further down (after the redactor exists)
+      // so paths carrying registered literals are redacted before output (A21).
       if (!changedSet.size && !deletedFiles.length) {
         logger.ok('No files changed since the last audit — nothing to review.');
       } else {
@@ -128,6 +127,11 @@ export async function runScan(targetAbs, opts, logger) {
   const preflightCount = preflightRegisterSecrets(checkCtx);
   if (preflightCount && !opts.quiet) {
     logger.debug(`Secret preflight registered ${preflightCount} literal(s) for redaction`);
+  }
+  // A21 (replay finding): deleted-file names can embed registered literals —
+  // redact them like every other path-bearing surface before they hit stderr.
+  if (deletedFiles.length && !opts.quiet) {
+    logger.info(`Deleted since last audit: ${deletedFiles.slice(0, 10).map((f) => redactor.redact(f)).join(', ')}${deletedFiles.length > 10 ? ` … (+${deletedFiles.length - 10})` : ''}`);
   }
   const focusList = focus === 'all' ? CATEGORIES : [focus];
   const { findings: detFindings, executed: checksExecuted, toolNotes } = await runChecks(checkCtx, focusList);
@@ -322,7 +326,14 @@ export async function runScan(targetAbs, opts, logger) {
   }
 
   // --- console summary ---
-  printSummary(logger, report, { mdPath, jsonPath, autonomousToolLog, scopeActive, deletedFiles, signal });
+  // A21 (replay finding): the printed report paths embed the target directory
+  // name, which can carry a registered literal — redact the DISPLAY copies
+  // (the writes above already happened at the real paths).
+  printSummary(logger, report, {
+    mdPath: redactor.redact(mdPath),
+    jsonPath: redactor.redact(jsonPath),
+    autonomousToolLog, scopeActive, deletedFiles, signal,
+  });
 
   // --- exit code ---
   let exitCode = 0;

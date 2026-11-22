@@ -186,8 +186,19 @@ async function cmdLast(flags, logger) {
     logger.out(`         ${colors.dim}${f.file ?? ''}${f.lines ? `:${f.lines[0]}-${f.lines[1]}` : ''}${colors.reset}`);
   }
   logger.out('');
-  logger.out(`  Markdown: ${path.join(dir, 'report.md')}`);
-  logger.out(`  JSON:     ${jsonPath}`);
+  // A21 (replay finding): the run dir embeds the target path, whose name may
+  // carry a registered literal. Display the paths exactly like the report
+  // itself does — built from the report's already-redacted meta.target — so
+  // `code-audit last` never echoes raw material the report redacts.
+  const shownTarget = typeof report.meta.target === 'string' && report.meta.target ? report.meta.target : target;
+  const resolvedTarget = path.resolve(target);
+  const exactPrefix = dir.startsWith(resolvedTarget)
+    && (dir.length === resolvedTarget.length || dir[resolvedTarget.length] === path.sep);
+  const relSuffix = exactPrefix
+    ? dir.slice(resolvedTarget.length)
+    : path.join('.code-audit', 'reports', path.basename(dir));
+  logger.out(`  Markdown: ${path.join(shownTarget, relSuffix, 'report.md')}`);
+  logger.out(`  JSON:     ${path.join(shownTarget, relSuffix, 'report.json')}`);
   return 0;
 }
 
