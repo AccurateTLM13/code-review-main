@@ -1,0 +1,13 @@
+# Dependabot monitors the ROOT package manifest only.
+#
+# The manifests under examples/ are the deliberately-flawed benchmark corpus
+# (docs/benchmark/vulnerable-corpus-truth.md): vulnerable-app intentionally
+# uses unpinned/deprecated deps (that is truth row V-27) and has no lockfile
+# by design. Dependabot updates there would silently mutate the labeled
+# corpus. Dependency hygiene for the real package is tracked in M4.4.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
