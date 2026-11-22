@@ -12,6 +12,10 @@
 //  A8  tool budgets enforced on actual output; final submission always possible
 //  A9  offline benign repository returns a small, explainable, low-noise set
 //  A10 no application source file changes
+//  A19 digests/filenames/graph paths sanitized; A20 egress policy
+//  A21 one tool-result boundary (fail-closed); opaque file handles keep files referenceable
+//  A22 device-local means loopback (endpoint trust)
+//  A23 bounded regex searches (worker + hard deadline)
 //  R*  regression: deterministic checks, consensus, deep investigation, adapters, CLI
 import { spawnSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -871,8 +875,197 @@ console.log('\n[22] A20 — secret-file override rejected for remote/unknown end
   await fsp.rm(tmpConfig, { force: true });
 }
 
+// ============================================================ A21: one serialization boundary for every tool result + handles
+console.log('\n[24] A21 — one tool-result boundary (fail-closed); files stay referenceable via handles');
+{
+  const dir = await tempDir('ca-a21-');
+  const TOKEN = 'AKIAJ4RFQKZCXMPL3WAQ';
+  // the token appears in a FILENAME and in the file body (A19 fixture shape)
+  const fileName = `key-${TOKEN}.js`;
+  await fsp.writeFile(path.join(dir, fileName), `// odd but legal filename\nconst AWS_KEY = '${TOKEN}';\nmodule.exports = {};\n`);
+  await fsp.writeFile(path.join(dir, 'plain.js'), `import { AWS_KEY } from './key-${TOKEN}.js';\nconsole.log(AWS_KEY);\n`);
+  await fsp.writeFile(path.join(dir, 'third.js'), 'const z = 1;\nmodule.exports = { z };\n');
+
+  const { discoverRepo } = await import('../src/discovery/discover.mjs');
+  const { preflightRegisterSecrets } = await import('../src/checks/secrets.mjs');
+  const { createRedactor } = await import('../src/util/redact.mjs');
+  const { createToolkit, emitToolResult } = await import('../src/engine/tools.mjs');
+  const { validateDrafts } = await import('../src/evidence/validate.mjs');
+  const { createLogger } = await import('../src/util/log.mjs');
+  const logger = createLogger({ quiet: true });
+  const repo = await discoverRepo(dir, { logger });
+  const redactor = createRedactor();
+  const ctx = { root: dir, repo, fileStore: repo.fileStore, config: { checks: {} }, logger, redactor, git: null, changedSet: null };
+  preflightRegisterSecrets(ctx);
+  check('A21 (setup): token registered', redactor.size >= 1, `size=${redactor.size}`);
+
+  const toolkit = createToolkit(repo, { budgets: { maxToolCalls: 50, maxReadBytes: 4_000_000, deadline: Infinity, profileName: 'unit' }, redactor, logger });
+  const byName = Object.fromEntries(toolkit.tools.map((t) => [t.name, t]));
+
+  const summary = await byName.get_summary.execute({});
+  check('A21: get_summary carries the placeholder, never the token', !JSON.stringify(summary).includes(TOKEN) && JSON.stringify(summary).includes('[REDACTED'));
+  const list = await byName.list_files.execute({});
+  const tokenEntry = list.files.find((e) => e.path.includes('[REDACTED') && e.path.endsWith('.js'));
+  check('A21: list_files redacts paths and issues opaque handles', Boolean(tokenEntry?.handle) && !JSON.stringify(list).includes(TOKEN));
+
+  const read = await byName.read_file.execute({ handle: tokenEntry.handle });
+  check('A21: read_file works via handle; payload redacted', read.ofLines > 0 && !JSON.stringify(read).includes(TOKEN) && read.handle === tokenEntry.handle);
+  const readViaPath = await byName.read_file.execute({ path: tokenEntry.path });
+  check('A21: read_file also resolves the exact redacted path', readViaPath.ofLines > 0 && !JSON.stringify(readViaPath).includes(TOKEN));
+  const badHandle = await byName.read_file.execute({ handle: 'f999' });
+  check('A21: unknown handle rejected without leaking material', /Unknown file handle/.test(badHandle.error ?? '') && !JSON.stringify(badHandle).includes(TOKEN));
+
+  const literal = await byName.search_code.execute({ query: 'AWS_KEY' });
+  check('A21: search_code (literal) redacts path+text and adds handles', !JSON.stringify(literal).includes(TOKEN) && literal.matches.some((m) => m.path.includes('[REDACTED') && m.handle));
+  const globbed = await byName.search_code.execute({ query: 'AWS_KEY', glob: '**/*.js' });
+  check('A21: search_code (glob) redacted', !JSON.stringify(globbed).includes(TOKEN) && globbed.matches.length > 0);
+  const regexHit = await byName.search_code.execute({ query: 'AWS_.EY', isRegex: true });
+  check('A21: search_code (regex) redacted with handles', !JSON.stringify(regexHit).includes(TOKEN) && regexHit.matches.some((m) => m.handle));
+  const graph = await byName.get_graph.execute({ handle: tokenEntry.handle });
+  check('A21: get_graph via handle — redacted paths only', !JSON.stringify(graph).includes(TOKEN) && (graph.dependents?.length ?? 0) > 0);
+  const graphViaPath = await byName.get_graph.execute({ path: tokenEntry.path });
+  check('A21: get_graph resolves the redacted path too', (graphViaPath.dependents?.length ?? 0) > 0 && !JSON.stringify(graphViaPath).includes(TOKEN));
+
+  // fail-closed: a registered literal hidden in an object KEY cannot survive emit
+  let threw = null;
+  try { emitToolResult({ name: 'unit', payload: { [TOKEN]: 'x' }, redactor }); } catch (e) { threw = e.message; }
+  check('A21: emit throws on a surviving registered literal (object key)', Boolean(threw));
+  check('A21: emit error carries no literal material', Boolean(threw) && !threw.includes(TOKEN) && /\[REDACTED .+ #/.test(threw), threw?.slice(0, 90));
+  let cleanOk = true;
+  try { emitToolResult({ name: 'unit', payload: { ok: 'clean' }, redactor }); } catch { cleanOk = false; }
+  check('A21: emit passes clean payloads', cleanOk);
+
+  // referenceability: the model cites the file by handle → VERIFIED finding
+  const row = (read.lines ?? []).find((l) => l.text.includes('AWS_KEY'));
+  const submit = await byName.submit_findings.execute({
+    findings: [{ title: 'hardcoded AWS key', category: 'security', severity: 'high', confidence: 0.9, file: tokenEntry.handle, lines: [row?.line ?? 1, row?.line ?? 1], snippet: row?.text ?? null, description: 'credential literal' }],
+    notes: 'A21 referenceability check',
+  });
+  check('A21: submit_findings accepted the handle citation', submit.accepted === 1);
+  const validated = validateDrafts(toolkit.state.submitted.drafts, { repo, logger, redactor });
+  const f = validated.findings[0];
+  check('A21: handle-cited finding VERIFIES against the real file', f?.verified === true, f?.verification?.status);
+  check('A21: the finding carries no raw token in its file reference', Boolean(f) && !f.file.includes(TOKEN) && f.file.includes('[REDACTED'));
+  // structured-phase parity: a draft quoting the REDACTED path verbatim also verifies
+  const validated2 = validateDrafts([
+    { checkId: 'model:t', source: 'model:t', title: 'cited via redacted path', category: 'security', severity: 'high', confidence: 0.9, file: tokenEntry.path, lines: [row?.line ?? 1, row?.line ?? 1], snippet: row?.text ?? null, description: 'd' },
+  ], { repo: { fileStore: repo.fileStore }, logger, redactor });
+  check('A21: redacted-path citation verifies too (structured-phase parity)', validated2.findings[0]?.verified === true, validated2.findings[0]?.verification?.status);
+
+  // CLI end-to-end: the mock agent reads and cites the redacted-name file
+  const r = runCli(['scan', dir, '--models', 'mock', '--depth', 'deep', '--quiet']);
+  check('A21: deep mock scan ok', r.code === 0, `code=${r.code}`);
+  const { json, md } = latestReport(dir);
+  check('A21: report free of the raw token', !md.includes(TOKEN) && !JSON.stringify(json).includes(TOKEN));
+  check('A21: the agent produced a VERIFIED finding on the redacted-name file', json.findings.some((x) => x.verification?.status === 'verified' && x.file.includes('[REDACTED')));
+  check('A21: CLI output free of the raw token', !r.out.includes(TOKEN));
+
+  // A21 (replay finding): the token in the target DIRECTORY NAME must not
+  // reach stdout either — the summary prints report paths, and `last` echoes
+  // them again.
+  const dirNameToken = await tempDir('ca-a21dir-');
+  const tokenDir = path.join(dirNameToken, `key-${TOKEN}`);
+  await fsp.mkdir(tokenDir, { recursive: true });
+  await fsp.writeFile(path.join(tokenDir, 'plain.js'), `const K = '${TOKEN}';\nmodule.exports = { K };\n`);
+  const r2 = runCli(['scan', tokenDir, '--models', 'mock', '--depth', 'quick', '--quiet']);
+  check('A21: scan stdout free of the token when it sits in the target directory name', r2.code === 0 && !r2.out.includes(TOKEN), `code=${r2.code}`);
+  const r3 = runCli(['last', tokenDir, '--quiet']);
+  check('A21: last stdout free of the token (paths shown via the redacted meta.target)', r3.code === 0 && !r3.out.includes(TOKEN) && r3.out.includes('[REDACTED'), `code=${r3.code}`);
+  await fsp.rm(dirNameToken, { recursive: true, force: true });
+
+  await fsp.rm(dir, { recursive: true, force: true });
+}
+
+// ============================================================ A22: device-local means loopback
+console.log('\n[25] A22 — endpoint trust is loopback-only for the sensitive-file override');
+{
+  const { validateEgressPolicy, isRemoteEgress, isLocalEndpoint } = await import('../src/util/model-access.mjs');
+
+  const remoteCases = [
+    ['host.docker.internal', 'http://host.docker.internal:11434/v1'],
+    ['LAN IP', 'http://192.168.1.5:11434/v1'],
+    ['bare hostname', 'http://myserver:11434'],
+    ['0.0.0.0', 'http://0.0.0.0:11434'],
+    ['mDNS .local', 'http://foo.local:11434'],
+    ['.localhost alias', 'http://box.localhost:11434'],
+    ['unparseable garbage', 'not a url at all'],
+  ];
+  for (const [label, base] of remoteCases) {
+    check(`A22: remote — ${label}`, isRemoteEgress({ name: 'p', provider: 'ollama', baseUrl: base, model: 'x' }) === true && isLocalEndpoint(base) === false);
+  }
+  const localCases = [
+    ['localhost', 'http://localhost:11434/v1'],
+    ['127.0.0.5', 'http://127.0.0.5:11434/v1'],
+    ['[::1]', 'http://[::1]:11434/v1'],
+    ['bare ::1', '::1'],
+  ];
+  for (const [label, base] of localCases) {
+    check(`A22: local — ${label}`, isRemoteEgress({ name: 'p', provider: 'ollama', baseUrl: base, model: 'x' }) === false && isLocalEndpoint(base) === true);
+  }
+
+  // CLI negative: override + non-loopback profile exits 2 BEFORE any request
+  const tmpConfig = path.join(os.tmpdir(), `ca-a22-${Date.now()}.json`);
+  await fsp.writeFile(tmpConfig, JSON.stringify({
+    profiles: { dockerhost: { provider: 'ollama', baseUrl: 'http://host.docker.internal:11434/v1', model: 'x' } },
+    defaultModels: ['dockerhost'],
+    checks: { allowSecretFileReads: true },
+  }));
+  const r = runCli(['scan', 'examples/vulnerable-app', '--models', 'dockerhost', '--depth', 'standard', '--config', tmpConfig, '--quiet']);
+  check('A22: override + non-loopback endpoint exits 2 with the acknowledgment error', r.code === 2 && /allowSecretFileReadsRemote/i.test(r.out), `code=${r.code}`);
+  check('A22: policy validated before any request (no discovery output)', !r.out.includes('Deterministic checks') && !r.out.includes('Model passes'));
+  await fsp.rm(tmpConfig, { force: true });
+}
+
+// ============================================================ A23: bounded regex searches
+console.log('\n[26] A23 — model-authored regex cannot hang the process (bounded worker)');
+{
+  const { runBoundedRegexSearch, REGEX_BUDGET_MESSAGE } = await import('../src/util/regex-worker.mjs');
+  // a 40-char 'a' line is catastrophic for these patterns on the main thread
+  const files = [{ rel: 'a.js', lines: [`const A_LINE = '${'a'.repeat(40)}';`, 'const z = 1;'] }];
+
+  for (const pattern of ['(a+)+$', '(a|aa)+c']) {
+    const t0 = Date.now();
+    const res = await runBoundedRegexSearch({ source: pattern, flags: 'i', files, deadlineMs: 500 });
+    const ms = Date.now() - t0;
+    check(`A23: catastrophic "${pattern}" returns the budget error`, res.error === REGEX_BUDGET_MESSAGE, JSON.stringify(res).slice(0, 80));
+    check(`A23: "${pattern}" resolved within the deadline`, ms < 2000, `${ms}ms`);
+  }
+
+  const sane = await runBoundedRegexSearch({ source: 'AW._KEY', flags: 'i', files: [{ rel: 'a.js', lines: [`const AWS_KEY = 'x';`] }] });
+  check('A23: positive control — sane regex still matches', (sane.matches ?? []).length === 1, JSON.stringify(sane.matches ?? []));
+  const invalid = await runBoundedRegexSearch({ source: '(', files, deadlineMs: 500 });
+  check('A23: invalid regex surfaces a clean error', /Invalid regex/.test(invalid.error ?? ''));
+
+  // through the toolkit: the tool returns the budget error and the process stays responsive
+  const dir = await tempDir('ca-a23-');
+  await fsp.writeFile(path.join(dir, 'a.js'), `const A_LINE = '${'a'.repeat(40)}';\nconst z = 1;\nmodule.exports = { z };\n`);
+  const { discoverRepo } = await import('../src/discovery/discover.mjs');
+  const { createRedactor } = await import('../src/util/redact.mjs');
+  const { createToolkit } = await import('../src/engine/tools.mjs');
+  const { createLogger } = await import('../src/util/log.mjs');
+  const logger = createLogger({ quiet: true });
+  const repo = await discoverRepo(dir, { logger });
+  const toolkit = createToolkit(repo, { budgets: { maxToolCalls: 50, maxReadBytes: 4_000_000, deadline: Infinity, profileName: 'unit' }, redactor: createRedactor(), logger });
+  const byName = Object.fromEntries(toolkit.tools.map((t) => [t.name, t]));
+  const t0 = Date.now();
+  const hang = await byName.search_code.execute({ query: '(a|aa)+c', isRegex: true });
+  check('A23: search_code returns the budget error for a catastrophic regex', hang.error === REGEX_BUDGET_MESSAGE, `${Date.now() - t0}ms`);
+  check('A23: total call stayed under 2s', Date.now() - t0 < 2000, `${Date.now() - t0}ms`);
+  const followUp = await byName.search_code.execute({ query: 'const z' });
+  check('A23: process responsive — a follow-up normal search succeeds', (followUp.matches ?? []).length >= 1);
+  check('A23: plain-substring search unaffected (main thread)', followUp.matches.some((m) => m.path === 'a.js'));
+
+  // glob filters compile to model-influenced RegExp too — same canary bound
+  const crazyGlob = await byName.search_code.execute({ query: 'const z', glob: `*${'a*'.repeat(20)}b` });
+  check('A23: catastrophic glob filter bounded', /time budget|simplify/i.test(crazyGlob.error ?? ''), JSON.stringify(crazyGlob).slice(0, 80));
+  const okGlob = await byName.search_code.execute({ query: 'const z', glob: '**/*.js' });
+  check('A23: benign glob still filters normally', (okGlob.matches ?? []).length >= 1);
+
+  await fsp.rm(dir, { recursive: true, force: true });
+}
+
 // ============================================================ CLI surface + A10 read-only
-console.log('\n[23] CLI surface + read-only guarantee (A10)');
+console.log('\n[27] CLI surface + read-only guarantee (A10)');
 {
   const help = runCli(['help']);
   check('help lists commands', help.out.includes('code-audit scan') && help.out.includes('--focus'));
