@@ -27,8 +27,8 @@
 | A21 tool-result boundary (read_file/search_code path fields) | **PASS** (v0.2.3: one `emit()` gate + opaque handles; 15/15 pre-fix reproduction checks now pass; replay: not reproduced, hostile-adapter end-to-end clean) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [24] |
 | A22 endpoint trust (`.local`/docker/0.0.0.0 treated local) | **PASS** (v0.2.3: loopback-only trust; 7/7 pre-fix reproduction checks now pass; replay: not reproduced) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [25] |
 | A23 regex hard deadline (model-authored regex hangs process) | **PASS** (v0.2.3: worker + canary + hard terminate deadline; pre-fix hang confirmed via 5 s watchdog, post-fix budget error in ~0.1–0.2 s; replay: not reproduced) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [26] |
-| Live-model reliability | **NOT TESTED** | Yes — M2 | — |
-| Windows personal installation | **NOT VERIFIED** | Yes — M3 | — |
+| Live-model reliability | **NOT TESTED** | Yes — M2 | harness + pins + ground truth ready (`docs/benchmark/`); first live call awaits the `.env` key (U2-pre) |
+| Windows personal installation | **PASS** (clean checkout + `npm ci` + 224/224 suite + scan + `npm link` on Windows 11, `e13fe53`) | No — verified early | [`docs/phase-reports/M3.md`](docs/phase-reports/M3.md) §M3.1 |
 | Cross-platform public package | **NOT VERIFIED** | Yes — M4 | — |
 | Native MCP integration | **NOT BUILT** | No — optional backlog (plan §7) | — |
 | Public CLI v1.0 | **NOT RELEASED** | M5 | — |
