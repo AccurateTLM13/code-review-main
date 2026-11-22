@@ -13,7 +13,7 @@
 | Milestone | Meaning | Status | Evidence |
 |---|---|---|---|
 | **M0** — Foundation & offline suite | working prototype + A1–A20 acceptance suite | **COMPLETE** | v0.2.2 @ `e2105baf`, 175/175 offline checks, Ubuntu CI green (Node 20/24) |
-| **M1** — A21–A23 security/reliability blockers | tool-result boundary + handles; loopback-only trust; bounded regex | **NEXT — release blocker** (plan §2) | reproductions confirmed against 0.2.2 |
+| **M1** — A21–A23 security/reliability blockers | tool-result boundary + handles; loopback-only trust; bounded regex | **COMPLETE** | `v0.2.3` — 224/224 offline checks; failing-before proof on a pre-fix worktree (`e2105baf`); independent adversarial replay: 0 reproductions, 1 same-class adjacency finding fixed; [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) |
 | **M2** — First real-model benchmark | 2 distinct OpenRouter free-tier models × 3 corpora | **PLANNED** (plan §3; key arrives via `.env`) | — |
 | **M3** — Personal-ready | clean Windows install, fail-safe matrix, coverage honesty, pilots | **PLANNED** (plan §4; user validates at U3) | — |
 | **M4** — Public CLI beta | tarball-validated package, cross-platform CI, community docs | **PLANNED** (plan §5; user publishes at U4) | — |
@@ -24,9 +24,9 @@
 | Gate | Status | Blocking next target? | Evidence |
 |---|---|---|---|
 | A1–A20 offline acceptance | **PASS** (175/175, v0.2.2 independent rerun) | must remain green | `npm test`; CI run `44759501879` |
-| A21 tool-result boundary (read_file/search_code path fields) | **FAIL — reproduced on 0.2.2** | **Yes — M1** | master roadmap §2/§5 |
-| A22 endpoint trust (`.local`/docker/0.0.0.0 treated local) | **FAIL — reproduced on 0.2.2** | **Yes — M1** | master roadmap §2/§5 |
-| A23 regex hard deadline (model-authored regex hangs process) | **FAIL — reproduced on 0.2.2** | **Yes — M1** | master roadmap §2/§5 |
+| A21 tool-result boundary (read_file/search_code path fields) | **PASS** (v0.2.3: one `emit()` gate + opaque handles; 15/15 pre-fix reproduction checks now pass; replay: not reproduced, hostile-adapter end-to-end clean) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [24] |
+| A22 endpoint trust (`.local`/docker/0.0.0.0 treated local) | **PASS** (v0.2.3: loopback-only trust; 7/7 pre-fix reproduction checks now pass; replay: not reproduced) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [25] |
+| A23 regex hard deadline (model-authored regex hangs process) | **PASS** (v0.2.3: worker + canary + hard terminate deadline; pre-fix hang confirmed via 5 s watchdog, post-fix budget error in ~0.1–0.2 s; replay: not reproduced) | No — closed | [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) §1–§5; suite [26] |
 | Live-model reliability | **NOT TESTED** | Yes — M2 | — |
 | Windows personal installation | **NOT VERIFIED** | Yes — M3 | — |
 | Cross-platform public package | **NOT VERIFIED** | Yes — M4 | — |
@@ -49,4 +49,4 @@ Pre-made decisions D1–D9 (A21–A23 designs, model sourcing, `.env` keys, publ
 
 ## Immediate next action
 
-Per the master roadmap's assignment: **implement only A21–A23 as `v0.2.3`**, with failing-before/passing-after reproductions, acceptance tests `[24]–[26]`, an independent adversarial replay, docs, and a tagged release — then proceed to the M2 benchmark plan. Full task breakdown: `docs/EXECUTION_PLAN.md` §2.
+M1 is complete (`v0.2.3`). Per the master roadmap's assignment: **proceed to the M2 benchmark plan** — two distinct OpenRouter free-tier models × three corpora (clean / labeled / real OSS repos), with the key arriving via `.env` (checkpoint U2 at the first live call). Non-dependent M2 tasks (ground truth, repo pins, harness) can run before the key arrives. Full task breakdown: `docs/EXECUTION_PLAN.md` §3.
