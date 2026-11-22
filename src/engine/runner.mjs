@@ -27,7 +27,7 @@ import { buildJsonReport } from '../report/json.mjs';
 import { createRunDir, writeState, computeChangedSet } from '../report/state.mjs';
 import { isGitRepo, gitInfo } from '../util/git.mjs';
 
-const VERSION = '0.2.2';
+const VERSION = '0.2.3';
 
 export async function runScan(targetAbs, opts, logger) {
   const t0 = Date.now();

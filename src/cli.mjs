@@ -9,7 +9,7 @@ import { loadConfig, probeProfile, expandModelSelection, DEPTHS, FOCUS_AREAS, SE
 import { runScan } from './engine/runner.mjs';
 import { findLatestRun, reportsDir } from './report/state.mjs';
 
-const VERSION = '0.2.2';
+const VERSION = '0.2.3';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 function usage() {
