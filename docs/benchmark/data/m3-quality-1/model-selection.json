@@ -1,0 +1,11 @@
+{
+  "models": [
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "baidu/ernie-5.5-flash-preview:free"
+  ],
+  "profiles": {
+    "bench-a": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "bench-b": "baidu/ernie-5.5-flash-preview:free"
+  },
+  "generatedConfig": "temp (removed after the run)"
+}

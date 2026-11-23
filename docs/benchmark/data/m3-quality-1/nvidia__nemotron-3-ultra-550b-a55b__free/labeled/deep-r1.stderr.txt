@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     8.6 [31;1mCRIT   Hardcoded admin secret 'hunter2' in /admin endpoint
+         index.js:42-42
+     8.6 [31;1mCRIT   unsafeJsonParse uses eval with unsafe cast
+         src/payment.ts:14-18
+     8.6 [31;1mCRIT   findPayments constructs SQL via string concatenation — SQL injection
+         src/payment.ts:8-13
+  Report: E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.json

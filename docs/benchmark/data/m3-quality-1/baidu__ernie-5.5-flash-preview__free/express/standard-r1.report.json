@@ -1,0 +1,1720 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "name": "code-audit",
+    "version": "0.2.3"
+  },
+  "meta": {
+    "timestamp": "2026-11-23T02:29:18.418Z",
+    "target": "E:\\code\\code-review-main\\docs\\benchmark\\data\\repos\\express",
+    "git": {
+      "branch": null,
+      "commit": "04bc627"
+    },
+    "depth": "standard",
+    "focus": "all",
+    "changed": false,
+    "changedBasis": null,
+    "changedFiles": null,
+    "deletedFiles": [],
+    "failOn": null,
+    "durationMs": 62546,
+    "exitCode": 0,
+    "redaction": "on",
+    "configSources": [
+      "explicit: C:/Users/johnp/AppData/Local/Temp/ca-bench-nKWx4f/bench.config.json"
+    ],
+    "coverage": {
+      "walkedFiles": 231,
+      "sourceFilesScanned": 152,
+      "textFilesSeen": 189,
+      "skippedBinary": 0,
+      "skippedLarge": 0,
+      "maxTextBytes": 1500000,
+      "walkTruncated": false,
+      "unsupportedLanguages": [
+        {
+          "ext": ".ejs",
+          "files": 20
+        },
+        {
+          "ext": ".txt",
+          "files": 11
+        },
+        {
+          "ext": ".tmpl",
+          "files": 7
+        },
+        {
+          "ext": ".hbs",
+          "files": 3
+        },
+        {
+          "ext": ".send",
+          "files": 1
+        }
+      ]
+    },
+    "partial": false,
+    "partialReasons": []
+  },
+  "repo": {
+    "totalSourceFiles": 152,
+    "totalLoc": 23548,
+    "languages": [
+      {
+        "language": "javascript",
+        "files": 152,
+        "loc": 23548
+      }
+    ],
+    "stacks": [
+      {
+        "name": "GitHub Actions CI",
+        "evidence": ".github/workflows/ci.yml",
+        "kind": "ci"
+      }
+    ],
+    "entryPoints": [
+      {
+        "file": "examples/auth/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/content-negotiation/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/cookie-sessions/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/cookies/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/downloads/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/ejs/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/error-pages/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/error/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/hello-world/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/markdown/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/multi-router/index.js",
+        "evidence": "conventional entry file name"
+      },
+      {
+        "file": "examples/mvc/controllers/main/index.js",
+        "evidence": "conventional entry file name"
+      }
+    ],
+    "docs": [
+      "benchmarks/README.md",
+      "Contributing.md",
+      "examples/README.md",
+      "LICENSE",
+      "Readme.md",
+      "Security.md"
+    ],
+    "hotspots": [
+      {
+        "rel": "lib/router/index.js",
+        "loc": 674,
+        "importers": 2,
+        "changed": 0,
+        "score": 25.48
+      },
+      {
+        "rel": "test/support/utils.js",
+        "loc": 73,
+        "importers": 8,
+        "changed": 0,
+        "score": 25.46
+      },
+      {
+        "rel": "lib/response.js",
+        "loc": 1179,
+        "importers": 1,
+        "changed": 0,
+        "score": 23
+      },
+      {
+        "rel": "test/app.router.js",
+        "loc": 1112,
+        "importers": 0,
+        "changed": 0,
+        "score": 20
+      },
+      {
+        "rel": "test/res.sendFile.js",
+        "loc": 1413,
+        "importers": 0,
+        "changed": 0,
+        "score": 20
+      },
+      {
+        "rel": "test/express.urlencoded.js",
+        "loc": 867,
+        "importers": 0,
+        "changed": 0,
+        "score": 17.34
+      },
+      {
+        "rel": "test/express.static.js",
+        "loc": 815,
+        "importers": 0,
+        "changed": 0,
+        "score": 16.3
+      },
+      {
+        "rel": "lib/application.js",
+        "loc": 662,
+        "importers": 1,
+        "changed": 0,
+        "score": 16.240000000000002
+      },
+      {
+        "rel": "test/express.json.js",
+        "loc": 791,
+        "importers": 0,
+        "changed": 0,
+        "score": 15.82
+      },
+      {
+        "rel": "lib/utils.js",
+        "loc": 304,
+        "importers": 3,
+        "changed": 0,
+        "score": 15.08
+      },
+      {
+        "rel": "lib/request.js",
+        "loc": 526,
+        "importers": 1,
+        "changed": 0,
+        "score": 13.52
+      },
+      {
+        "rel": "test/Router.js",
+        "loc": 641,
+        "importers": 0,
+        "changed": 0,
+        "score": 12.82
+      }
+    ],
+    "graph": {
+      "hubs": [
+        {
+          "file": "test/support/utils.js",
+          "importers": 8
+        }
+      ],
+      "cycles": [],
+      "orphanCount": 0
+    }
+  },
+  "stats": {
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 8,
+      "low": 20,
+      "info": 7
+    },
+    "byCategory": {
+      "duplication": 6,
+      "refactoring": 19,
+      "debt": 2,
+      "security": 4,
+      "bug": 4
+    },
+    "kinds": {
+      "defect": 8,
+      "defectVerified": 8,
+      "maintenance": 21
+    },
+    "verification": {
+      "verified": 22,
+      "adjusted": 13,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "verdicts": {
+      "applied": 20,
+      "dismissed": 6,
+      "contested": 2,
+      "adjusted": 0
+    },
+    "consensusCount": 0,
+    "deterministic": 14,
+    "modelSourced": 15,
+    "crossFile": 0
+  },
+  "models": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "provider": "openrouter",
+      "adapter": "native",
+      "egress": "remote"
+    }
+  ],
+  "runs": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "structured",
+      "ms": 61763,
+      "usage": {
+        "inputTokens": 50390,
+        "outputTokens": 13977
+      },
+      "adapter": "native",
+      "ok": true
+    }
+  ],
+  "checksExecuted": [
+    {
+      "id": "secrets",
+      "label": "Hardcoded secrets & credentials",
+      "count": 0,
+      "ms": 21
+    },
+    {
+      "id": "debt-markers",
+      "label": "TODO/FIXME/HACK debt markers",
+      "count": 1,
+      "ms": 2
+    },
+    {
+      "id": "duplication",
+      "label": "Copy-paste duplication",
+      "count": 1,
+      "ms": 20
+    },
+    {
+      "id": "size",
+      "label": "Oversized files & hotspots",
+      "count": 14,
+      "ms": 6
+    },
+    {
+      "id": "quality",
+      "label": "Risky code patterns",
+      "count": 2,
+      "ms": 4
+    },
+    {
+      "id": "deps",
+      "label": "Dependency hygiene",
+      "count": 1,
+      "ms": 1
+    },
+    {
+      "id": "graph",
+      "label": "Import graph signals",
+      "count": 1,
+      "ms": 0
+    },
+    {
+      "id": "ast-grep",
+      "label": "ast-grep structural rules",
+      "count": 0,
+      "ms": 261
+    }
+  ],
+  "notes": [
+    {
+      "profile": "bench-b",
+      "text": "Overall this is a mature, well-tested Express 4.x tree; I found no critical or high severity defects in the code I could actually see. lib/ is defensively written: router.handle restores req.url/baseUrl/params via restore(), wraps parseUrl and layer.match in try/catch, caps synchronous recursion, and res.location deliberately encodes only after scheme+host to avoid the classic backslash-encoding open redirect. res.sendFile enforces absolute-path-or-root and rejects non-string paths; res.jsonp applies charset stripping, nosniff and the Rosetta Flash guard. The actionable items are consistency and maintainability rather than security: (1) the deprecated res.sendfile bypasses all of res.sendFile's path validation while still being exported, which is the one place where two public file-transfer entry points have materially different safety properties; (2) several verbatim duplications (app.use vs router.use argument parsing, the send/json/jsonp legacy (status, body) shuffle, the sendFile/sendfile transfer block, and the large test matrices in test/res.sendFile.js and test/express.urlencoded.js); (3) res.download's Object.create(opts) options clone, which is clever but fragile. Unverifi"
+    }
+  ],
+  "findings": [
+    {
+      "id": "duplication@lib/response.js:379-398:rP4Z0I3O-Z",
+      "checkId": "duplication",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "medium",
+      "confidence": 0.9,
+      "priority": 3.6,
+      "effort": "moderate",
+      "title": "20-line block duplicated within response.js",
+      "description": "Copy-paste: lines 379–398 of lib/response.js repeat at lines 461–480 of the same file. Duplicated logic drifts apart silently and doubles every future fix.",
+      "file": "lib/response.js",
+      "lines": [
+        379,
+        398
+      ],
+      "snippet": "/**\n * Transfer the file at the given `path`.\n *\n * Automatically sets the _Content-Type_ response header field.",
+      "occurrences": [
+        {
+          "file": "lib/response.js",
+          "lines": [
+            379,
+            398
+          ]
+        },
+        {
+          "file": "lib/response.js",
+          "lines": [
+            461,
+            480
+          ]
+        }
+      ],
+      "suggestion": "Extract the shared block into one named function/module and call it from both locations. Keep behavior identical; rely on existing tests.",
+      "benefit": "Single point of change; halves maintenance surface for this logic.",
+      "risk": "Low-moderate — the two copies may have subtle differences; diff them before merging.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "copy-paste"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "Real duplication: the sendfile(res, file, opts, cb) transfer block with identical EISDIR/ECONNABORTED error routing appears in both res.sendFile and the deprecated res.sendfile. Maintainability only, hence low."
+        }
+      ]
+    },
+    {
+      "id": "size@lib/response.js:1-60:043Hfht3Cz",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.855,
+      "priority": 3.42,
+      "effort": "large",
+      "title": "Oversized file: response.js is 1,179 lines",
+      "description": "lib/response.js has 1,179 lines — beyond the 800-line guideline. Candidates: mixed responsibilities, dead code, or several features in one module.",
+      "file": "lib/response.js",
+      "lines": [
+        1,
+        60
+      ],
+      "snippet": "/*!\n * express\n * Copyright(c) 2009-2013 TJ Holowaychuk\n * Copyright(c) 2014-2015 Douglas Christopher Wilson\n * MIT Licensed\n */\n\n'use strict';\n\n/**\n * Module dependencies.\n * @private",
+      "suggestion": "Identify distinct responsibilities via section comments/imports, extract the most self-contained part first.",
+      "benefit": "Faster reviews and safer edits.",
+      "risk": "Low if extracted pieces keep their tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "1,179 lines confirmed. response.js carries body sending, file transfer, headers, cookies, redirects, format and render; genuine refactoring debt, bumped from medium to low since there is no runtime impact."
+        }
+      ]
+    },
+    {
+      "id": "size@test/res.sendFile.js:1-60:E136alSf6r",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.855,
+      "priority": 3.42,
+      "effort": "large",
+      "title": "Oversized file: res.sendFile.js is 1,413 lines",
+      "description": "test/res.sendFile.js has 1,413 lines — beyond the 800-line guideline. Candidates: mixed responsibilities, dead code, or several features in one module.",
+      "file": "test/res.sendFile.js",
+      "lines": [
+        1,
+        60
+      ],
+      "snippet": "'use strict'\n\nvar after = require('after');\nvar asyncHooks = tryRequire('async_hooks')\nvar Buffer = require('safe-buffer').Buffer\nvar express = require('../')\n  , request = require('supertest')\n  , assert = require('assert');\nvar onFinished = require('on-finished');\nvar path = require('path');\nvar fixtures = path.join(__dirname, 'fixtures');\nvar utils = require('./support/utils');",
+      "suggestion": "Identify distinct responsibilities via section comments/imports, extract the most self-contained part first.",
+      "benefit": "Faster reviews and safer edits.",
+      "risk": "Low if extracted pieces keep their tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "1,413 lines confirmed; the .sendFile/.sendfile option matrices duplicate each other almost verbatim, which is the real cost."
+        }
+      ]
+    },
+    {
+      "id": "size@test/app.router.js:1-60:jJss1aml8j",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "large",
+      "title": "Oversized file: app.router.js is 1,112 lines",
+      "description": "test/app.router.js has 1,112 lines — beyond the 800-line guideline. Candidates: mixed responsibilities, dead code, or several features in one module.",
+      "file": "test/app.router.js",
+      "lines": [
+        1,
+        60
+      ],
+      "snippet": "'use strict'\n\nvar after = require('after');\nvar express = require('../')\n  , request = require('supertest')\n  , assert = require('assert')\n  , methods = require('methods');\n\ndescribe('app.router', function(){\n  it('should restore req.params after leaving router', function(done){\n    var app = express();\n    var router = new express.Router();",
+      "suggestion": "Identify distinct responsibilities via section comments/imports, extract the most self-contained part first.",
+      "benefit": "Faster reviews and safer edits.",
+      "risk": "Low if extracted pieces keep their tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "1,112 lines confirmed, largely repetitive request(app) blocks. Test-only maintainability cost."
+        }
+      ]
+    },
+    {
+      "id": "size@test/express.static.js:1-60:H8DlT3JEei",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "large",
+      "title": "Oversized file: express.static.js is 815 lines",
+      "description": "test/express.static.js has 815 lines — beyond the 800-line guideline. Candidates: mixed responsibilities, dead code, or several features in one module.",
+      "file": "test/express.static.js",
+      "lines": [
+        1,
+        60
+      ],
+      "snippet": "'use strict'\n\nvar assert = require('assert')\nvar Buffer = require('safe-buffer').Buffer\nvar express = require('..')\nvar path = require('path')\nvar request = require('supertest')\nvar utils = require('./support/utils')\n\nvar fixtures = path.join(__dirname, '/fixtures')\nvar relative = path.relative(process.cwd(), fixtures)\n",
+      "suggestion": "Identify distinct responsibilities via section comments/imports, extract the most self-contained part first.",
+      "benefit": "Faster reviews and safer edits.",
+      "risk": "Low if extracted pieces keep their tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "815 lines confirmed; well organized but long. Test-only."
+        }
+      ]
+    },
+    {
+      "id": "size@test/express.urlencoded.js:1-60:VytQGe4ayZ",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "medium",
+      "confidence": 0.85,
+      "priority": 3.4,
+      "effort": "large",
+      "title": "Oversized file: express.urlencoded.js is 867 lines",
+      "description": "test/express.urlencoded.js has 867 lines — beyond the 800-line guideline. Candidates: mixed responsibilities, dead code, or several features in one module.",
+      "file": "test/express.urlencoded.js",
+      "lines": [
+        1,
+        60
+      ],
+      "snippet": "'use strict'\n\nvar assert = require('assert')\nvar asyncHooks = tryRequire('async_hooks')\nvar Buffer = require('safe-buffer').Buffer\nvar express = require('..')\nvar request = require('supertest')\n\nvar describeAsyncHooks = typeof asyncHooks.AsyncLocalStorage === 'function'\n  ? describe\n  : describe.skip\n",
+      "suggestion": "Identify distinct responsibilities via section comments/imports, extract the most self-contained part first.",
+      "benefit": "Faster reviews and safer edits.",
+      "risk": "Low if extracted pieces keep their tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "867 lines confirmed, inflated by near-identical extended:true/false and parameterLimit matrices."
+        }
+      ]
+    },
+    {
+      "id": "deps@package.json:x:l05gkrY4p9",
+      "checkId": "deps",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "debt",
+      "severity": "medium",
+      "confidence": 0.75,
+      "priority": 3,
+      "effort": "trivial",
+      "title": "No lockfile committed next to package.json",
+      "description": "Without a lockfile, every `npm install` resolves fresh versions — CI, teammates, and production can drift apart silently.",
+      "file": "package.json",
+      "lines": null,
+      "snippet": null,
+      "suggestion": "Commit the lockfile matching your package manager (npm/yarn/pnpm) and install with `npm ci` in CI.",
+      "benefit": "Identical dependency trees everywhere; fewer \"works on my machine\" failures.",
+      "risk": "None — adding a lockfile is additive.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "lockfile"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "package.json is listed as the only manifest and no lockfile appears in the inventory. Many published libraries omit lockfiles intentionally, so impact is limited; package.json itself was not provided."
+        }
+      ]
+    },
+    {
+      "id": "model:bench-b:1llzzke",
+      "checkId": "model:bench-b:1llzzke",
+      "source": "model:bench-b",
+      "kind": "defect",
+      "consensus": false,
+      "category": "security",
+      "severity": "medium",
+      "confidence": 0.75,
+      "priority": 2.71,
+      "effort": "moderate",
+      "title": "Deprecated res.sendfile skips the path validation that res.sendFile enforces",
+      "description": "res.sendFile validates its input (throws TypeError when path is falsy, not a string, or not absolute and no root given) before calling send(). res.sendfile performs none of those checks and forwards `path` straight to send(). It is still exported and only wrapped with deprecate.function, so any code or third-party middleware still calling res.sendfile with request-derived input gets none of the absolute-path/root guardrails. The tests confirm the weaker contract is relied upon: res.sendfile('test/fixtures/foo/../user.html') is rejected only because send() itself refuses '..' when no root is set, and relative paths are accepted.\n\n> Validation: cited 600-613 does not contain the snippet — actual lines are 501-516; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        501,
+        516
+      ],
+      "snippet": "res.sendfile = function (path, options, callback) {\n  var done = callback;\n  var req = this.req;\n  var res = this;\n  var next = req.next;\n  var opts = options || {};\n\n  // support function as second arg\n  if (typeof options === 'function') {\n    done = options;\n    opts = {};\n  }\n\n  // create file stream\n  var file = send(req, path, opts);",
+      "suggestion": "Either drop res.sendfile in the next major, or route it through the same validation/helper as res.sendFile so both public entry points share identical path-safety semantics.",
+      "benefit": "Removes an inconsistent, weaker file-transfer entry point from the public response prototype.",
+      "risk": "Low: apps relying on relative paths with res.sendfile would start throwing. Acceptable for a deprecated API in a major release.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 600-613 does not contain the snippet — actual lines are 501-516; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:1gux7es",
+      "checkId": "model:bench-b:1gux7es",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "low",
+      "confidence": 0.9,
+      "priority": 1.71,
+      "effort": "moderate",
+      "title": "app.use and router.use duplicate the mount-path disambiguation block verbatim",
+      "description": "This block is character-for-character identical to the one in proto.use in lib/router/index.js, including the flatten and 'requires a middleware function' checks that follow. app.use is documented as a proxy to Router#use; the copy exists only to compute the mount path before deciding whether to mount a sub-app. Two copies mean path-argument handling must be fixed in two places.",
+      "file": "lib/application.js",
+      "lines": [
+        196,
+        213
+      ],
+      "snippet": "  // default path to '/'\n  // disambiguate app.use([fn])\n  if (typeof fn !== 'function') {\n    var arg = fn;\n\n    while (Array.isArray(arg) && arg.length !== 0) {\n      arg = arg[0];\n    }\n\n    // first arg is the path\n    if (typeof arg !== 'function') {\n      offset = 1;\n      path = fn;\n    }\n  }",
+      "suggestion": "Extract the argument parsing into a shared helper returning { path, callbacks } and have both app.use and router.use call it.",
+      "benefit": "One place to change path-argument handling; removes ~20 duplicated lines and the risk of drift.",
+      "risk": "Low: pure refactor covered by test/app.use.js and test/app.router.js.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:18htdbb",
+      "checkId": "model:bench-b:18htdbb",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "low",
+      "confidence": 0.9,
+      "priority": 1.62,
+      "effort": "moderate",
+      "title": "res.sendFile and res.sendfile duplicate the sendfile() transfer and error-routing block",
+      "description": "The same transfer-plus-error-routing block appears verbatim in res.sendFile and in the deprecated res.sendfile. Any change to file-transfer error semantics (for example adding another pass-through error code) must be made twice, and the two copies have already drifted on input validation.\n\n> Validation: cited 523-535 does not contain the snippet — actual lines are 448-458; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        448,
+        458
+      ],
+      "snippet": "  // transfer\n  sendfile(res, file, opts, function (err) {\n    if (done) return done(err);\n    if (err && err.code === 'EISDIR') return next();\n\n    // next() all but write errors\n    if (err && err.code !== 'ECONNABORTED' && err.syscall !== 'write') {\n      next(err);\n    }\n  });",
+      "suggestion": "Extract a private helper (e.g. transferFile(req, res, path, opts, done)) that does send() + sendfile() + the shared error routing; let res.sendFile keep only its validation and have res.sendfile delegate.",
+      "benefit": "Single point of change for transfer error handling; prevents further divergence between the two paths.",
+      "risk": "Low: both methods are covered by test/res.sendFile.js.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 523-535 does not contain the snippet — actual lines are 448-458; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "debt-markers@lib/request.js:452-452:BSkVpNo5OR",
+      "checkId": "debt-markers",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "debt",
+      "severity": "low",
+      "confidence": 0.8,
+      "priority": 1.6,
+      "effort": "moderate",
+      "title": "1 TODO marker in request.js",
+      "description": "Deferred work; batch these into planned refactors.\nOccurrences: L452: // TODO: change req.host to return host in next major",
+      "file": "lib/request.js",
+      "lines": [
+        452,
+        452
+      ],
+      "snippet": "// TODO: change req.host to return host in next major",
+      "occurrences": [
+        {
+          "file": "lib/request.js",
+          "lines": [
+            452,
+            452
+          ]
+        }
+      ],
+      "suggestion": "Schedule cleanup; convert vague notes into tracked issues with owners.",
+      "benefit": "Reduces hidden known-issue risk and makes deferred work visible.",
+      "risk": "Minimal — resolving markers is behavior-preserving when paired with tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": true,
+      "dismissedBy": "openrouter|openrouter.ai/api|baidu/ernie-5.5-flash-preview:free",
+      "contested": false,
+      "tags": [
+        "todo"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "lib/request.js excerpt is truncated at line 56 of 526; line 452 is not visible, so the TODO marker cannot be verified from the material provided."
+        }
+      ]
+    },
+    {
+      "id": "model:bench-b:47m4yl",
+      "checkId": "model:bench-b:47m4yl",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "low",
+      "confidence": 0.85,
+      "priority": 1.53,
+      "effort": "moderate",
+      "title": "test/res.sendFile.js duplicates the option matrix for the deprecated .sendfile() API",
+      "description": "The .sendfile(path) and .sendfile(path, options) describes restate the .sendFile cases (transfer, dotfiles, headers option, header suppression on 404, HEAD/304 callback behavior, async local storage persistence) with only the method name changed. That roughly doubles the cost of changing shared sendfile() behavior and dilutes the signal of the suite.\n\n> Validation: cited 1013-1024 does not contain the snippet — actual lines are 1184-1195; citation corrected",
+      "file": "test/res.sendFile.js",
+      "lines": [
+        1184,
+        1195
+      ],
+      "snippet": "    it('should transfer a file', function (done) {\n      var app = express();\n\n      app.use(function (req, res) {\n        res.sendfile('test/fixtures/name.txt');\n      });\n\n      request(app)\n      .get('/')\n      .expect(200, 'tobi', done);\n    });",
+      "suggestion": "Parameterize the shared cases over ['sendFile', 'sendfile'] with a small table, keeping only genuinely sendfile-specific expectations (relative paths, '..' handling, no absolute-path requirement) as separate tests.",
+      "benefit": "Halves the duplicated test surface and makes API-specific behavior obvious.",
+      "risk": "Low: test-only refactor; run the full suite to confirm identical coverage.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 1013-1024 does not contain the snippet — actual lines are 1184-1195; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:1o3pou5",
+      "checkId": "model:bench-b:1o3pou5",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.85,
+      "priority": 1.53,
+      "effort": "moderate",
+      "title": "lib/response.js concentrates six unrelated responsibilities in one exported prototype",
+      "description": "The single exported object carries body sending (send/json/jsonp/sendStatus), file transfer (sendFile/sendfile/download plus the ~90-line private sendfile() stream helper), header manipulation (set/append/get/type/links/vary), cookies, redirects, content negotiation (format) and view rendering. The file-transfer cluster in particular is self-contained and could move out without any public API change.\n\n> Validation: cited 1-45 does not contain the snippet — actual lines are 42-50; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        42,
+        50
+      ],
+      "snippet": "var res = Object.create(http.ServerResponse.prototype)\n\n/**\n * Module exports.\n * @public\n */\n\nmodule.exports = res",
+      "suggestion": "Split the file-transfer methods and the private sendfile() helper into their own module that augments the response prototype, starting with the helper, leaving response.js with core send/header/cookie behavior.",
+      "benefit": "Smaller review surface, clearer ownership, less chance of streaming changes landing in the wrong place.",
+      "risk": "Medium: these are the most heavily used methods in the framework; needs the full suite and care with the prototype wiring in lib/express.js.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 1-45 does not contain the snippet — actual lines are 42-50; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:1khocxo",
+      "checkId": "model:bench-b:1khocxo",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "low",
+      "confidence": 0.8,
+      "priority": 1.44,
+      "effort": "moderate",
+      "title": "res.send/res.json/res.jsonp each re-implement the legacy (status, body) argument shuffle",
+      "description": "The same two-argument backwards-compatibility shuffle, with a method-specific deprecation message, appears in res.send, res.json and res.jsonp. The copies have already diverged: res.send keys off typeof arguments[0] !== 'number' && typeof arguments[1] === 'number', while json/jsonp key only off typeof arguments[1] === 'number'. Three near-identical blocks must be maintained in lockstep and removed together when the legacy forms are dropped.\n\n> Validation: cited 286-300 does not contain the snippet — actual lines are 253-265; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        253,
+        265
+      ],
+      "snippet": "  // allow status / body\n  if (arguments.length === 2) {\n    // res.json(body, status) backwards compat\n    if (typeof arguments[1] === 'number') {\n      deprecate('res.json(obj, status): Use res.status(status).json(obj) instead');\n      this.statusCode = arguments[1];\n    } else {\n      deprecate('res.json(status, obj): Use res.status(status).json(obj) instead');\n      this.statusCode = arguments[0];\n      val = arguments[1];\n    }\n  }",
+      "suggestion": "Extract a helper that detects the legacy (status, body)/(body, status) forms, emits the deprecation with the right method name, and returns the normalized statusCode/body.",
+      "benefit": "Consistent deprecation behavior across the three methods and one place to remove the legacy forms.",
+      "risk": "Low: all three methods are heavily covered by test/res.send.js, test/res.json.js and test/res.jsonp.js.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 286-300 does not contain the snippet — actual lines are 253-265; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:ne1wk5",
+      "checkId": "model:bench-b:ne1wk5",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "duplication",
+      "severity": "low",
+      "confidence": 0.8,
+      "priority": 1.44,
+      "effort": "moderate",
+      "title": "test/express.urlencoded.js duplicates whole matrices for extended:true/false",
+      "description": "The 'with extended: false' and 'with extended: true' blocks under 'with parameterLimit option' contain the same six cases with only the flag flipped; the limit and inflate blocks repeat the pattern. This mechanical duplication is a large part of why the file reaches 867 lines.\n\n> Validation: cited 404-419 does not contain the snippet — actual lines are 346-350; citation corrected",
+      "file": "test/express.urlencoded.js",
+      "lines": [
+        346,
+        350
+      ],
+      "snippet": "    describe('with extended: false', function () {\n      it('should reject 0', function () {\n        assert.throws(createApp.bind(null, { extended: false, parameterLimit: 0 }),\n          /TypeError: option parameterLimit must be a positive number/)\n      })",
+      "suggestion": "Loop over [false, true] to generate the describe/it blocks, or hoist the shared assertions into a helper taking the extended flag.",
+      "benefit": "Fewer lines to update when parameterLimit semantics change; clearer intent.",
+      "risk": "Low: test-only; preserve generated test titles so failure output stays readable.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 404-419 does not contain the snippet — actual lines are 346-350; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:oh857h",
+      "checkId": "model:bench-b:oh857h",
+      "source": "model:bench-b",
+      "kind": "defect",
+      "consensus": false,
+      "category": "security",
+      "severity": "low",
+      "confidence": 0.75,
+      "priority": 1.35,
+      "effort": "moderate",
+      "title": "res.jsonp reflects a user-controlled callback name into a text/javascript body",
+      "description": "The callback name comes from this.req.query[app.get('jsonp callback name')] and is interpolated into the response body as executable JavaScript. The mitigations are present and correct: the charset strip above, X-Content-Type-Options: nosniff, and the '/**/ typeof cb === function && cb(...)' Rosetta Flash guard. The residual concern is by design rather than a flaw: any res.jsonp route is reachable via ?callback=... under the default 'jsonp callback name' setting, giving same-origin script execution to whoever can craft a URL.\n\n> Validation: cited 438-456 does not contain the snippet — actual lines are 333-335; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        333,
+        335
+      ],
+      "snippet": "    // restrict callback charset\n    callback = callback.replace(/[^\\[\\]\\w$.]/g, '');",
+      "suggestion": "No change to the sanitization logic. Document that res.jsonp should only be used when cross-origin script embedding is intended, and that apps not needing JSONP should avoid it or change the callback-name setting.",
+      "benefit": "Sets correct expectations about a deliberately reflective endpoint.",
+      "risk": "None (documentation only).",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 438-456 does not contain the snippet — actual lines are 333-335; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "size@test/res.sendFile.js:1-80:v908hc7LYi",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.63,
+      "priority": 1.26,
+      "effort": "large",
+      "title": "Deep nesting (≈7 levels) in res.sendFile.js",
+      "description": "This file reaches roughly 7 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "test/res.sendFile.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "'use strict'\n\nvar after = require('after');\nvar asyncHooks = tryRequire('async_hooks')\nvar Buffer = require('safe-buffer').Buffer\nvar express = require('../')\n  , request = require('supertest')\n  , assert = require('assert');\nvar onFinished = require('on-finished');\nvar path = require('path');",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "complexity"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "Nesting is mostly describe > describe > it; deep but readable. Informational."
+        }
+      ]
+    },
+    {
+      "id": "model:bench-b:13z197y",
+      "checkId": "model:bench-b:13z197y",
+      "source": "model:bench-b",
+      "kind": "defect",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.7,
+      "priority": 1.26,
+      "effort": "moderate",
+      "title": "res.clearCookie silently defaults path to '/' and cannot clear cookies set with other attributes",
+      "description": "merge() is a shallow overwrite of { expires: new Date(1), path: '/' } with the caller's options. A cookie set with, say, { path: '/admin', domain: 'example.com', secure: true } will not be deleted unless the caller repeats every one of those attributes; forgetting `path` alone makes the browser ignore the deletion because the name/path pair does not match. This is a long-standing sharp edge rather than a code defect, and the JSDoc on res.cookie/res.clearCookie does not state the requirement.\n\n> Validation: cited 726-729 does not contain the snippet — actual lines are 824-829; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        824,
+        829
+      ],
+      "snippet": "res.clearCookie = function clearCookie(name, options) {\n  var opts = merge({ expires: new Date(1), path: '/' }, options);\n\n  return this.cookie(name, '', opts);\n};",
+      "suggestion": "Document that clearCookie must receive the same path/domain/secure/sameSite options used when the cookie was set; optionally accept the original options object explicitly.",
+      "benefit": "Prevents a common class of 'cookie will not clear' bugs in applications.",
+      "risk": "None for a docs-only change; altering the default path would change observable Set-Cookie output.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 726-729 does not contain the snippet — actual lines are 824-829; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "size@test/app.param.js:1-80:i5nLu1MDuk",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "large",
+      "title": "Deep nesting (≈7 levels) in app.param.js",
+      "description": "This file reaches roughly 7 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "test/app.param.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "'use strict'\n\nvar assert = require('assert')\nvar express = require('../')\n  , request = require('supertest');\n\ndescribe('app', function(){\n  describe('.param(fn)', function(){\n    it('should map app.param(name, ...) logic', function(done){\n      var app = express();",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": true,
+      "dismissedBy": "openrouter|openrouter.ai/api|baidu/ernie-5.5-flash-preview:free",
+      "contested": false,
+      "tags": [
+        "complexity"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "test/app.param.js is not among the provided excerpts, so the ~7-level nesting claim cannot be checked; deep nesting in tests is cosmetic in any case."
+        }
+      ]
+    },
+    {
+      "id": "size@test/res.download.js:1-80:YAsc82U8gc",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "large",
+      "title": "Deep nesting (≈8 levels) in res.download.js",
+      "description": "This file reaches roughly 8 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "test/res.download.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "'use strict'\n\nvar after = require('after');\nvar assert = require('assert')\nvar asyncHooks = tryRequire('async_hooks')\nvar Buffer = require('safe-buffer').Buffer\nvar express = require('..');\nvar path = require('path')\nvar request = require('supertest');\nvar utils = require('./support/utils')",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": true,
+      "dismissedBy": "openrouter|openrouter.ai/api|baidu/ernie-5.5-flash-preview:free",
+      "contested": false,
+      "tags": [
+        "complexity"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "File not included in the excerpts; nesting claim unverifiable."
+        }
+      ]
+    },
+    {
+      "id": "size@test/res.format.js:1-80:eHQxUkU-kv",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "large",
+      "title": "Deep nesting (≈7 levels) in res.format.js",
+      "description": "This file reaches roughly 7 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "test/res.format.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "'use strict'\n\nvar after = require('after')\nvar express = require('../')\n  , request = require('supertest')\n  , assert = require('assert');\n\nvar app1 = express();\n\napp1.use(function(req, res, next){",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": true,
+      "dismissedBy": "openrouter|openrouter.ai/api|baidu/ernie-5.5-flash-preview:free",
+      "contested": false,
+      "tags": [
+        "complexity"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "File not included in the excerpts; nesting claim unverifiable."
+        }
+      ]
+    },
+    {
+      "id": "size@test/res.render.js:1-80:qtEffHpF2o",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "large",
+      "title": "Deep nesting (≈7 levels) in res.render.js",
+      "description": "This file reaches roughly 7 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "test/res.render.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "'use strict'\n\nvar express = require('..');\nvar path = require('path')\nvar request = require('supertest');\nvar tmpl = require('./support/tmpl');\n\ndescribe('res', function(){\n  describe('.render(name)', function(){\n    it('should support absolute paths', function(done){",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": true,
+      "dismissedBy": "openrouter|openrouter.ai/api|baidu/ernie-5.5-flash-preview:free",
+      "contested": false,
+      "tags": [
+        "complexity"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "File not included in the excerpts; nesting claim unverifiable."
+        }
+      ]
+    },
+    {
+      "id": "size@test/res.status.js:1-80:PYsfCOI73I",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.2,
+      "effort": "large",
+      "title": "Deep nesting (≈7 levels) in res.status.js",
+      "description": "This file reaches roughly 7 levels of indentation — a readability and cyclomatic-complexity smell. Deeply nested code hides edge cases and is hard to test.",
+      "file": "test/res.status.js",
+      "lines": [
+        1,
+        80
+      ],
+      "snippet": "'use strict'\n\nvar express = require('../')\nvar request = require('supertest')\n\nvar isIoJs = process.release\n  ? process.release.name === 'io.js'\n  : ['v1.', 'v2.', 'v3.'].indexOf(process.version.slice(0, 3)) !== -1\n\ndescribe('res', function () {",
+      "suggestion": "Apply guard clauses / early returns, extract inner loops into functions, or invert conditions.",
+      "benefit": "Flatter control flow is easier to reason about and unit-test.",
+      "risk": "Low — logic-preserving transforms.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": true,
+      "dismissedBy": "openrouter|openrouter.ai/api|baidu/ernie-5.5-flash-preview:free",
+      "contested": false,
+      "tags": [
+        "complexity"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "File not included in the excerpts; nesting claim unverifiable."
+        }
+      ]
+    },
+    {
+      "id": "model:bench-b:xysu1o",
+      "checkId": "model:bench-b:xysu1o",
+      "source": "model:bench-b",
+      "kind": "defect",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.65,
+      "priority": 1.17,
+      "effort": "moderate",
+      "title": "mergeParams mutates the layer's own params object while shifting numeric indices",
+      "description": "mergeParams copies the parent (mixin({}, parent)) but writes the shifted numeric keys back into the `params` argument, which is layer.params owned by the router. It is not observable across requests today because each match re-populates layer.params, but the helper has a hidden side effect on router-internal state that becomes a real hazard if layer params are ever cached or reused.\n\n> Validation: cited 549-552 does not contain the snippet — actual lines are 616-619; citation corrected",
+      "file": "lib/router/index.js",
+      "lines": [
+        616,
+        619
+      ],
+      "snippet": "  // offset numeric indices in params before merge\n  for (i--; i >= 0; i--) {\n    params[i + o] = params[i];",
+      "suggestion": "Copy the child as well (params = mixin({}, params)) before the index-shifting loop so mergeParams is referentially transparent.",
+      "benefit": "Removes hidden mutation of router state; makes the helper safe to reuse.",
+      "risk": "Low: one extra small object copy per matched layer when mergeParams is enabled; the mergeParams matrix in test/app.router.js would catch regressions.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 549-552 does not contain the snippet — actual lines are 616-619; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:7eaulo",
+      "checkId": "model:bench-b:7eaulo",
+      "source": "model:bench-b",
+      "kind": "defect",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.6,
+      "priority": 1.08,
+      "effort": "moderate",
+      "title": "res.download clones caller options with Object.create(opts) instead of a shallow copy",
+      "description": "The options object handed to sendFile has the caller's object as its prototype rather than being a shallow copy. Own-enumerable enumeration (Object.keys, spread, JSON) sees only `headers`, while property reads still resolve through the prototype chain. Current send()/sendfile() option handling happens to use plain property reads so it works, but the pattern is fragile: any future code that enumerates options, or any option name colliding with Object.prototype members, will behave surprisingly.\n\n> Validation: cited 727-730 does not contain the snippet — actual lines are 588-591; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        588,
+        591
+      ],
+      "snippet": "  // merge user-provided options\n  opts = Object.create(opts)\n  opts.headers = headers",
+      "suggestion": "Use an explicit shallow copy: opts = Object.assign({}, opts); opts.headers = headers.",
+      "benefit": "Predictable own-property semantics for the options object passed downstream; removes a subtle prototype-based construct.",
+      "risk": "Low: Object.assign copies the same own enumerable properties callers pass; documented option behavior is unchanged and test/res.download.js covers it.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 727-730 does not contain the snippet — actual lines are 588-591; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:1hgz03h",
+      "checkId": "model:bench-b:1hgz03h",
+      "source": "model:bench-b",
+      "kind": "defect",
+      "consensus": false,
+      "category": "bug",
+      "severity": "low",
+      "confidence": 0.55,
+      "priority": 0.99,
+      "effort": "moderate",
+      "title": "use() treats any non-function first argument as a mount path without validating its type",
+      "description": "When the first argument is neither a function nor an array whose head is a function, it is unconditionally adopted as the mount path. Calls like router.use(3, fn) or router.use(null, fn) therefore set `path` to a non-string/non-RegExp, which flows into new Layer(path, ...) and fails (or coerces unexpectedly) far from the call site, with no message pointing at the real mistake.\n\n> Validation: cited 386-397 does not contain the snippet — actual lines are 445-457; citation corrected",
+      "file": "lib/router/index.js",
+      "lines": [
+        445,
+        457
+      ],
+      "snippet": "  if (typeof fn !== 'function') {\n    var arg = fn;\n\n    while (Array.isArray(arg) && arg.length !== 0) {\n      arg = arg[0];\n    }\n\n    // first arg is the path\n    if (typeof arg !== 'function') {\n      offset = 1;\n      path = fn;\n    }\n  }",
+      "suggestion": "Validate the inferred path is a string, RegExp, or array of those and throw a descriptive TypeError, mirroring the existing 'requires a middleware function' errors.",
+      "benefit": "Fails fast with an actionable message instead of a downstream Layer construction error.",
+      "risk": "Low: could break apps relying on accidental path coercion; guarded by the existing app.use/router.use suites.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 386-397 does not contain the snippet — actual lines are 445-457; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "size@lib/application.js:1-40:NmfSrfl04H",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.855,
+      "priority": 0.86,
+      "effort": "large",
+      "title": "Large file worth watching: application.js (662 lines)",
+      "description": "lib/application.js is getting large (662 lines) and sits in a primary source directory.",
+      "file": "lib/application.js",
+      "lines": [
+        1,
+        40
+      ],
+      "snippet": null,
+      "suggestion": "No action needed yet; revisit if it keeps growing or before adding major features.",
+      "benefit": "Early awareness keeps files reviewable.",
+      "risk": "None — informational.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "662 lines confirmed; file mixes config, routing proxy, view rendering and server bootstrap. Observation, not a defect."
+        }
+      ]
+    },
+    {
+      "id": "size@lib/router/index.js:1-40:SYsLJ6J9bb",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.81,
+      "priority": 0.81,
+      "effort": "large",
+      "title": "Large file worth watching: index.js (674 lines)",
+      "description": "lib/router/index.js is getting large (674 lines) and sits in a primary source directory.",
+      "file": "lib/router/index.js",
+      "lines": [
+        1,
+        40
+      ],
+      "snippet": null,
+      "suggestion": "No action needed yet; revisit if it keeps growing or before adding major features.",
+      "benefit": "Early awareness keeps files reviewable.",
+      "risk": "None — informational.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "674 lines confirmed; dense but cohesive dispatch logic. Informational."
+        }
+      ]
+    },
+    {
+      "id": "graph@test/support/utils.js:x:XRxrNpADtu",
+      "checkId": "graph",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.81,
+      "priority": 0.81,
+      "effort": "large",
+      "title": "Central hub module: utils.js imported by 8 files",
+      "description": "test/support/utils.js is imported by 8 other files. High-fan-in modules are stability-critical: every change ripples widely, and any regression in them has a large blast radius.",
+      "file": "test/support/utils.js",
+      "lines": null,
+      "snippet": null,
+      "suggestion": "Treat as a public API: keep its surface small and stable, add explicit tests, and split unrelated responsibilities into separate modules when convenient.",
+      "benefit": "Contained blast radius and safer parallel development.",
+      "risk": "None — informational today; informs future refactoring order.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "hub"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "utils.js is a 73-line assertion-helper hub with 8 importers; centralization here is appropriate. Informational."
+        }
+      ]
+    },
+    {
+      "id": "quality@lib/response.js:82-82:wn46i_r8CT",
+      "checkId": "quality",
+      "source": "deterministic",
+      "kind": "defect",
+      "consensus": false,
+      "category": "security",
+      "severity": "low",
+      "confidence": 0.425,
+      "priority": 0.77,
+      "effort": "trivial",
+      "title": "Insecure http:// endpoint in source",
+      "description": "Plain HTTP endpoints leak data in transit and enable MITM; also commonly a leftover dev URL.\n\n5 occurrences in lib/response.js:82, 83, 899, 938, 939",
+      "file": "lib/response.js",
+      "lines": [
+        82,
+        82
+      ],
+      "snippet": " *      next: 'http://api.example.com/users?page=2',",
+      "suggestion": "Switch to https://, or to a localhost/dev URL, and load production endpoints from configuration.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": true,
+      "tags": [
+        "insecure-http"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "False positive: line 82 is inside the res.links JSDoc example ('http://api.example.com/users?page=2'), i.e. documentation text, not an insecure endpoint."
+        }
+      ]
+    },
+    {
+      "id": "size@lib/request.js:1-40:OicK9anwY6",
+      "checkId": "size",
+      "source": "deterministic",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.7200000000000001,
+      "priority": 0.72,
+      "effort": "large",
+      "title": "Large file worth watching: request.js (526 lines)",
+      "description": "lib/request.js is getting large (526 lines) and sits in a primary source directory.",
+      "file": "lib/request.js",
+      "lines": [
+        1,
+        40
+      ],
+      "snippet": null,
+      "suggestion": "No action needed yet; revisit if it keeps growing or before adding major features.",
+      "benefit": "Early awareness keeps files reviewable.",
+      "risk": "None — informational.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": [
+        "size"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "confirm",
+          "reason": "Reported 526 lines is consistent with the header shown; informational only."
+        }
+      ]
+    },
+    {
+      "id": "model:bench-b:1a8xuzw",
+      "checkId": "model:bench-b:1a8xuzw",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.8,
+      "priority": 0.72,
+      "effort": "moderate",
+      "title": "res.send Content-Length/ETag branch silently changes chunk to a Buffer",
+      "description": "Because `etag` defaults to 'weak', generateETag is normally true, so every string body is converted to a Buffer and `encoding` is cleared before being handed to etagFn and this.end(). The `!generateETag && chunk.length < 1000` guard reads like a pure size optimization when it actually changes the type and encoding of the value passed downstream. Reordering the branches would silently alter ETag inputs and Content-Length semantics.\n\n> Validation: cited 176-187 does not contain the snippet — actual lines are 186-197; citation corrected",
+      "file": "lib/response.js",
+      "lines": [
+        186,
+        197
+      ],
+      "snippet": "    if (Buffer.isBuffer(chunk)) {\n      // get length of Buffer\n      len = chunk.length\n    } else if (!generateETag && chunk.length < 1000) {\n      // just calculate length when no ETag + small chunk\n      len = Buffer.byteLength(chunk, encoding)\n    } else {\n      // convert chunk to Buffer and calculate\n      chunk = Buffer.from(chunk, encoding)\n      encoding = undefined;\n      len = chunk.length\n    }",
+      "suggestion": "Add a comment stating the Buffer conversion is required so the ETag is computed over encoded bytes, and that the small-chunk fast path applies only when no ETag is generated.",
+      "benefit": "Prevents a future 'optimization' from changing ETag values or Content-Length behavior.",
+      "risk": "None (comment only).",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 176-187 does not contain the snippet — actual lines are 186-197; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "quality@examples/vhost/index.js:39-39:0IaYQ8pwnJ",
+      "checkId": "quality",
+      "source": "deterministic",
+      "kind": "defect",
+      "consensus": false,
+      "category": "security",
+      "severity": "low",
+      "confidence": 0.3825,
+      "priority": 0.69,
+      "effort": "trivial",
+      "title": "Insecure http:// endpoint in source",
+      "description": "Plain HTTP endpoints leak data in transit and enable MITM; also commonly a leftover dev URL.\n\n1 occurrence in examples/vhost/index.js:39",
+      "file": "examples/vhost/index.js",
+      "lines": [
+        39,
+        39
+      ],
+      "snippet": "  res.redirect('http://example.com:3000/' + req.vhost[0]);",
+      "suggestion": "Switch to https://, or to a localhost/dev URL, and load production endpoints from configuration.",
+      "benefit": "Directly removes a recurring defect/injection/perf class at this site.",
+      "risk": "Low — change is local; verify with existing tests.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "constructed directly from file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": true,
+      "tags": [
+        "insecure-http"
+      ],
+      "modelVerdicts": [
+        {
+          "by": "model:bench-b",
+          "action": "dismiss",
+          "reason": "Not in the excerpts, and an http:// URL in a vhost demo example is expected rather than a defect."
+        }
+      ]
+    },
+    {
+      "id": "model:bench-b:1ijuiuw",
+      "checkId": "model:bench-b:1ijuiuw",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.75,
+      "priority": 0.68,
+      "effort": "moderate",
+      "title": "Router dispatch stack-safety relies on a magic sync counter reset in a different function",
+      "description": "The guard against synchronous recursion uses a hard-coded 100 and a counter that is reset to 0 inside the process_params callback rather than in next() itself. Correctness depends on that reset happening on every dispatch path, an invariant spread across two functions. Any new early return added to next() that skips the reset would either defeat the guard (stack overflow on deeply nested synchronous middleware) or defer unnecessarily.\n\n> Validation: cited 200-203 does not contain the snippet — actual lines are 206-210; citation corrected",
+      "file": "lib/router/index.js",
+      "lines": [
+        206,
+        210
+      ],
+      "snippet": "    // max sync stack\n    if (++sync > 100) {\n      return setImmediate(next, err)\n    }",
+      "suggestion": "Name the constant (e.g. MAX_SYNC_DEPTH), extract the deferral decision into a small helper, and document the invariant that the counter must reset whenever a layer completes dispatch.",
+      "benefit": "Makes the stack-safety invariant explicit and local in a hot, subtle code path.",
+      "risk": "Low: behavior-preserving; test/app.router.js exercises deep synchronous chains.",
+      "verified": true,
+      "verification": {
+        "status": "adjusted",
+        "note": "cited 200-203 does not contain the snippet — actual lines are 206-210; citation corrected"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "model:bench-b:zgci86",
+      "checkId": "model:bench-b:zgci86",
+      "source": "model:bench-b",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.6,
+      "priority": 0.57,
+      "effort": "moderate",
+      "title": "Unhandled errors are printed to console.error with no interception hook",
+      "description": "When app.handle is called without a callback, every unhandled error goes to finalhandler, which logs the stack through logerror unless NODE_ENV === 'test'. logerror writes straight to console.error with no redaction or routing hook, so applications that want structured or filtered logging must add their own error middleware or final handler. This is intentional Express behavior, noted here because error messages frequently embed request-derived data.",
+      "file": "lib/application.js",
+      "lines": [
+        166,
+        172
+      ],
+      "snippet": "  // final handler\n  var done = callback || finalhandler(req, res, {\n    env: this.get('env'),\n    onerror: logerror.bind(this)\n  });",
+      "suggestion": "Document that unhandled errors are written to console.error and that apps needing structured/redacted logging must supply their own final handler or error middleware.",
+      "benefit": "Sets correct operational expectations for default error output.",
+      "risk": "None (documentation only).",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    }
+  ],
+  "backlog": {
+    "quickWins": [
+      "duplication@lib/response.js:379-398:rP4Z0I3O-Z",
+      "deps@package.json:x:l05gkrY4p9",
+      "model:bench-b:1llzzke"
+    ],
+    "planned": [
+      "size@lib/response.js:1-60:043Hfht3Cz",
+      "size@test/res.sendFile.js:1-60:E136alSf6r",
+      "size@test/app.router.js:1-60:jJss1aml8j",
+      "size@test/express.static.js:1-60:H8DlT3JEei",
+      "size@test/express.urlencoded.js:1-60:VytQGe4ayZ",
+      "model:bench-b:1gux7es",
+      "model:bench-b:18htdbb",
+      "model:bench-b:47m4yl",
+      "model:bench-b:1o3pou5",
+      "model:bench-b:1khocxo",
+      "model:bench-b:ne1wk5",
+      "model:bench-b:oh857h",
+      "size@test/res.sendFile.js:1-80:v908hc7LYi",
+      "model:bench-b:13z197y",
+      "model:bench-b:xysu1o",
+      "model:bench-b:7eaulo",
+      "model:bench-b:1hgz03h",
+      "size@lib/application.js:1-40:NmfSrfl04H",
+      "size@lib/router/index.js:1-40:SYsLJ6J9bb",
+      "graph@test/support/utils.js:x:XRxrNpADtu",
+      "quality@lib/response.js:82-82:wn46i_r8CT",
+      "size@lib/request.js:1-40:OicK9anwY6",
+      "model:bench-b:1a8xuzw",
+      "quality@examples/vhost/index.js:39-39:0IaYQ8pwnJ",
+      "model:bench-b:1ijuiuw",
+      "model:bench-b:zgci86"
+    ],
+    "investigate": [],
+    "dismissed": [
+      "debt-markers@lib/request.js:452-452:BSkVpNo5OR",
+      "size@test/app.param.js:1-80:i5nLu1MDuk",
+      "size@test/res.download.js:1-80:YAsc82U8gc",
+      "size@test/res.format.js:1-80:eHQxUkU-kv",
+      "size@test/res.render.js:1-80:qtEffHpF2o",
+      "size@test/res.status.js:1-80:PYsfCOI73I"
+    ]
+  }
+}

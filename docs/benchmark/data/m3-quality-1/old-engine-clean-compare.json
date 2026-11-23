@@ -1,0 +1,105 @@
+[
+  {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "depth": "standard",
+    "wall": 18430,
+    "exit": 0,
+    "findings": 0,
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "verification": {
+      "verified": 0,
+      "adjusted": 0,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "runs": [
+      "structured:ok=true"
+    ],
+    "modelFindings": []
+  },
+  {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "depth": "deep",
+    "wall": 18677,
+    "exit": 0,
+    "findings": 1,
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 1
+    },
+    "verification": {
+      "verified": 1,
+      "adjusted": 0,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "runs": [
+      "structured:ok=true",
+      "autonomous:ok=true"
+    ],
+    "modelFindings": [
+      "info verified package.json:1-20 Codebase is clean - no issues detected"
+    ]
+  },
+  {
+    "model": "baidu/ernie-5.5-flash-preview:free",
+    "depth": "standard",
+    "wall": 7877,
+    "exit": 2,
+    "findings": 0,
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "verification": {
+      "verified": 0,
+      "adjusted": 0,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "runs": [
+      "structured:ok=false"
+    ],
+    "modelFindings": []
+  },
+  {
+    "model": "baidu/ernie-5.5-flash-preview:free",
+    "depth": "deep",
+    "wall": 18733,
+    "exit": 0,
+    "findings": 2,
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 1,
+      "info": 1
+    },
+    "verification": {
+      "verified": 2,
+      "adjusted": 0,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "runs": [
+      "structured:ok=true",
+      "autonomous:ok=true"
+    ],
+    "modelFindings": [
+      "low verified src/greet.js:8-9 `greetingFor` reports character count of untrimmed name whil",
+      "info verified package.json:15-17 Unused `express` dependency declared but never imported"
+    ]
+  }
+]

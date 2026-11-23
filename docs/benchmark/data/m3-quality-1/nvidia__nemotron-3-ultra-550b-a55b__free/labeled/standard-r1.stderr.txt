@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     6.3 [31mHIGH   child_process call with interpolated/concatenated command
+         index.js:13-13
+     6.3 [31mHIGH   SQL query built via string concatenation/interpolation
+         src/payment.ts:11-11
+     3.6 [33mMED    Dead code branch in every legacy-monolith handler — `if (!data)` never executes
+         src/legacy-monolith.js:5-15
+  Report: E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.json

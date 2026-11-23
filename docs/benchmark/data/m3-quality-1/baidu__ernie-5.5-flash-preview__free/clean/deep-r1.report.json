@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "name": "code-audit",
+    "version": "0.2.3"
+  },
+  "meta": {
+    "timestamp": "2026-11-23T02:23:01.591Z",
+    "target": "E:\\code\\code-review-main\\examples\\clean-app",
+    "git": {
+      "branch": "main",
+      "commit": "8678d71"
+    },
+    "depth": "deep",
+    "focus": "all",
+    "changed": false,
+    "changedBasis": null,
+    "changedFiles": null,
+    "deletedFiles": [],
+    "failOn": null,
+    "durationMs": 13702,
+    "exitCode": 0,
+    "redaction": "on",
+    "configSources": [
+      "explicit: C:/Users/johnp/AppData/Local/Temp/ca-bench-nKWx4f/bench.config.json"
+    ],
+    "coverage": {
+      "walkedFiles": 4,
+      "sourceFilesScanned": 3,
+      "textFilesSeen": 4,
+      "skippedBinary": 0,
+      "skippedLarge": 0,
+      "maxTextBytes": 1500000,
+      "walkTruncated": false,
+      "unsupportedLanguages": []
+    },
+    "partial": true,
+    "partialReasons": [
+      "model phase \"autonomous\" (profile \"bench-b\") failed: Endpoint 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"baidu/ernie-5.5-flash-preview:free is temporarily rate-limited upstream. Please retry shortly, or add your own provider key to use your own limits: https://openrouter.ai/workspaces/default/byok\",\"provider_name\":\"Baidu\",\"is_b"
+    ]
+  },
+  "repo": {
+    "totalSourceFiles": 3,
+    "totalLoc": 35,
+    "languages": [
+      {
+        "language": "javascript",
+        "files": 2,
+        "loc": 25
+      },
+      {
+        "language": "python",
+        "files": 1,
+        "loc": 10
+      }
+    ],
+    "stacks": [],
+    "entryPoints": [],
+    "docs": [],
+    "hotspots": [],
+    "graph": {
+      "hubs": [],
+      "cycles": [],
+      "orphanCount": 2
+    }
+  },
+  "stats": {
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "byCategory": {},
+    "kinds": {
+      "defect": 0,
+      "defectVerified": 0,
+      "maintenance": 0
+    },
+    "verification": {
+      "verified": 0,
+      "adjusted": 0,
+      "unverified": 0,
+      "dropped": 0
+    },
+    "verdicts": {
+      "applied": 0,
+      "dismissed": 0,
+      "contested": 0,
+      "adjusted": 0
+    },
+    "consensusCount": 0,
+    "deterministic": 0,
+    "modelSourced": 0,
+    "crossFile": 0
+  },
+  "models": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "provider": "openrouter",
+      "adapter": "native",
+      "egress": "remote"
+    }
+  ],
+  "runs": [
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "structured",
+      "ms": 2175,
+      "usage": {
+        "inputTokens": 677,
+        "outputTokens": 137
+      },
+      "adapter": "native",
+      "ok": true
+    },
+    {
+      "profile": "bench-b",
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "phase": "autonomous",
+      "adapter": "native",
+      "ms": 11061,
+      "steps": 0,
+      "finishReason": "error",
+      "usage": null,
+      "ok": false,
+      "error": "Endpoint 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"baidu/ernie-5.5-flash-preview:free is temporarily rate-limited upstream. Please retry shortly, or add your own provider key to use your own limits: https://openrouter.ai/workspaces/default/byok\",\"provider_name\":\"Baidu\",\"is_b"
+    }
+  ],
+  "checksExecuted": [
+    {
+      "id": "secrets",
+      "label": "Hardcoded secrets & credentials",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "debt-markers",
+      "label": "TODO/FIXME/HACK debt markers",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "duplication",
+      "label": "Copy-paste duplication",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "size",
+      "label": "Oversized files & hotspots",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "quality",
+      "label": "Risky code patterns",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "deps",
+      "label": "Dependency hygiene",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "graph",
+      "label": "Import graph signals",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "ast-grep",
+      "label": "ast-grep structural rules",
+      "count": 0,
+      "ms": 241
+    }
+  ],
+  "notes": [
+    {
+      "profile": "bench-b",
+      "text": "No static analysis findings were provided, and no source excerpts were available for review. Based only on the repository summary, the codebase is very small (3 files, 35 LOC) with JavaScript and Python components, but no concrete code-level issues can be confirmed without source content."
+    }
+  ],
+  "findings": [],
+  "backlog": {
+    "quickWins": [],
+    "planned": [],
+    "investigate": [],
+    "dismissed": []
+  }
+}

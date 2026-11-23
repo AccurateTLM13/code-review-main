@@ -114,6 +114,16 @@ const RULES = [
   },
 ];
 
+/**
+ * Comment-only lines are never active code: a rule match that STARTS on one
+ * is documentation or an example, not an actionable defect (M3.6 pilot:
+ * `http://` URLs inside JSDoc examples were reported as insecure endpoints).
+ * Recognizes //, /*, JSDoc continuation (*), Python/sh (#), and <!--.
+ */
+function isCommentLine(line) {
+  return /^[ \t]*(\/\/|\/\*|\*(?!\/)|#|<!--)/.test(String(line ?? ''));
+}
+
 export function runQualityPatterns(ctx) {
   const perRuleFileCap = 8;
   const check = { id: 'quality', category: 'bug', effort: 'moderate' };
@@ -125,7 +135,14 @@ export function runQualityPatterns(ctx) {
       if (/(^|\/)(tests?|__tests__|fixtures?)(\/|$)/i.test(entry.rel) && rule.id !== 'swallowed-catch') continue;
       const matches = [...content.matchAll(rule.re)];
       if (!matches.length) continue;
-      const filtered = matches.filter((m) => !rule.filter || rule.filter(m, content, lines));
+      // Drop matches that start on a comment-only line (documentation
+      // examples are not active code). Inline comments after real code stay.
+      const active = matches.filter((m) => {
+        const ln = lineOfIndex(content, m.index ?? 0);
+        return !isCommentLine(lines[ln - 1]);
+      });
+      if (!active.length) continue;
+      const filtered = active.filter((m) => !rule.filter || rule.filter(m, content, lines));
       if (!filtered.length) continue;
       const shown = filtered.slice(0, perRuleFileCap);
       const first = shown[0];

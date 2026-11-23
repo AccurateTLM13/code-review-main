@@ -1,0 +1,10 @@
+✗ All requested model profiles failed — audit is incomplete.
+--- stdout tail ---
+     3.4 [33mMED    Oversized file: express.static.js is 815 lines
+         test/express.static.js:1-60
+     3.4 [33mMED    Oversized file: express.urlencoded.js is 867 lines
+         test/express.urlencoded.js:1-60
+     3.4 [33mMED    Oversized file: res.sendFile.js is 1,413 lines
+         test/res.sendFile.js:1-60
+  Report: E:\code\code-review-main\docs\benchmark\data\m3-quality-1\baidu__ernie-5.5-flash-preview__free\express\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m3-quality-1\baidu__ernie-5.5-flash-preview__free\express\report.json

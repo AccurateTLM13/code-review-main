@@ -1,0 +1,44 @@
+{
+  "run": "m3-quality-1",
+  "startedAt": "2026-11-23T02:04:15.534Z",
+  "finishedAt": "2026-11-23T02:33:09.375Z",
+  "cliVersion": "0.2.3",
+  "node": "v24.16.0",
+  "platform": "win32 10.0.26300 x64",
+  "gitSha": "3d06e0979cf83d18512595e7765193d45b7932f2",
+  "models": [
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "baidu/ernie-5.5-flash-preview:free"
+  ],
+  "modelProfiles": {
+    "bench-a": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "bench-b": "baidu/ernie-5.5-flash-preview:free"
+  },
+  "budgets": {
+    "timeoutMin": 20,
+    "maxSteps": 28,
+    "temperature": 0.2,
+    "adapter": "native",
+    "contextChars": 200000
+  },
+  "corporaPins": [
+    {
+      "role": "primary real repository",
+      "name": "expressjs/express",
+      "url": "https://github.com/expressjs/express",
+      "tag": "4.19.2",
+      "commit": "04bc62787be974874bc1467b23606c36bc9779ba",
+      "cloned": "2026-11-22",
+      "shallow": true
+    },
+    {
+      "role": "secondary real repository",
+      "name": "jprichardson/node-fs-extra",
+      "url": "https://github.com/jprichardson/node-fs-extra",
+      "tag": "11.2.0",
+      "commit": "5d4bf0b1b9886a2842949aded25c8a16b5d39452",
+      "cloned": "2026-11-22",
+      "shallow": true
+    }
+  ]
+}

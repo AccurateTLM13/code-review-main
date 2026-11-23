@@ -15,7 +15,7 @@
 | **M0** — Foundation & offline suite | working prototype + A1–A20 acceptance suite | **COMPLETE** | v0.2.2 @ `e2105baf`, 175/175 offline checks, Ubuntu CI green (Node 20/24) |
 | **M1** — A21–A23 security/reliability blockers | tool-result boundary + handles; loopback-only trust; bounded regex | **COMPLETE** | `v0.2.3` — 224/224 offline checks; failing-before proof on a pre-fix worktree (`e2105baf`); independent adversarial replay: 0 reproductions, 1 same-class adjacency finding fixed; [`docs/phase-reports/M1.md`](docs/phase-reports/M1.md) |
 | **M2** — First real-model benchmark | 2 distinct OpenRouter free-tier models × 3 corpora | **REPORTED — awaiting U2 sign-off** | [`docs/benchmark/REPORT.md`](docs/benchmark/REPORT.md): 18 runs @ $0 total; recall 89% (nemotron) / 74% (ernie, floor — structured pass failed on 4 runs); adjudicated P0/P1 precision 100% (mechanical 37/42%); citation 98–100%; 0 leakage; 0 source mods |
-| **M3** — Personal-ready | clean Windows install, fail-safe matrix, coverage honesty, pilots | **PLANNED** (plan §4; user validates at U3) | — |
+| **M3** — Personal-ready | clean Windows install, fail-safe matrix, coverage honesty, pilots | **READY FOR U3** (M3.1–M3.7 complete; owner validation pending) | M3.1 install ✓ · M3.3/M3.4 `1eec0eb` (267→271 checks) · M3.5 delta ✓ · M3.6 pilots [`docs/phase-reports/M3-pilot.md`](docs/phase-reports/M3-pilot.md) + validation matrix `m3-quality-1` (clean: 0 confirmed P0/P1; recall 93%) · M3.7 docs · U3 script ready |
 | **M4** — Public CLI beta | tarball-validated package, cross-platform CI, community docs | **PLANNED** (plan §5; user publishes at U4) | — |
 | **M5** — Stable v1.0 | compatibility/maintenance policy, final sweeps, external reproducer | **PLANNED** (plan §6; U5) | — |
 

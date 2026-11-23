@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "name": "code-audit",
+    "version": "0.2.3"
+  },
+  "meta": {
+    "timestamp": "2026-11-23T02:05:40.284Z",
+    "target": "E:\\code\\code-review-main\\examples\\clean-app",
+    "git": {
+      "branch": "main",
+      "commit": "aaed581"
+    },
+    "depth": "deep",
+    "focus": "all",
+    "changed": false,
+    "changedBasis": null,
+    "changedFiles": null,
+    "deletedFiles": [],
+    "failOn": null,
+    "durationMs": 49290,
+    "exitCode": 0,
+    "redaction": "on",
+    "configSources": [
+      "explicit: C:/Users/johnp/AppData/Local/Temp/ca-bench-nKWx4f/bench.config.json"
+    ],
+    "coverage": {
+      "walkedFiles": 4,
+      "sourceFilesScanned": 3,
+      "textFilesSeen": 4,
+      "skippedBinary": 0,
+      "skippedLarge": 0,
+      "maxTextBytes": 1500000,
+      "walkTruncated": false,
+      "unsupportedLanguages": []
+    },
+    "partial": false,
+    "partialReasons": []
+  },
+  "repo": {
+    "totalSourceFiles": 3,
+    "totalLoc": 35,
+    "languages": [
+      {
+        "language": "javascript",
+        "files": 2,
+        "loc": 25
+      },
+      {
+        "language": "python",
+        "files": 1,
+        "loc": 10
+      }
+    ],
+    "stacks": [],
+    "entryPoints": [],
+    "docs": [],
+    "hotspots": [],
+    "graph": {
+      "hubs": [],
+      "cycles": [],
+      "orphanCount": 2
+    }
+  },
+  "stats": {
+    "bySeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 1,
+      "info": 1
+    },
+    "byCategory": {
+      "refactoring": 1,
+      "debt": 1
+    },
+    "kinds": {
+      "defect": 0,
+      "defectVerified": 0,
+      "maintenance": 2
+    },
+    "verification": {
+      "verified": 1,
+      "adjusted": 0,
+      "unverified": 1,
+      "dropped": 0
+    },
+    "verdicts": {
+      "applied": 0,
+      "dismissed": 0,
+      "contested": 0,
+      "adjusted": 0
+    },
+    "consensusCount": 0,
+    "deterministic": 0,
+    "modelSourced": 2,
+    "crossFile": 0
+  },
+  "models": [
+    {
+      "profile": "bench-a",
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "provider": "openrouter",
+      "adapter": "native",
+      "egress": "remote"
+    }
+  ],
+  "runs": [
+    {
+      "profile": "bench-a",
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "phase": "structured",
+      "ms": 3293,
+      "usage": {
+        "inputTokens": 752,
+        "outputTokens": 229
+      },
+      "adapter": "native",
+      "ok": true
+    },
+    {
+      "profile": "bench-a",
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "phase": "autonomous",
+      "adapter": "native",
+      "ms": 45519,
+      "steps": 8,
+      "finishReason": "submitted",
+      "usage": {
+        "inputTokens": 32778,
+        "outputTokens": 1926
+      },
+      "ok": true
+    }
+  ],
+  "checksExecuted": [
+    {
+      "id": "secrets",
+      "label": "Hardcoded secrets & credentials",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "debt-markers",
+      "label": "TODO/FIXME/HACK debt markers",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "duplication",
+      "label": "Copy-paste duplication",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "size",
+      "label": "Oversized files & hotspots",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "quality",
+      "label": "Risky code patterns",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "deps",
+      "label": "Dependency hygiene",
+      "count": 0,
+      "ms": 1
+    },
+    {
+      "id": "graph",
+      "label": "Import graph signals",
+      "count": 0,
+      "ms": 0
+    },
+    {
+      "id": "ast-grep",
+      "label": "ast-grep structural rules",
+      "count": 0,
+      "ms": 248
+    }
+  ],
+  "notes": [
+    {
+      "profile": "bench-a",
+      "text": "No source excerpts were provided for review (budget limitation). Repository contains 3 files: lib/util.py (Python), src/calc.js and src/greet.js (JavaScript). No static analysis findings were produced. Unable to perform code-level audit without file contents."
+    },
+    {
+      "profile": "bench-a (autonomous)",
+      "text": "The repository contains 3 source files (1 Python, 2 JavaScript) totaling ~35 LOC as described. All code is clean, well-structured, and follows defensive programming practices with proper input validation. The only finding is a minor maintenance debt: express 4.18.2 is declared as a dependency in package.json but is never imported or used in any JavaScript file. This appears to be a deliberately clean fixture repository with no planted issues."
+    }
+  ],
+  "findings": [
+    {
+      "id": "agent:cnbewv",
+      "checkId": "agent:cnbewv",
+      "source": "agent:bench-a",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "refactoring",
+      "severity": "info",
+      "confidence": 0.95,
+      "priority": 0.95,
+      "effort": "moderate",
+      "title": "Codebase is clean with no security issues, bugs, or significant maintainability concerns",
+      "description": "All three source files (lib/util.py, src/calc.js, src/greet.js) are well-written, have proper input validation, clear error messages, and no detectable security vulnerabilities, bugs, or code smells. The Python utility validates types and value ranges. The JavaScript modules use ES modules correctly, validate inputs, and handle edge cases gracefully (e.g., empty name returns 'Hello, stranger').",
+      "file": "lib/util.py",
+      "lines": [
+        1,
+        10
+      ],
+      "snippet": "\"\"\"Clean fixture: small, boring, no planted issues.\"\"\"\n\n\ndef apply_discount(total, percent):\n    if not isinstance(total, (int, float)) or not isinstance(percent, (int, float)):\n        raise TypeError(\"apply_discount expects numbers\")\n    if percent < 0 or percent > 100:\n        raise ValueError(\"percent must be within 0..100\")\n    return total * (100 - percent) / 100",
+      "suggestion": "No changes needed. This codebase serves as a good example of clean, defensive coding practices.",
+      "benefit": "Confirms the repository meets its stated purpose as a clean fixture with low noise floor for auditing tools.",
+      "risk": "None - this is a positive observation.",
+      "verified": true,
+      "verification": {
+        "status": "verified",
+        "note": "validated against file contents"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    },
+    {
+      "id": "agent:1wozkuz",
+      "checkId": "agent:1wozkuz",
+      "source": "agent:bench-a",
+      "kind": "maintenance",
+      "consensus": false,
+      "category": "debt",
+      "severity": "low",
+      "confidence": 0.315,
+      "priority": 0.63,
+      "effort": "moderate",
+      "title": "Unused express dependency declared in package.json",
+      "description": "The package.json declares express 4.18.2 as a runtime dependency, but a search of all JavaScript files reveals no import or require statements for express. The dependency appears to be unused.\n\n> Validation: snippet not present at the cited location (or anywhere in the file) — cited range kept, confidence heavily reduced",
+      "file": "package.json",
+      "lines": [
+        15,
+        17
+      ],
+      "snippet": "  \"dependencies\": {\n    \"express\": \"4.18.2\"\n  }",
+      "suggestion": "Remove the express dependency from package.json if it's not needed, or add the actual express usage code if it was intended.",
+      "benefit": "Reduces install size, attack surface, and maintenance burden. Avoids confusion for developers.",
+      "risk": "Low - this is a minor maintenance smell. If express was intended to be used, removing it would break the app. Verify intent before removing.",
+      "verified": false,
+      "verification": {
+        "status": "unverified",
+        "note": "snippet not present at the cited location (or anywhere in the file) — cited range kept, confidence heavily reduced"
+      },
+      "scope": "full",
+      "dismissed": false,
+      "contested": false,
+      "tags": []
+    }
+  ],
+  "backlog": {
+    "quickWins": [],
+    "planned": [
+      "agent:cnbewv"
+    ],
+    "investigate": [
+      "agent:1wozkuz"
+    ],
+    "dismissed": []
+  }
+}

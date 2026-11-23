@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+     4.8 [31mHIGH   .env file present and tracked by git
+         .env
+     3.6 [33mMED    Dead code branch in all 60 legacy-monolith handlers
+         src/legacy-monolith.js:7-20
+     3.6 [33mMED    save_config lacks context manager, leaks file handle on error
+         server/auth.py:19-23
+  Report: E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\labeled\report.json

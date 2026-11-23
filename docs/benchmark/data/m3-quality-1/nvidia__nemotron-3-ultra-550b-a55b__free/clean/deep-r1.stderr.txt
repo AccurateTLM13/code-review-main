@@ -1,0 +1,10 @@
+
+--- stdout tail ---
+  Models:   bench-a — 2/2 pass(es) ok
+  Agent:    15 tool call(s), deepest evidence chain verified
+  Verified: 1 verified, 1 unverified (flagged in report)
+  Top priorities (verified findings only — 1 unverified excluded)
+     0.9 [2mINFO   Codebase is clean with no security issues, bugs, or significant maintainability concerns
+         lib/util.py:1-10
+  Report: E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\clean\report.md
+  JSON:  E:\code\code-review-main\docs\benchmark\data\m3-quality-1\nvidia__nemotron-3-ultra-550b-a55b__free\clean\report.json

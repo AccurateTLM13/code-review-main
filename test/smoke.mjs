@@ -1139,6 +1139,31 @@ console.log('\n[28] M3.6 report quality — defect/maintenance split, verified-o
   check('[28] markdown: unverified count never overstated', md.includes('1 finding(s) could not be verified'));
 }
 
+// ============================================================ [29] quality checks are comment-aware (M3.6 pilot fix)
+console.log('\n[29] deterministic quality rules ignore comment-only lines (documentation ≠ active code)');
+{
+  const dir = await tempDir('ca-cmt-');
+  await fsp.writeFile(path.join(dir, 'doc.js'), [
+    '/**',
+    ' * Examples:',
+    ' *    res.links({ next: "http://api.example.com/users?page=2" })',
+    ' */',
+    '// also documented: exec("convert " + name) usage history',
+    '# pseudo-notes below (not code)',
+    'module.exports = {};',
+  ].join('\n'));
+  await fsp.writeFile(path.join(dir, 'real.js'), "const u = 'http://api.example.com/data';\nmodule.exports = { u };\n");
+  const r = runCli(['scan', dir, '--depth', 'quick', '--quiet']);
+  check('comment-aware scan exits 0', r.code === 0, `code=${r.code}`);
+  const { json } = latestReport(dir);
+  const httpDoc = json.findings.filter((f) => f.file === 'doc.js');
+  check('http:// inside a JSDoc example is NOT reported', !httpDoc.some((f) => /Insecure http/.test(f.title)), JSON.stringify(httpDoc.map((f) => f.title)));
+  const httpReal = json.findings.filter((f) => f.file === 'real.js' && /Insecure http/.test(f.title));
+  check('http:// in active code IS reported (positive control)', httpReal.length === 1);
+  check('reported location is the code line, not the comment', httpReal[0]?.lines?.[0] === 1, JSON.stringify(httpReal[0]?.lines));
+  await fsp.rm(dir, { recursive: true, force: true });
+}
+
 console.log(`\n${failures === 0 ? 'ALL ACCEPTANCE TESTS PASSED' : `${failures} ACCEPTANCE TEST(S) FAILED`}`);
 fs.rmSync(path.join(FIXTURE, '.code-audit'), { recursive: true, force: true });
 fs.rmSync(path.join(CLEAN, '.code-audit'), { recursive: true, force: true });
