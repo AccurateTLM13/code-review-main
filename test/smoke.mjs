@@ -16,6 +16,7 @@
 //  A21 one tool-result boundary (fail-closed); opaque file handles keep files referenceable
 //  A22 device-local means loopback (endpoint trust)
 //  A23 bounded regex searches (worker + hard deadline)
+//  [28] M3.6 report quality: kind split, verified-only summary, partial audits
 //  R*  regression: deterministic checks, consensus, deep investigation, adapters, CLI
 import { spawnSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -184,6 +185,21 @@ console.log('\n[3] merge & consensus integrity (A2, A3)');
     f({ title: 'XSS exposure in template render', source: 'model:b' }),
   ]);
   check('two unrelated same-line issues remain two findings', unrelated.length === 2, `got ${unrelated.length}`);
+
+  // M3.6(a): deterministic + model finding of the SAME defect at the same
+  // location consolidates even when the wording differs entirely
+  const crossSource = mergeFindings([
+    f({ title: 'AWS access key ID committed', source: 'deterministic', checkId: 'secrets', lines: [8, 8] }),
+    f({ title: 'Hardcoded AWS key in source code', source: 'model:a', lines: [8, 9] }),
+  ]);
+  check('deterministic + model same-defect finding consolidates (M3.6a)', crossSource.length === 1, `got ${crossSource.length}`);
+  check('consolidated finding keeps the deterministic identity', crossSource[0].source === 'deterministic' && crossSource[0].sources.includes('model:a'));
+  // ...but same line + different categories stay separate even cross-source
+  const crossSourceDiffCat = mergeFindings([
+    f({ title: 'SQL injection in query builder', source: 'deterministic', checkId: 'quality', lines: [10, 10] }),
+    f({ title: 'Hardcoded AWS key in source code', source: 'model:a', category: 'bug', lines: [10, 10] }),
+  ]);
+  check('det+model same line, different categories → two findings', crossSourceDiffCat.length === 2, `got ${crossSourceDiffCat.length}`);
 
   // related issue from two profiles → one consensus finding
   const consensus = mergeFindings([
@@ -1083,6 +1099,44 @@ console.log('\n[27] CLI surface + read-only guarantee (A10)');
     if (hashesAfter.get(rel) !== hash) { unchanged = false; console.log(`   modified: ${rel}`); }
   }
   check('A10: no application source file was modified by any test', unchanged, `${before.length} files tracked`);
+}
+
+// ============================================================ M3.6: report quality (kind split, verified-only summary, partial labeling)
+console.log('\n[28] M3.6 report quality — defect/maintenance split, verified-only summary, partial-audit banner');
+{
+  const { scoreFindings, buildBacklog, kindStats, summaryEligible, severityCounts, verificationStats } = await import('../src/report/score.mjs');
+  const { renderMarkdown } = await import('../src/report/markdown.mjs');
+  const mk = (over) => ({
+    id: 'x', checkId: 'secrets', source: 'deterministic', category: 'security', severity: 'high',
+    confidence: 0.9, title: 't', description: 'd', file: 'a.js', lines: [1, 2], snippet: null,
+    occurrences: [], verification: { status: 'verified' }, ...over,
+  });
+  const findings = scoreFindings([
+    mk({ title: 'verified defect', verified: true }),
+    mk({ title: 'unverified defect lead', verified: false, verification: { status: 'unverified' }, confidence: 0.8 }),
+    mk({ title: 'maintenance observation', category: 'debt', severity: 'low', confidence: 0.5, verified: true }),
+  ]);
+  check('[28] kind assigned: defect / defect / maintenance', findings[0].kind === 'defect' && findings[1].kind === 'defect' && findings[2].kind === 'maintenance');
+  const kinds = kindStats(findings);
+  check('[28] kindStats counts defects and observations', kinds.defect === 2 && kinds.defectVerified === 1 && kinds.maintenance === 1);
+  const summary = summaryEligible(findings);
+  check('[28] summary eligibility excludes unverified', summary.length === 2 && !summary.some((f) => f.title.includes('unverified')));
+  const backlog = buildBacklog(findings);
+  check('[28] unverified finding lands in investigate, never quick wins', backlog.investigate.some((f) => f.title.includes('unverified')) && !backlog.quickWins.some((f) => f.title.includes('unverified')));
+
+  const report = {
+    meta: { target: 'x', timestamp: '', depth: 'quick', focus: 'all', changed: false, models: [], partial: true, partialReasons: ['model phase "structured" (profile "bench") failed: endpoint 500'], coverage: null, version: '0' },
+    repo: { totalSourceFiles: 1, totalLoc: 10, languages: [] },
+    findings, stats: { bySeverity: severityCounts(findings), kinds: kindStats(findings), verification: verificationStats(findings), consensusCount: 0, verdicts: {} },
+    runs: [], checksExecuted: [], notes: [], toolNotes: [], backlog,
+  };
+  const md = renderMarkdown(report, { emoji: false });
+  check('[28] markdown: partial-audit banner with the failure reason', md.includes('PARTIAL AUDIT') && md.includes('model phase "structured" (profile "bench") failed'));
+  check('[28] markdown: exec summary splits defects from maintenance', md.includes('confirmed-defect claim(s)') && md.includes('maintenance observation(s)'));
+  const topBlock = md.slice(md.indexOf('Highest-priority verified items:'), md.indexOf('unverified finding(s) are **excluded'));
+  check('[28] markdown: top priorities list only verified findings', topBlock.includes('verified defect') && !topBlock.includes('unverified defect lead'));
+  check('[28] markdown: unverified exclusion is stated', md.includes('excluded from these priorities'));
+  check('[28] markdown: unverified count never overstated', md.includes('1 finding(s) could not be verified'));
 }
 
 console.log(`\n${failures === 0 ? 'ALL ACCEPTANCE TESTS PASSED' : `${failures} ACCEPTANCE TEST(S) FAILED`}`);

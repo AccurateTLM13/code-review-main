@@ -293,7 +293,13 @@ function mergeInto(target, incoming) {
 
 /** Same issue? Requires same file + category + precise overlapping span AND
  *  enough textual overlap. Location alone never merges two different claims
- *  ("SQL injection" and "XSS exposure" on one line stay two findings). */
+ *  ("SQL injection" and "XSS exposure" on one line stay two findings).
+ *  M3.6(a): the ONE exception is cross-source identity — a model/agent
+ *  finding that cites the same file, category and an overlapping span as a
+ *  DETERMINISTIC finding consolidates even without wording overlap (the
+ *  checks and the model phrase the same defect differently: "AWS access key
+ *  ID committed" vs "Hardcoded AWS key in source"). Unrelated same-line
+ *  issues (A2) are model-vs-model and unaffected. */
 function sameIssue(m, f) {
   if (!(m.file && m.file === f.file && m.category === f.category)) return false;
   if (!m.lines || !f.lines) {
@@ -302,8 +308,9 @@ function sameIssue(m, f) {
   }
   const overlap = issueOverlap(m, f);
   const contained = sameIssueTitle(m, f);
-  if (!(overlap >= 0.34 || contained)) return false;
-  return sameLocation(m.lines, f.lines);
+  if (overlap >= 0.34 || contained) return sameLocation(m.lines, f.lines);
+  if (isModelSource(m.source) !== isModelSource(f.source)) return sameLocation(m.lines, f.lines);
+  return false;
 }
 
 /**

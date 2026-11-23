@@ -53,4 +53,6 @@ Notes for adjudication:
 
 **Corpus:** [`examples/clean-app`](../../examples/clean-app) · **Expected findings: 0** (zero-defect reference).
 
-Contents: `package.json` (pinned deps, lockfile present), `src/greet.js`, `src/calc.js`, `lib/util.py`. The corpus deliberately contains no planted defect; every deterministic or model finding on it is a **false positive** by definition and counts against precision/noise. `package-lock.json` exists here (so the "no lockfile" check must stay silent).
+Contents: `package.json` (pinned deps, lockfile present, `"type": "module"`), `src/greet.js`, `src/calc.js`, `lib/util.py`. The corpus deliberately contains no planted defect; every deterministic or model finding on it is a **false positive** by definition and counts against precision/noise. `package-lock.json` exists here (so the "no lockfile" check must stay silent).
+
+**Correction (2026-11-22, found by the benchmark itself):** the fixture was NOT initially zero-defect — `src/*.js` used ESM syntax while `package.json` lacked `"type": "module"`, so `npm start` would crash. Ernie 5.5 flagged exactly this at high severity during run `m2-2026-11-22` (correctly). The fixture was repaired by adding `"type": "module"`; the clean-corpus expectation of zero findings is well-founded again. The unused `express` dependency remains (an `info`-level observation, below the P0/P1 gate) and is accepted noise.

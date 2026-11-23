@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Fixture with no planted issues — used to prove the auditor has low noise floor",
+  "type": "module",
   "main": "src/greet.js",
   "engines": { "node": ">=18" },
   "scripts": {

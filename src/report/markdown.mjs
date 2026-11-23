@@ -49,7 +49,17 @@ export function renderMarkdown(report, { emoji = true } = {}) {
   L.push(`| **Models** | ${meta.models.length ? meta.models.map((m) => `${m.profile} (${m.model ?? '?'}${m.adapter ? `, ${m.adapter}` : ''})`).join(', ') : 'none (deterministic only)'} |`);
   L.push(`| **Codebase** | ${repoIntel.totalSourceFiles} source files · ${repoIntel.totalLoc.toLocaleString()} LOC · ${repoIntel.languages.slice(0, 3).map((l) => l.language).join(', ') || 'n/a'} |`);
   L.push(`| **Findings** | ${findings.length} (${stats.bySeverity.critical} critical / ${stats.bySeverity.high} high / ${stats.bySeverity.medium} medium / ${stats.bySeverity.low} low / ${stats.bySeverity.info} info) |`);
+  if (stats.kinds) {
+    L.push(`| **Kind** | **${stats.kinds.defect}** confirmed-defect claim(s) (${stats.kinds.defectVerified} evidence-verified) · ${stats.kinds.maintenance} maintenance observation(s) |`);
+  }
   L.push('');
+  // M3.6(d): failed model phases make this a partial audit — say so up front.
+  if (meta.partial) {
+    L.push(`> ⚠️ **PARTIAL AUDIT** — one or more model phases failed or the run was cut short, so model review coverage is incomplete. Treat the finding set as a floor, not a full review.`);
+    L.push('>');
+    for (const reason of meta.partialReasons ?? []) L.push(`> - ${esc(reason)}`);
+    L.push('');
+  }
 
   // Executive summary
   L.push(`## Executive summary`);
@@ -57,19 +67,28 @@ export function renderMarkdown(report, { emoji = true } = {}) {
   if (findings.length === 0) {
     L.push(`No findings matched the selected focus at this depth. This is not a security certification — run \`--depth deep\` for an autonomous investigation pass.`);
   } else {
-    const top = findings.slice(0, 5);
-    L.push(`The audit produced **${findings.length} findings**, prioritized below. The highest-priority items:`);
+    const kinds = stats.kinds ?? { defect: 0, defectVerified: 0, maintenance: 0 };
+    // M3.6(c): the high-confidence summary lists EVIDENCE-VERIFIED findings
+    // only; unverified leads live in "Needs investigation" and are counted here.
+    const eligible = findings.filter((f) => f.verification?.status !== 'unverified');
+    const excludedUnverified = findings.length - eligible.length;
+    const top = eligible.slice(0, 5);
+    L.push(`The audit produced **${findings.length} finding(s)**: ${kinds.defect} confirmed-defect claim(s) (${kinds.defectVerified} evidence-verified) and ${kinds.maintenance} maintenance observation(s) (duplication, refactoring, debt). Highest-priority verified items:`);
     L.push('');
     for (const f of top) {
       L.push(`- ${badge(f.severity)} — **${esc(f.title)}** (${loc(f)}, confidence ${Math.round(f.confidence * 100)}%)`);
+    }
+    if (excludedUnverified > 0) {
+      L.push('');
+      L.push(`${excludedUnverified} unverified finding(s) are **excluded from these priorities** — see _Needs investigation_; treat them as leads, not confirmed defects.`);
     }
     L.push('');
     if (stats.consensusCount > 0) {
       L.push(`${stats.consensusCount} finding(s) were independently confirmed by more than one model — highest confidence.`);
     }
-    const unv = stats.verification.unverified + stats.verification.adjusted;
+    const unv = stats.verification.unverified;
     if (unv > 0) {
-      L.push(`${unv} finding(s) could not be fully verified against file contents and are marked accordingly — treat them as leads, not confirmed defects.`);
+      L.push(`${unv} finding(s) could not be verified against file contents and are marked accordingly — they never appear in the priority lists above.`);
     }
   }
   L.push('');

@@ -15,8 +15,22 @@ function effortFor(f) {
   return 'moderate';
 }
 
+const DEFECT_CATEGORIES = new Set(['security', 'bug']);
+
+/**
+ * M3.6(b): every reported finding is classified as a `defect` (security/bug —
+ * a correctness or exploitable-flaw claim) or a `maintenance` observation
+ * (duplication/performance/refactoring/debt — quality work). The report keeps
+ * the two apart in its summaries so a handful of defects is never drowned by
+ * a mass of observations.
+ */
+export function kindOf(f) {
+  return DEFECT_CATEGORIES.has(f.category) ? 'defect' : 'maintenance';
+}
+
 export function scoreFindings(findings, { focus = 'all', scopeActive = false } = {}) {
   for (const f of findings) {
+    f.kind = kindOf(f);
     const sev = SEV_WEIGHT[f.severity] ?? 1;
     let score = sev * f.confidence;
     if (focus !== 'all') {
@@ -75,4 +89,22 @@ export function verificationStats(findings) {
     if (stats[s] != null) stats[s]++;
   }
   return stats;
+}
+
+/** M3.6(b): defect/maintenance split used by every summary surface. */
+export function kindStats(findings) {
+  const stats = { defect: 0, defectVerified: 0, maintenance: 0 };
+  for (const f of findings) {
+    if (f.dismissed) continue;
+    if (f.kind === 'defect') {
+      stats.defect++;
+      if (f.verified) stats.defectVerified++;
+    } else stats.maintenance++;
+  }
+  return stats;
+}
+
+/** M3.6(c): the high-confidence summary set — evidence-verified findings only. */
+export function summaryEligible(findings) {
+  return findings.filter((f) => !f.dismissed && f.verification?.status !== 'unverified');
 }

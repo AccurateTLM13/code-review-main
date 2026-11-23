@@ -19,6 +19,8 @@ export function buildJsonReport(report) {
       redaction: report.meta.redaction ?? 'on',
       configSources: report.meta.configSources ?? [],
       coverage: report.meta.coverage ?? null,
+      partial: report.meta.partial ?? false,
+      partialReasons: report.meta.partialReasons ?? [],
     },
     repo: {
       totalSourceFiles: report.repo.totalSourceFiles,
@@ -50,6 +52,7 @@ function slimFinding(f) {
     id: f.id,
     checkId: f.checkId,
     source: f.source,
+    kind: f.kind ?? undefined,
     consensus: f.consensus ?? false,
     consensusBy: f.consensusBy ?? undefined,
     category: f.category,

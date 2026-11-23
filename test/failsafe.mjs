@@ -175,6 +175,8 @@ console.log('\n[F7] offline model endpoint → bounded exit 2, honest failed-run
   check('F7: run recorded as failed with an error', json.runs.length === 1 && json.runs[0].ok === false && Boolean(json.runs[0].error));
   check('F7: deterministic checks still produced their findings', Array.isArray(json.findings));
   check('F7: markdown states the failure', md.includes('failed:'));
+  check('F7: partial audit flagged with reasons (M3.6d)', json.meta.partial === true && (json.meta.partialReasons ?? []).some((x) => x.includes('model phase')), JSON.stringify(json.meta.partial));
+  check('F7: markdown carries the partial banner', md.includes('PARTIAL AUDIT'));
   await fsp.rm(cfg, { force: true });
   await fsp.rm(dir, { recursive: true, force: true });
 }

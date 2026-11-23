@@ -21,7 +21,7 @@ import { buildContextPack } from './context.mjs';
 import { runStructuredEvaluation, applyVerdicts } from './structured.mjs';
 import { runAutonomousInvestigation } from './autonomous.mjs';
 import { validateDrafts, mergeFindings } from '../evidence/validate.mjs';
-import { scoreFindings, buildBacklog, severityCounts, categoryCounts, verificationStats } from '../report/score.mjs';
+import { scoreFindings, buildBacklog, severityCounts, categoryCounts, verificationStats, kindStats } from '../report/score.mjs';
 import { renderMarkdown } from '../report/markdown.mjs';
 import { buildJsonReport } from '../report/json.mjs';
 import { createRunDir, writeState, computeChangedSet } from '../report/state.mjs';
@@ -242,6 +242,7 @@ export async function runScan(targetAbs, opts, logger) {
   const stats = {
     bySeverity: severityCounts(findings),
     byCategory: categoryCounts(findings),
+    kinds: kindStats(findings),
     verification: { ...validationStats, ...verificationStats(findings) },
     verdicts: verdictStats,
     consensusCount: findings.filter((f) => f.consensus).length,
@@ -249,6 +250,14 @@ export async function runScan(targetAbs, opts, logger) {
     modelSourced: findings.filter((f) => f.source.startsWith('model:') || f.source.startsWith('agent:') || f.source === 'consensus').length,
     crossFile: findings.filter((f) => f.scope === 'cross-file').length,
   };
+
+  // --- M3.6(d): failed model phases make this a PARTIAL audit, said loudly ---
+  const failedRuns = runs.filter((r) => !r.ok);
+  const partial = failedRuns.length > 0 || signal.aborted;
+  const partialReasons = [
+    ...failedRuns.map((r) => `model phase "${r.phase}" (profile "${r.profile}") failed: ${r.error ?? 'unknown error'}`),
+    ...(signal.aborted ? ['run hit the wall-clock budget or was aborted — model review did not complete'] : []),
+  ];
 
   // --- report ---
   const runDir = opts.output ? path.resolve(opts.output) : await createRunDir(targetAbs, config);
@@ -273,6 +282,8 @@ export async function runScan(targetAbs, opts, logger) {
       configSources: sources,
       redaction: redactor.enabled ? 'on' : 'off',
       coverage,
+      partial,
+      partialReasons,
     },
     // serializable + sanitized repo view (paths can carry registered literals —
     // entry points, hotspots, docs and graph paths all pass through redaction)
@@ -368,7 +379,14 @@ function printSummary(logger, report, extra) {  const c = logger.colors;
   ].filter(Boolean);
   logger.out('');
   logger.phase('Audit complete');
+  const kinds = report.stats.kinds ?? { defect: 0, defectVerified: 0, maintenance: 0 };
   logger.out(`  Findings: ${report.findings.length ? String(report.findings.length) : '0'}${parts.length ? ` (${parts.join(', ')})` : ' (none)'}`);
+  if (kinds.defect || kinds.maintenance) {
+    logger.out(`  Kind:     ${kinds.defect} defect(s) (${kinds.defectVerified} evidence-verified) · ${kinds.maintenance} maintenance observation(s)`);
+  }
+  if (extra.partial) {
+    logger.warn('PARTIAL AUDIT — one or more model phases failed or the run was cut short; findings may be incomplete. Reasons in report (meta.partialReasons).');
+  }
   if (extra.scopeActive) {
     logger.out(`  Scope:    ${report.meta.changedFiles?.length ?? 0} changed file(s)${report.meta.deletedFiles.length ? `, ${report.meta.deletedFiles.length} deleted` : ''} — findings limited to the delta; cross-file context labeled`);
     if (report.stats.crossFile) logger.out(`            ${report.stats.crossFile} cross-file context finding(s)`);
@@ -391,9 +409,11 @@ function printSummary(logger, report, extra) {  const c = logger.colors;
     logger.warn('Run hit the wall-clock budget — results are partial. Increase --timeout for a complete audit.');
   }
   if (report.findings.length) {
+    const summaryEligible = report.findings.filter((f) => f.verification?.status !== 'unverified');
+    const excluded = report.findings.length - summaryEligible.length;
     logger.out('');
-    logger.out(`  ${c.bold}Top priorities${c.reset}`);
-    for (const f of report.findings.slice(0, 6)) {
+    logger.out(`  ${c.bold}Top priorities${c.reset}${excluded ? `${c.dim} (verified findings only — ${excluded} unverified excluded)${c.reset}` : ''}`);
+    for (const f of summaryEligible.slice(0, 6)) {
       const sev = SEV_COLOR[f.severity] ?? '';
       logger.out(`   ${c.dim}${f.priority.toFixed(1).padStart(5)}${c.reset} ${sev}${SEV_LABEL[f.severity]}${c.reset}${f.scope === 'cross-file' ? `${c.dim}×${c.reset}` : ' '} ${f.title}`);
       logger.out(`         ${c.dim}${f.file ?? ''}${f.lines ? `:${f.lines[0]}-${f.lines[1]}` : ''}${f.scope === 'cross-file' ? ' (cross-file)' : ''}${c.reset}`);
