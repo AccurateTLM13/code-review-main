@@ -139,9 +139,34 @@ code-audit init [path]    write an example code-audit.config.json
     report.json              # machine-readable
 ```
 
-`report.md` contains: executive summary → priority backlog table (priority, severity, confidence, category, effort, location) → quick wins → per-category finding cards with code snippets, suggested fix, expected benefit, and regression risk → verification & method (which checks ran, which models, tool call counts, token usage).
+`report.md` contains: executive summary → priority backlog table (priority, severity, confidence, category, effort, location) → quick wins → per-category finding cards with code snippets, suggested fix, expected benefit, and regression risk → **Coverage & limitations** (what was and was not inspected) → verification & method (which checks ran, which models, tool call counts, token usage).
 
 The **Investigate further** backlog group lists high-severity findings whose evidence could not be verified — leads, not confirmed defects.
+
+### Reading the report
+
+- **Defects vs maintenance.** Every finding is classified: `defect` (security/bug — a correctness or exploitable-flaw claim) or `maintenance` (duplication/performance/refactoring/debt — quality work). The executive summary leads with the confirmed-defect count (and how many are evidence-verified) so a handful of real defects is never drowned by a mass of observations.
+- **High-confidence summary is verified-only.** The "Top priorities" list (console + report) contains only findings whose verbatim snippet matched the cited code. Unverified leads are counted, kept visible in _Needs investigation_, and never presented as confirmed defects.
+- **Duplicates are consolidated.** When the deterministic checks and a model report the same defect at the same location, they merge into one finding (sources preserved). Unrelated same-line issues stay separate.
+- **Partial audits say so.** If a model phase fails or the run is cut short, the report opens with a ⚠️ **PARTIAL AUDIT** banner naming the failed phases (`meta.partialReasons` in JSON) — the finding set is a floor, not a full review.
+- **Coverage is stated, not claimed.** The _Coverage & limitations_ section reports walked/scanned/skipped-binary/skipped-oversized/unsupported-extension counts and walk truncation — the audit never claims it saw everything.
+
+## Supported environments & key handling
+
+- **Tested:** Windows 11 (primary dev environment), Ubuntu CI (Node 20 & 24). `engines: node >=18.17`. The offline acceptance suite passes identically on a fresh Windows clone (verified in M3.1).
+- **API keys** come from a local `.env` file in the working directory (auto-loaded by the CLI; `.env` is git-ignored — see `.env.example`). Keys are read into memory only: never written to config files, reports, state, or logs. Cloud use remains opt-in per profile (see _Security & cloud-model policy_).
+
+## The `--changed` workflow
+
+```
+code-audit scan . --depth standard      # first run — records .code-audit/state.json
+# ...work on your code...
+code-audit scan . --depth standard --changed   # audits only files changed since the last run
+```
+
+- Findings are scoped to changed files; cross-file context is preserved but labeled, and deleted files are reported.
+- No baseline (first run on a repo with no state, no git) → a full scan runs instead and records the baseline (never silently empty).
+- On a git repository the manifest and git status agree; the delta test on a real repository (baseline → modify → delta → delete → no-change → 0) is part of the validated workflow.
 
 ## Using with agents & editors
 
