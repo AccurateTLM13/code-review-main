@@ -25,8 +25,8 @@
 | ernie-5.5-flash | express | 60 | 100% | 0 | n/a | see §4 | — | 55–113 s | 1.40 M |
 
 **Gate status (master roadmap targets):**
-- **Citation correctness 100% target:** met in spirit — 98–100% of findings carry a verbatim-verified or adjusted citation; the 7 unverified ones are flagged, not silently trusted (the validator keeps them with reduced confidence). ✓
-- **P0/P1 precision ≥ 85% with denominator:** mechanically 37%/42%; **adjudicated 100%** — every unique P0/P1 finding (34 across both models) is a real, correctly-located, actionable issue. The mechanical number is depressed by findings that are real but not among the 27 planted rows (e.g. the un-planted missing-`express.json()` middleware bug ernie found at high severity — correct by inspection). **Met after adjudication; denominator reported.** ✓
+- **Citation correctness 100% target:** **NOT MET — recorded as a documented deviation (U2).** 98–100% of findings carry a verbatim-verified or adjusted citation; the 7 unverified ones are flagged, not silently trusted. The roadmap's exact-100% target was not achieved; per the U2 decision this remains an explicit limitation rather than a passed gate.
+- **P0/P1 precision ≥ 85% with denominator:** mechanically 37%/42%; **adjudicated 100%** — every unique P0/P1 finding (34 across both models) is a real, correctly-located, actionable issue. The mechanical number is depressed by findings that are real but not among the 27 planted rows (e.g. the un-planted missing-`express.json()` middleware bug ernie found at high severity — correct by inspection). **Provisional per U2: the adjudication was performed by the implementing agent and has not yet been independently confirmed for every finding** (denominator reported; independent confirmation remains open).
 - **Recall ≥ 80% on planted defects:** nemotron **89%** ✓ (missed V-03 empty-catch, V-20 import cycle, V-27 dependency hygiene); ernie **74%** ✗ (additionally missed V-05 debug logs, V-09 debugger stmt, V-13 utils/helpers duplication, V-18 dead branch, V-24 charge idempotency).
 - **Sensitive-literal leakage = 0:** ✓ (credential-format tokens and the DB-URL password never appear; `hunter2` appears only as quoted source code in the snippet for its own finding, by design).
 - **Unauthorized source modifications = 0:** ✓ (verified read-only; the express clone restored byte-identical in the M3.5 delta test and scans ran with `--no-state`).
@@ -66,6 +66,19 @@ Substantive agent claims (spot-checked against the pinned express source):
 - ernie's structured-phase failure means its labeled/express standard runs are deterministic-only — its 74% recall is a *floor* (its deep pass, which succeeded, contributed all its agent findings).
 - The engine was not iterated within this run (no prompt/pattern changes): the plan's "if precision is poor, improve analysis" clause is triggered for follow-up work on volume control (dedup/merge quality), not correctness.
 
-## 7. Data
+## 7. U2 decision (2026-11-22) — APPROVED WITH DOCUMENTED EXCEPTIONS
+
+The owner reviewed REPORT.md, METRICS.md, the ground-truth definitions, and the adjudication worksheet, and independently inspected the three disputed router claims against Express 4.19.2:
+
+| owner disposition | finding | reason |
+|---|---|---|
+| ~ unconfirmed | sync-counter reset (`router/index.js:85-135`) | implementation resets the counter after layer dispatch and deliberately defers deep synchronous traversal; no failure demonstrated |
+| ~ unconfirmed | param-callback reference comparison (`:378-393`) | strict equality is deliberate (recognizing previously processed parameter values); no incorrect behavior demonstrated |
+| ~ unconfirmed | mergeParams numeric-index fragility (`:590-628`) | complex but covered by Express's own tests for merging numeric captures |
+| ✗ false positive | "Insecure http:// endpoint" at `lib/response.js:82` | the match is inside a **documentation example (comment)**, not an active network request — deterministic match ≠ actionable issue |
+
+Also approved: recall targets met by nemotron (89%) and missed by ernie (74%, floor); citation-correctness recorded as a **deviation** (not "pass in spirit"); agent-adjudicated precision marked **provisional**; clean-corpus findings to be driven to **zero confirmed P0/P1 before U3**; M3.6 priorities = consolidate duplicates, separate confirmed defects from maintenance observations, keep unverified findings out of the high-confidence summary, label failed model phases as partial audits.
+
+## 8. Data
 
 Raw artifacts: `docs/benchmark/data/m2-2026-11-22/` (18 × report.json + stderr tails, environment.json, index.json, model-selection.json), metrics in `METRICS.md`, adjudication list in `borderline.md`. Selection rationale: `model-selection.md`. Ground truth: `vulnerable-corpus-truth.md`. Pins: `pins.json`.

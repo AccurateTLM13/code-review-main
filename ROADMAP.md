@@ -38,7 +38,7 @@
 | ID | When | Status |
 |---|---|---|
 | U1 — benchmark models, publish policy, pilot policy | 2026-11-20 | ✅ answered (2 free OpenRouter models; tarball validation + user publishes; OSS pilots + gate validation) |
-| U2 — M2 sign-off (+ `OPENROUTER_API_KEY` into `.env` if not yet) | end of M2 | pending |
+| U2 — M2 sign-off (+ `OPENROUTER_API_KEY` into `.env` if not yet) | end of M2 | ✅ **APPROVED WITH DOCUMENTED EXCEPTIONS — 2026-11-22**: M2 provides sufficient evidence of usefulness to advance into M3. Nemotron meets the planted-recall target; Ernie remains experimental for structured audits. Citation-rate deviations, agent-adjudicated precision, and report noise remain explicit limitations rather than fully passed gates. M3.2–M3.7 may proceed. The three Express router claims resolve as **unconfirmed (~)** pending behavioral reproductions. Prioritize finding quality and actionable reporting over additional features. Final personal-use approval remains contingent on U3 validation. |
 | U3 — two own-repo validations (~10 min) | end of M3 | pending |
 | U4 — `npm publish` | end of M4 | pending |
 | U5 — external developer reproduction | end of M5 | pending |
