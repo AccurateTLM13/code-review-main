@@ -22,7 +22,7 @@
     "code-audit.config.example.json"
   ],
   "dependencies": {
-    "ai": "^7.0.0",
+    "ai": "^7.0.181",
     "@ai-sdk/openai-compatible": "^3.0.0"
   },
   "keywords": [
