@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "ai": "^7.0.0",
-    "@ai-sdk/openai-compatible": "^3.0.0"
+    "@ai-sdk/openai-compatible": "^3.0.94"
   },
   "keywords": [
     "audit",
